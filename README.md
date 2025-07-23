@@ -11,7 +11,7 @@ releases.
 ## Download
 
 <a href="https://github.com/hash-checker/hash-checker-x/releases">
-  <img src="../media/banners/bn_github.png" height="75px" />
+  <img src="./media/banners/bn_github.png" height="75px" />
 </a>
 
 ## Supporting algorithms
