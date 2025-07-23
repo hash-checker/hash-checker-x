@@ -39,24 +39,13 @@ UI logic still the same as in original [Hash Checker](https://github.com/hash-ch
 previous manuals to learn how to use the app:
 
 * [H2S Media](https://www.how2shout.com/how-to/how-to-calculate-the-hash-of-a-file-or-create-custom-hash-on-android.html)
+* [YouTube Tutorials](https://www.youtube.com/watch?v=Q7Otn971kJk)
 
 ## Forums
 
 | Forum                                                     | Language |
 |-----------------------------------------------------------|----------|
 | [4PDA](https://4pda.to/forum/index.php?showtopic=1015172) | Русский  |
-
-## Videos
-
-* [YouTube](https://www.youtube.com/watch?v=Q7Otn971kJk)
-
-## Black Duck Open Hub
-
-* [Hash Checker (Android)](https://www.openhub.net/p/hash-checker)
-
-## Privacy Policy
-
-* [Web version](https://hash-checker.github.io/hash-checker-x-privacy-policy.io/)
 
 ## Feedback
 
@@ -165,3 +154,11 @@ Contributors from list below worked on logic for previous app and they changes a
   uploading [previous app](https://github.com/hash-checker/hash-checker)
   to [IzzySoft Apt Repositories](https://apt.izzysoft.de)
 * [@lexterror](https://github.com/lexterror) as mrrmx for useful feature requests
+
+## License
+
+This is a free software without any License restrictions. See [License](./LICENSE) for more information.
+
+## Privacy Policy
+
+* [Web version](https://hash-checker.github.io/hash-checker-x-privacy-policy.io/)
