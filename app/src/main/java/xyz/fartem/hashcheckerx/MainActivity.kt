@@ -27,7 +27,6 @@ import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsWrapper
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

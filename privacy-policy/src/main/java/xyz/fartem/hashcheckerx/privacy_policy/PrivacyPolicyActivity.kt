@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Scaffold
+import androidx.compose.ui.res.stringResource
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 
@@ -24,7 +25,7 @@ class PrivacyPolicyActivity : ComponentActivity() {
                     }
                 ) {
                     WebView(
-                        url = "https://raw.githubusercontent.com/hash-checker/hash-checker-x-privacy-policy.io/refs/heads/master/index.html",
+                        url = stringResource(R.string.privacy_policy_url),
                     )
                 }
             }

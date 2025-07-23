@@ -1,6 +1,5 @@
 package xyz.fartem.hashcheckerx.privacy_policy
 
-import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
