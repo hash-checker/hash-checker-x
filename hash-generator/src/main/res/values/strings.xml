@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hash_generator_default_hint">Tap on From to select a needed source type</string>
+    <string name="hash_generator_enter_text">Enter text</string>
+    <string name="hash_generator_custom_hash">Custom hash</string>
+    <string name="hash_generator_generator_hash">Generated hash</string>
+    <string name="hash_generator_from">From</string>
+    <string name="hash_generator_from_file">File</string>
+    <string name="hash_generator_from_folder">Folder</string>
+    <string name="hash_generator_from_text">Text</string>
+    <string name="hash_generator_action">Action</string>
+    <string name="hash_generator_action_generate">Generate</string>
+    <string name="hash_generator_action_compare">Compare</string>
+    <string name="hash_generator_error">Something went wrong. Please, try again later</string>
+    <string name="hash_generator_empty_text">You should enter any text before generate hash from it</string>
+    <string name="hash_generator_custom_hash_empty">Custom hash field are empty!</string>
+    <string name="hash_generator_generated_hash_empty">Generated hash field are empty!</string>
+    <string name="hash_generator_equals">Equals!</string>
+    <string name="hash_generator_different">Different!</string>
+    <string name="hash_generator_file_manager_error">Failed to open system file manager</string>
+</resources>

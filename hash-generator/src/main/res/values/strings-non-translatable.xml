@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="md5">MD5</string>
+    <string name="sha1">SHA–1</string>
+    <string name="sha224">SHA–224</string>
+    <string name="sha256">SHA–256</string>
+    <string name="sha384">SHA–384</string>
+    <string name="sha512">SHA–512</string>
+    <string name="sha3224">SHA3–224</string>
+    <string name="sha3256">SHA3–256</string>
+    <string name="sha3384">SHA3–384</string>
+    <string name="sha3512">SHA3–512</string>
+</resources>

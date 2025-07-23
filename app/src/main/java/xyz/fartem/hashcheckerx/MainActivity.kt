@@ -1,0 +1,89 @@
+package xyz.fartem.hashcheckerx
+
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.res.stringResource
+import xyz.fartem.hashcheckerx.core.vibrator.Vibrator
+import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
+import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
+import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
+import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
+import xyz.fartem.hashcheckerx.hash_generator.model.HashType
+import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
+import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
+import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsWrapper
+
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        val hashGenerator = JdkHashGenerator()
+        hashGenerator.setHashType(HashType.MD5)
+
+        val vibrator = Vibrator(this)
+
+        val settings = SharedPreferencesSettingsWrapper(
+            SharedPreferencesSettingsRepository(
+                getPreferences(Context.MODE_PRIVATE)
+            )
+        )
+
+        setContent {
+            HashCheckerXTheme {
+                Scaffold(
+                    topBar = {
+                        HashCheckerXTopBar(
+                            title = stringResource(R.string.app_name),
+                            actions = {
+                                IconButton(
+                                    onClick = {
+                                        startActivity(
+                                            Intent(
+                                                this@MainActivity,
+                                                SettingsActivity::class.java,
+                                            )
+
+                                        )
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Settings,
+                                        contentDescription = stringResource(R.string.settings)
+                                    )
+                                }
+                            },
+                        )
+                    }
+                ) { innerPadding ->
+                    HashGeneratorView(
+                        hashGenerator = hashGenerator,
+                        hashComparator = JdkHashComparator(),
+                        defaultHashType = HashType.MD5,
+                        innerPadding = innerPadding,
+                        onDone = {
+                            if (settings.vibration()) {
+                                vibrator.oneShot()
+                            }
+                        },
+                        onError = {
+                            if (settings.vibration()) {
+                                vibrator.oneShot()
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
