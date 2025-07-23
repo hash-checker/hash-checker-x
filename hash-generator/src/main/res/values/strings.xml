@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hash_generator_default_hint">Tap on From to select a needed source type</string>
-    <string name="hash_generator_enter_text">Enter text</string>
     <string name="hash_generator_custom_hash">Custom hash</string>
     <string name="hash_generator_generator_hash">Generated hash</string>
     <string name="hash_generator_from">From</string>
@@ -18,4 +17,6 @@
     <string name="hash_generator_equals">Equals!</string>
     <string name="hash_generator_different">Different!</string>
     <string name="hash_generator_file_manager_error">Failed to open system file manager</string>
+    <string name="hash_generator_no_file">You should choose a file before generate a hash</string>
+    <string name="hash_generator_no_folder">You should choose a folder before generate hash from it</string>
 </resources>

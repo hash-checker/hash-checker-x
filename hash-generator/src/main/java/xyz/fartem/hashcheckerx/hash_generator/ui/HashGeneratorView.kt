@@ -1,5 +1,6 @@
 package xyz.fartem.hashcheckerx.hash_generator.ui
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,7 +34,6 @@ import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer8H
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSurface
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextButton
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextField
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextInputDialog
 import xyz.fartem.hashcheckerx.core_ui.components.showHashCheckerXToast
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.hash_generator.R
@@ -52,6 +52,12 @@ fun HashGeneratorView(
     hashComparator: HashComparator,
     defaultHashType: HashType,
     innerPadding: PaddingValues,
+    onFileRequest: () -> Unit,
+    onFolderRequest: () -> Unit,
+    onTextRequest: () -> Unit,
+    selectedFile: Uri?,
+    selectedFolder: Uri?,
+    selectedText: String?,
     onDone: @Composable () -> Unit,
     onError: @Composable () -> Unit,
 ) {
@@ -65,13 +71,6 @@ fun HashGeneratorView(
     var showTypeSelector by remember { mutableStateOf(false) }
     var showSourceSelector by remember { mutableStateOf(false) }
     var showActionSelector by remember { mutableStateOf(false) }
-
-    val defaultHint = stringResource(R.string.hash_generator_default_hint)
-
-    var hintText by remember { mutableStateOf(defaultHint) }
-
-    var enterText by remember { mutableStateOf(false) }
-    var enteredText by remember { mutableStateOf("") }
 
     val context = LocalContext.current
 
@@ -107,20 +106,6 @@ fun HashGeneratorView(
                 }
             }
 
-            if (enterText) {
-                HashCheckerXTextInputDialog(
-                    title = stringResource(R.string.hash_generator_enter_text),
-                    initialText = enteredText,
-                    onConfirm = { text ->
-                        enteredText = text
-                        enterText = false
-
-                        hintText = text
-                    },
-                    onDismiss = { enterText = false }
-                )
-            }
-
             HashCheckerXSpacer8H()
 
             HashCheckerXTextField(
@@ -148,9 +133,9 @@ fun HashGeneratorView(
                                     hashSource = it
 
                                     when (it) {
-                                        HashSource.FILE -> {}
-                                        HashSource.FOLDER -> {}
-                                        HashSource.TEXT -> enterText = true
+                                        HashSource.FILE -> onFileRequest.invoke()
+                                        HashSource.FOLDER -> onFolderRequest.invoke()
+                                        HashSource.TEXT -> onTextRequest.invoke()
                                     }
 
                                     showSourceSelector = false
@@ -176,19 +161,59 @@ fun HashGeneratorView(
                                     when (it) {
                                         HashAction.GENERATE -> {
                                             when (hashSource) {
-                                                HashSource.FILE -> {}
-                                                HashSource.FOLDER -> {}
-                                                HashSource.TEXT -> {
-                                                    if (enteredText.isNotEmpty()) {
-                                                        val hash = hashGenerator.fromText(enteredText)
+                                                HashSource.FILE -> {
+                                                    if (selectedFile != null) {
+                                                        val hash = hashGenerator.fromFile(context, selectedFile)
 
-                                                        if (hash == null) {
+                                                        if (hash != null) {
+                                                            generatedHash = hash
+                                                        } else {
                                                             showHashCheckerXToast(
                                                                 context,
                                                                 context.getString(R.string.hash_generator_error)
                                                             )
-                                                        } else {
+                                                        }
+                                                    } else {
+                                                        showHashCheckerXToast(
+                                                            context,
+                                                            stringResource(R.string.hash_generator_no_file)
+                                                        )
+
+                                                        onError.invoke()
+                                                    }
+                                                }
+                                                HashSource.FOLDER -> {
+                                                    if (selectedFolder != null) {
+                                                        val hash = hashGenerator.fromFolder(context, selectedFolder)
+
+                                                        if (hash != null) {
                                                             generatedHash = hash
+                                                        } else {
+                                                            showHashCheckerXToast(
+                                                                context,
+                                                                context.getString(R.string.hash_generator_error)
+                                                            )
+                                                        }
+                                                    } else {
+                                                        showHashCheckerXToast(
+                                                            context,
+                                                            stringResource(R.string.hash_generator_no_folder)
+                                                        )
+
+                                                        onError.invoke()
+                                                    }
+                                                }
+                                                HashSource.TEXT -> {
+                                                    if (!selectedText.isNullOrEmpty()) {
+                                                        val hash = hashGenerator.fromText(selectedText)
+
+                                                        if (hash != null) {
+                                                            generatedHash = hash
+                                                        } else {
+                                                            showHashCheckerXToast(
+                                                                context,
+                                                                context.getString(R.string.hash_generator_error)
+                                                            )
                                                         }
 
                                                         onDone.invoke()
@@ -255,7 +280,14 @@ fun HashGeneratorView(
 
             HashCheckerXSpacer32H()
 
-            HashCheckerXHint(hintText)
+            val hint = when {
+                selectedFile != null -> selectedFile.path
+                selectedFolder != null -> selectedFolder.path
+                selectedText != null -> selectedText
+                else -> stringResource(R.string.hash_generator_default_hint)
+            }
+
+            HashCheckerXHint(hint!!)
         }
     }
 }
@@ -303,6 +335,12 @@ fun PreviewHashGeneratorView() {
                 hashComparator = JdkHashComparator(),
                 defaultHashType = HashType.MD5,
                 innerPadding = innerPadding,
+                onFileRequest = {},
+                onFolderRequest = {},
+                onTextRequest = {},
+                selectedFile = null,
+                selectedFolder = null,
+                selectedText = null,
                 onDone = {},
                 onError = {},
             )

@@ -11,8 +11,14 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import xyz.fartem.hashcheckerx.core.vibrator.Vibrator
+import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextInputDialog
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
@@ -40,6 +46,9 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
+            var selectText by remember { mutableStateOf(false) }
+            var selectedText by remember { mutableStateOf<String?>(null) }
+
             HashCheckerXTheme {
                 Scaffold(
                     topBar = {
@@ -71,6 +80,12 @@ class MainActivity : ComponentActivity() {
                         hashComparator = JdkHashComparator(),
                         defaultHashType = HashType.MD5,
                         innerPadding = innerPadding,
+                        onFileRequest = {},
+                        onFolderRequest = {},
+                        onTextRequest = { selectText = true },
+                        selectedFile = null,
+                        selectedFolder = null,
+                        selectedText = selectedText,
                         onDone = {
                             if (settings.vibration()) {
                                 vibrator.oneShot()
@@ -82,6 +97,18 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                     )
+
+                    if (selectText) {
+                        HashCheckerXTextInputDialog(
+                            initialText = if (selectedText.isNullOrEmpty()) "" else selectedText!!,
+                            onConfirm = { text ->
+                                selectedText = text
+                                selectText = false
+                            },
+                            onDismiss = { selectText = false }
+                        )
+                    }
+
                 }
             }
         }
