@@ -15,6 +15,22 @@ android {
         versionCode = 1
         versionName = "0.1.0"
 
+        buildConfigField(
+            "String",
+            "URL_AUTHOR",
+            "\"https://github.com/fartem\""
+        )
+        buildConfigField(
+            "String",
+            "URL_SOURCE_CODE",
+            "\"https://github.com/hash-checker/hash-checker-x\""
+        )
+        buildConfigField(
+            "String",
+            "URL_RELEASES",
+            "\"https://github.com/hash-checker/hash-checker-x/releases/tag/\""
+        )
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -27,15 +43,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlin {
-        compilerOptions {
-            optIn.add("kotlin.RequiresOptIn")
-        }
+    kotlinOptions {
+        jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {

@@ -1,16 +1,20 @@
 package xyz.fartem.hashcheckerx.settings.ui
 
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import me.zhanghai.compose.preference.Preference
@@ -25,6 +29,12 @@ import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 fun SettingsView(
     paddingValues: PaddingValues,
     settingsRepository: SettingsRepository,
+    openPrivacyPolicy: () -> Unit,
+    author: String,
+    openAuthor: () -> Unit,
+    openSourceCode: () -> Unit,
+    version: String,
+    openVersion: () -> Unit,
 ) {
     ProvidePreferenceLocals {
         HashCheckerXSurface(paddingValues) {
@@ -34,12 +44,12 @@ fun SettingsView(
             ) {
                 PreferenceCategory(
                     title = {
-                        Text("Hash Generator")
+                        Text(stringResource(R.string.category_generator))
                     }
                 )
 
                 val keyUpperCase = stringResource(R.string.key_upper_case)
-                var upperCaseValue by remember {
+                var valueUpperCase by remember {
                     mutableStateOf(
                         settingsRepository.getBooleanValue(
                             key = keyUpperCase,
@@ -50,14 +60,14 @@ fun SettingsView(
 
                 SwitchPreference(
                     title = {
-                        Text(stringResource(R.string.title_vibration))
+                        Text(stringResource(R.string.title_upper_case))
                     },
                     summary = {
-                        Text("Use upper case for all Generator fields")
+                        Text(stringResource(R.string.description_upper_case))
                     },
                     value = settingsRepository.getBooleanValue(
                         key = keyUpperCase,
-                        defaultValue = upperCaseValue,
+                        defaultValue = valueUpperCase,
                     ),
                     onValueChange = { upperCase ->
                         settingsRepository.setBooleanValue(
@@ -65,15 +75,48 @@ fun SettingsView(
                             value = upperCase
                         )
 
-                        upperCaseValue = upperCase
+                        valueUpperCase = upperCase
                     },
                 )
 
                 PreferenceCategory(
                     title = {
-                        Text("Application")
+                        Text(stringResource(R.string.category_application))
                     }
                 )
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    val keyAdaptiveTheme = stringResource(R.string.key_adaptive_theme)
+                    var valueAdaptiveTheme by remember {
+                        mutableStateOf(
+                            settingsRepository.getBooleanValue(
+                                key = keyAdaptiveTheme,
+                                defaultValue = true,
+                            )
+                        )
+                    }
+
+                    SwitchPreference(
+                        title = {
+                            Text(stringResource(R.string.title_adaptive_theme))
+                        },
+                        summary = {
+                            Text(stringResource(R.string.description_adaptive_theme))
+                        },
+                        value = settingsRepository.getBooleanValue(
+                            key = keyAdaptiveTheme,
+                            defaultValue = valueAdaptiveTheme,
+                        ),
+                        onValueChange = { vibration ->
+                            settingsRepository.setBooleanValue(
+                                key = keyAdaptiveTheme,
+                                value = vibration
+                            )
+
+                            valueAdaptiveTheme = vibration
+                        },
+                    )
+                }
 
                 val keyVibration = stringResource(R.string.key_vibration)
                 var vibrationValue by remember {
@@ -90,7 +133,7 @@ fun SettingsView(
                         Text(stringResource(R.string.title_vibration))
                     },
                     summary = {
-                        Text("Vibrate when hash was generated or will receive an error")
+                        Text(stringResource(R.string.description_vibration))
                     },
                     value = settingsRepository.getBooleanValue(
                         key = keyVibration,
@@ -108,7 +151,7 @@ fun SettingsView(
 
                 PreferenceCategory(
                     title = {
-                        Text("Privacy")
+                        Text(stringResource(R.string.category_privacy))
                     },
                 )
 
@@ -117,13 +160,16 @@ fun SettingsView(
                         Text(stringResource(R.string.title_privacy_policy))
                     },
                     summary = {
-                        Text("Read about how app use your data")
-                    }
+                        Text(stringResource(R.string.description_privacy))
+                    },
+                    onClick = {
+                        openPrivacyPolicy.invoke()
+                    },
                 )
 
                 PreferenceCategory(
                     title = {
-                        Text("About")
+                        Text(stringResource(R.string.category_about))
                     },
                 )
 
@@ -132,7 +178,10 @@ fun SettingsView(
                         Text(stringResource(R.string.title_author))
                     },
                     summary = {
-                        Text("fartem")
+                        Text(author)
+                    },
+                    onClick = {
+                        openAuthor.invoke()
                     },
                 )
 
@@ -141,7 +190,10 @@ fun SettingsView(
                         Text(stringResource(R.string.title_source_code))
                     },
                     summary = {
-                        Text("GitHub")
+                        Text(stringResource(R.string.description_source_code))
+                    },
+                    onClick = {
+                        openSourceCode.invoke()
                     },
                 )
 
@@ -150,7 +202,10 @@ fun SettingsView(
                         Text(stringResource(R.string.title_version))
                     },
                     summary = {
-                        Text("0.1.0")
+                        Text(version)
+                    },
+                    onClick = {
+                        openVersion.invoke()
                     },
                 )
             }

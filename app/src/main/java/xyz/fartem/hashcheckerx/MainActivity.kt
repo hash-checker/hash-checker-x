@@ -2,10 +2,12 @@ package xyz.fartem.hashcheckerx
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
@@ -24,10 +26,29 @@ import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
 import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
+import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsWrapper
 
 class MainActivity : ComponentActivity() {
+    private var selectedFile by mutableStateOf<Uri?>(null)
+    private val selectFile = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        selectedFile = uri
+
+        selectedFolder = null
+        selectedText = null
+    }
+
+    private var selectedFolder by mutableStateOf<Uri?>(null)
+    private val selectFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+        selectedFolder = uri
+
+        selectedFile = null
+        selectedText = null
+    }
+
+    private var selectedText by mutableStateOf<String?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,15 +60,19 @@ class MainActivity : ComponentActivity() {
 
         val settings = SharedPreferencesSettingsWrapper(
             SharedPreferencesSettingsRepository(
-                getPreferences(Context.MODE_PRIVATE)
+                getSharedPreferences(
+                    BuildConfig.APPLICATION_ID,
+                    Context.MODE_PRIVATE
+                )
             )
         )
 
         setContent {
             var selectText by remember { mutableStateOf(false) }
-            var selectedText by remember { mutableStateOf<String?>(null) }
 
-            HashCheckerXTheme {
+            HashCheckerXTheme(
+                dynamicColor = settings.adaptiveTheme(),
+            ) {
                 Scaffold(
                     topBar = {
                         HashCheckerXTopBar(
@@ -73,16 +98,19 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) { innerPadding ->
+                    val case = if (settings.upperCase()) HashGeneratorViewCase.upper else HashGeneratorViewCase.lower
+
                     HashGeneratorView(
                         hashGenerator = hashGenerator,
                         hashComparator = JdkHashComparator(),
                         defaultHashType = HashType.MD5,
                         innerPadding = innerPadding,
-                        onFileRequest = {},
-                        onFolderRequest = {},
+                        hashGeneratorViewCase = case,
+                        onFileRequest = { selectFile.launch("*/*") },
+                        onFolderRequest = { selectFolder.launch(null) },
                         onTextRequest = { selectText = true },
-                        selectedFile = null,
-                        selectedFolder = null,
+                        selectedFile = selectedFile,
+                        selectedFolder = selectedFolder,
                         selectedText = selectedText,
                         onDone = {
                             if (settings.vibration()) {
@@ -102,6 +130,9 @@ class MainActivity : ComponentActivity() {
                             onConfirm = { text ->
                                 selectedText = text
                                 selectText = false
+
+                                selectedFile = null
+                                selectedFolder = null
                             },
                             onDismiss = { selectText = false }
                         )

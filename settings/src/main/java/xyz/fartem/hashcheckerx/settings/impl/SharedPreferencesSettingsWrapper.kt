@@ -9,6 +9,22 @@ class SharedPreferencesSettingsWrapper(
     private val sharedPreferencesSettingsRepository: SharedPreferencesSettingsRepository
 ) : SettingsWrapper() {
     @Composable
+    override fun upperCase(): Boolean {
+        return sharedPreferencesSettingsRepository.getBooleanValue(
+            stringResource(R.string.key_upper_case),
+            false,
+        )
+    }
+
+    @Composable
+    override fun adaptiveTheme(): Boolean {
+        return sharedPreferencesSettingsRepository.getBooleanValue(
+            stringResource(R.string.key_adaptive_theme),
+            true,
+        )
+    }
+
+    @Composable
     override fun vibration(): Boolean {
         return sharedPreferencesSettingsRepository.getBooleanValue(
             stringResource(R.string.key_vibration),

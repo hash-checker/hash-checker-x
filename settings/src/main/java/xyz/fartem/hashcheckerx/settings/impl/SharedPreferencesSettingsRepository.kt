@@ -12,6 +12,6 @@ class SharedPreferencesSettingsRepository(
     }
 
     override fun setBooleanValue(key: String, value: Boolean) {
-//        sharedPreferences.edit { putBoolean(key, value) }
+        sharedPreferences.edit { putBoolean(key, value) }
     }
 }

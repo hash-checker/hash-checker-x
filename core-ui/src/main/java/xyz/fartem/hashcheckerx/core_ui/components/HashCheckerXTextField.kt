@@ -17,7 +17,6 @@ fun HashCheckerXTextField(
         onValueChange = onValueChange,
         label = { Text(label) },
         modifier = Modifier.fillMaxWidth(),
-        readOnly = true,
-        singleLine = true
+        singleLine = true,
     )
 }

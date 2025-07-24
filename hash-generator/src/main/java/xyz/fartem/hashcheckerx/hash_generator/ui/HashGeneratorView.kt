@@ -52,6 +52,7 @@ fun HashGeneratorView(
     hashComparator: HashComparator,
     defaultHashType: HashType,
     innerPadding: PaddingValues,
+    hashGeneratorViewCase: HashGeneratorViewCase,
     onFileRequest: () -> Unit,
     onFolderRequest: () -> Unit,
     onTextRequest: () -> Unit,
@@ -109,14 +110,20 @@ fun HashGeneratorView(
             HashCheckerXSpacer8H()
 
             HashCheckerXTextField(
-                value = customHash,
+                value = when (hashGeneratorViewCase) {
+                    HashGeneratorViewCase.upper -> customHash.uppercase()
+                    else -> customHash
+                },
                 label = stringResource(R.string.hash_generator_custom_hash),
             ) { customHash = it }
 
             HashCheckerXSpacer4H()
 
             HashCheckerXTextField(
-                value = generatedHash,
+                value = when (hashGeneratorViewCase) {
+                    HashGeneratorViewCase.upper -> generatedHash.uppercase()
+                    else -> generatedHash
+                },
                 label = stringResource(R.string.hash_generator_generator_hash),
             ) { generatedHash = it }
 
@@ -293,7 +300,7 @@ fun HashGeneratorView(
 }
 
 @Composable
-fun HashType.translatedName(): String {
+private fun HashType.translatedName(): String {
     return when (this) {
         HashType.MD5 -> stringResource(R.string.md5)
         HashType.SHA_1 -> stringResource(R.string.sha1)
@@ -309,7 +316,7 @@ fun HashType.translatedName(): String {
 }
 
 @Composable
-fun HashSource.translatedName(): String {
+private fun HashSource.translatedName(): String {
     return when (this) {
         HashSource.FILE -> stringResource(R.string.hash_generator_from_file)
         HashSource.FOLDER -> stringResource(R.string.hash_generator_from_folder)
@@ -318,11 +325,16 @@ fun HashSource.translatedName(): String {
 }
 
 @Composable
-fun HashAction.translatedName(): String {
+private fun HashAction.translatedName(): String {
     return when (this) {
         HashAction.GENERATE -> stringResource(R.string.hash_generator_action_generate)
         HashAction.COMPARE -> stringResource(R.string.hash_generator_action_compare)
     }
+}
+
+enum class HashGeneratorViewCase {
+    lower,
+    upper,
 }
 
 @Preview(showBackground = true)
@@ -335,6 +347,7 @@ fun PreviewHashGeneratorView() {
                 hashComparator = JdkHashComparator(),
                 defaultHashType = HashType.MD5,
                 innerPadding = innerPadding,
+                hashGeneratorViewCase = HashGeneratorViewCase.lower,
                 onFileRequest = {},
                 onFolderRequest = {},
                 onTextRequest = {},
