@@ -83,7 +83,7 @@ fun HashGeneratorView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HashCheckerXTextButton(hashType.name) {
+            HashCheckerXTextButton(hashType.translatedName()) {
                 showTypeSelector = true
             }
 

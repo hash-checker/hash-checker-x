@@ -61,6 +61,15 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    androidComponents {
+        onVariants { variant ->
+            variant.outputs.forEach { output ->
+                if (output is com.android.build.api.variant.impl.VariantOutputImpl) {
+                    output.outputFileName = "hash-checker-x-${output.versionName.get()}.apk"
+                }
+            }
+        }
+    }
 }
 
 dependencies {
