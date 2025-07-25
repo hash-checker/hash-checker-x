@@ -27,7 +27,17 @@ class JdkHashGenerator : HashGenerator() {
             val fileStream: InputStream? = inputStreamFromUri(context, path)
 
             if (fileStream != null) {
-                return fromFile(fileStream)
+                val buffer = ByteArray(1024)
+                var read: Int
+
+                do {
+                    read = fileStream.read(buffer)
+                    if (read > 0) {
+                        jdkHashCalculatorDigest?.update(buffer, read)
+                    }
+                } while (read != -1)
+
+                return jdkHashCalculatorDigest?.result()
             }
         } catch (e: Exception) {
             // TODO
@@ -42,32 +52,23 @@ class JdkHashGenerator : HashGenerator() {
         return context.contentResolver.openInputStream(path)
     }
 
-    override fun fromFile(inputStream: InputStream): String? {
-        try {
-            val buffer = ByteArray(1024)
-            var read: Int
-
-            do {
-                read = inputStream.read(buffer)
-                if (read > 0) {
-                    jdkHashCalculatorDigest?.update(buffer, read)
-                }
-            } while (read != -1)
-
-            return jdkHashCalculatorDigest?.result()
-        } catch (e: IOException) {
-            // TODO
-//                LogUtils.e(e)
-        }
-
-        return null
-    }
-
     override fun fromFolder(context: Context, path: Uri): String? {
         try {
-            val fileStream = inputStreamsFormFolder(context, path)
+            val folderStream = inputStreamsFormFolder(context, path)
 
-            return fromFolder(fileStream)
+            for (stream in folderStream) {
+                val buffer = ByteArray(1024)
+                var read: Int
+
+                do {
+                    read = stream.read(buffer)
+                    if (read > 0) {
+                        jdkHashCalculatorDigest?.update(buffer, read)
+                    }
+                } while (read != -1)
+            }
+
+            return jdkHashCalculatorDigest?.result()
         } catch (e: java.lang.Exception) {
             // TODO
 //            LogUtils.e(e)
@@ -109,27 +110,5 @@ class JdkHashGenerator : HashGenerator() {
         }
 
         return inputStreams
-    }
-
-
-    override fun fromFolder(inputStream: List<InputStream>): String? {
-        for (stream in inputStream) {
-            try {
-                val buffer = ByteArray(1024)
-                var read: Int
-
-                do {
-                    read = stream.read(buffer)
-                    if (read > 0) {
-                        jdkHashCalculatorDigest?.update(buffer, read)
-                    }
-                } while (read != -1)
-            } catch (e: IOException) {
-                // TODO
-//                LogUtils.e(e)
-            }
-        }
-
-        return jdkHashCalculatorDigest?.result()
     }
 }

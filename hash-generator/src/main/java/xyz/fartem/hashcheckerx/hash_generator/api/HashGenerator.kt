@@ -13,9 +13,5 @@ abstract class HashGenerator {
 
     abstract fun fromFile(context: Context, path: Uri): String?
 
-    abstract fun fromFile(inputStream: InputStream): String?
-
     abstract fun fromFolder(context: Context, path: Uri): String?
-
-    abstract fun fromFolder(inputStream: List<InputStream>): String?
 }

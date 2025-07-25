@@ -59,6 +59,8 @@ fun HashGeneratorView(
     selectedFile: Uri?,
     selectedFolder: Uri?,
     selectedText: String?,
+    onGenerationStart: () -> Unit,
+    onGenerationEnd: () -> Unit,
     onDone: @Composable () -> Unit,
     onError: @Composable () -> Unit,
 ) {
@@ -111,7 +113,7 @@ fun HashGeneratorView(
 
             HashCheckerXTextField(
                 value = when (hashGeneratorViewCase) {
-                    HashGeneratorViewCase.upper -> customHash.uppercase()
+                    HashGeneratorViewCase.UPPER -> customHash.uppercase()
                     else -> customHash
                 },
                 label = stringResource(R.string.hash_generator_custom_hash),
@@ -121,7 +123,7 @@ fun HashGeneratorView(
 
             HashCheckerXTextField(
                 value = when (hashGeneratorViewCase) {
-                    HashGeneratorViewCase.upper -> generatedHash.uppercase()
+                    HashGeneratorViewCase.UPPER -> generatedHash.uppercase()
                     else -> generatedHash
                 },
                 label = stringResource(R.string.hash_generator_generator_hash),
@@ -170,7 +172,11 @@ fun HashGeneratorView(
                                             when (hashSource) {
                                                 HashSource.FILE -> {
                                                     if (selectedFile != null) {
+                                                        onGenerationStart.invoke()
+
                                                         val hash = hashGenerator.fromFile(context, selectedFile)
+
+                                                        onGenerationEnd.invoke()
 
                                                         if (hash != null) {
                                                             generatedHash = hash
@@ -191,7 +197,11 @@ fun HashGeneratorView(
                                                 }
                                                 HashSource.FOLDER -> {
                                                     if (selectedFolder != null) {
+                                                        onGenerationStart.invoke()
+
                                                         val hash = hashGenerator.fromFolder(context, selectedFolder)
+
+                                                        onGenerationEnd.invoke()
 
                                                         if (hash != null) {
                                                             generatedHash = hash
@@ -212,7 +222,11 @@ fun HashGeneratorView(
                                                 }
                                                 HashSource.TEXT -> {
                                                     if (!selectedText.isNullOrEmpty()) {
+                                                        onGenerationStart.invoke()
+
                                                         val hash = hashGenerator.fromText(selectedText)
+
+                                                        onGenerationEnd.invoke()
 
                                                         if (hash != null) {
                                                             generatedHash = hash
@@ -333,8 +347,8 @@ private fun HashAction.translatedName(): String {
 }
 
 enum class HashGeneratorViewCase {
-    lower,
-    upper,
+    LOWER,
+    UPPER,
 }
 
 @Preview(showBackground = true)
@@ -347,13 +361,15 @@ fun PreviewHashGeneratorView() {
                 hashComparator = JdkHashComparator(),
                 defaultHashType = HashType.MD5,
                 innerPadding = innerPadding,
-                hashGeneratorViewCase = HashGeneratorViewCase.lower,
+                hashGeneratorViewCase = HashGeneratorViewCase.LOWER,
                 onFileRequest = {},
                 onFolderRequest = {},
                 onTextRequest = {},
                 selectedFile = null,
                 selectedFolder = null,
                 selectedText = null,
+                onGenerationStart = {},
+                onGenerationEnd = {},
                 onDone = {},
                 onError = {},
             )
