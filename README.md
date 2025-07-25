@@ -1,3 +1,5 @@
+<img src="media/icon/ic_app.png" height="100px" />
+
 # Hash Checker X
 
 Fast and simple application that allows you to generate and compare hashes from files and text.
