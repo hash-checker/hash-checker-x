@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import xyz.fartem.hashcheckerx.core.vibrator.Vibrator
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXProgressIndicator
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextInputDialog
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
@@ -49,8 +48,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private var selectedText by mutableStateOf<String?>(null)
-
-    private var showProgressIndicator by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,8 +112,6 @@ class MainActivity : ComponentActivity() {
                         selectedFile = selectedFile,
                         selectedFolder = selectedFolder,
                         selectedText = selectedText,
-                        onGenerationStart = { showProgressIndicator = true },
-                        onGenerationEnd = { showProgressIndicator = false },
                         onDone = {
                             if (settings.vibration()) {
                                 vibrator.oneShot()
@@ -141,10 +136,6 @@ class MainActivity : ComponentActivity() {
                             },
                             onDismiss = { selectText = false }
                         )
-                    }
-
-                    if (showProgressIndicator) {
-                        HashCheckerXProgressIndicator()
                     }
                 }
             }
