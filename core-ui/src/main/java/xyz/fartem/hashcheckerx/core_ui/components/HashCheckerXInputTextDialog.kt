@@ -43,11 +43,11 @@ fun HashCheckerXTextInputDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
             ) {
                 Text(
                     text = stringResource(R.string.dialog_title_enter_text),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
 
                 HashCheckerXSpacer16H()

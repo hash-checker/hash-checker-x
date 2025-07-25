@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 @Composable
 fun HashCheckerXTextButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Text(
         text = text,
@@ -20,6 +20,6 @@ fun HashCheckerXTextButton(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick.invoke() }
+            .clickable { onClick.invoke() },
     )
 }

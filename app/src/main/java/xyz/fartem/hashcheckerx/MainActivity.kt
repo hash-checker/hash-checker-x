@@ -70,9 +70,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             var selectText by remember { mutableStateOf(false) }
 
-            HashCheckerXTheme(
-                dynamicColor = settings.adaptiveTheme(),
-            ) {
+            HashCheckerXTheme(dynamicColor = settings.adaptiveTheme()) {
                 Scaffold(
                     topBar = {
                         HashCheckerXTopBar(
@@ -85,13 +83,12 @@ class MainActivity : ComponentActivity() {
                                                 this@MainActivity,
                                                 SettingsActivity::class.java,
                                             )
-
                                         )
-                                    }
+                                    },
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Settings,
-                                        contentDescription = stringResource(R.string.settings)
+                                        contentDescription = stringResource(R.string.settings),
                                     )
                                 }
                             },
@@ -134,7 +131,7 @@ class MainActivity : ComponentActivity() {
                                 selectedFile = null
                                 selectedFolder = null
                             },
-                            onDismiss = { selectText = false }
+                            onDismiss = { selectText = false },
                         )
                     }
                 }

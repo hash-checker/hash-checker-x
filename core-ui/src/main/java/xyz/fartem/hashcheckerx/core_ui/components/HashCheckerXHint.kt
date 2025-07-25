@@ -11,7 +11,9 @@ fun HashCheckerXHint(text: String) {
         value = text,
         enabled = false,
         onValueChange = {},
-        textStyle = TextStyle(textAlign = TextAlign.Center),
+        textStyle = TextStyle(
+            textAlign = TextAlign.Center
+        ),
         readOnly = true,
     )
 }

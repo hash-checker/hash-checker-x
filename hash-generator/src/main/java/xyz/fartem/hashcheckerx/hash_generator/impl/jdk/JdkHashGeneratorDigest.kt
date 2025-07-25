@@ -19,6 +19,7 @@ class JdkHashGeneratorDigest private constructor() {
 
     fun update(input: ByteArray?) {
         messageDigest!!.reset()
+
         if (input != null) {
             messageDigest!!.update(input)
         }
@@ -39,14 +40,6 @@ class JdkHashGeneratorDigest private constructor() {
         fun instanceFor(hashType: HashType): JdkHashGeneratorDigest {
             val jdkHashCalculatorDigest = JdkHashGeneratorDigest()
             jdkHashCalculatorDigest.setHashType(hashType, null)
-
-            return jdkHashCalculatorDigest
-        }
-
-        @Throws(NoSuchAlgorithmException::class, NoSuchProviderException::class)
-        fun instanceFor(hashType: HashType, provider: String?): JdkHashGeneratorDigest {
-            val jdkHashCalculatorDigest = JdkHashGeneratorDigest()
-            jdkHashCalculatorDigest.setHashType(hashType, provider)
 
             return jdkHashCalculatorDigest
         }

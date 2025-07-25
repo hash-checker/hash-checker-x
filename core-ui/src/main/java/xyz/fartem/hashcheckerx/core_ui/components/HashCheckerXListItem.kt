@@ -33,6 +33,6 @@ fun HashCheckerXListItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { click = true }
-            .padding(16.dp)
+            .padding(16.dp),
     )
 }

@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXBottomSheet
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXButton
@@ -83,23 +84,13 @@ fun HashGeneratorView(
     val generatorScope = rememberCoroutineScope()
     var showGeneratorProgress by remember { mutableStateOf(false) }
 
-    fun runGenerator(generate: () -> Unit) {
-        generatorScope.launch {
-            showGeneratorProgress = true
-
-            generate.invoke()
-
-            showGeneratorProgress = false
-        }
-    }
-
     HashCheckerXSurface(innerPadding) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(24.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             HashCheckerXTextButton(hashType.translatedName()) {
                 showTypeSelector = true
@@ -152,7 +143,9 @@ fun HashGeneratorView(
             HashCheckerXSpacer32H()
 
             Row {
-                HashCheckerXButton(stringResource(R.string.hash_generator_from)) { showSourceSelector = true }
+                HashCheckerXButton(stringResource(R.string.hash_generator_from)) {
+                    showSourceSelector = true
+                }
 
                 if (showSourceSelector) {
                     HashCheckerXBottomSheet({ showSourceSelector = false }) {
@@ -178,9 +171,21 @@ fun HashGeneratorView(
 
                 HashCheckerXSpacer16W()
 
-                HashCheckerXButton(stringResource(R.string.hash_generator_action)) { showActionSelector = true }
+                HashCheckerXButton(stringResource(R.string.hash_generator_action)) {
+                    showActionSelector = true
+                }
 
                 if (showActionSelector) {
+                    fun runGenerator(generate: () -> Unit) {
+                        generatorScope.launch {
+                            showGeneratorProgress = true
+
+                            generate.invoke()
+
+                            showGeneratorProgress = false
+                        }
+                    }
+
                     HashCheckerXBottomSheet({ showActionSelector = false }) {
                         Column {
                             HashAction.entries.map {

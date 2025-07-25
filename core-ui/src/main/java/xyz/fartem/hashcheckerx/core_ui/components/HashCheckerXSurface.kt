@@ -11,12 +11,12 @@ import androidx.compose.ui.Modifier
 @Composable
 fun HashCheckerXSurface(
     innerPadding: PaddingValues,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.background,
     ) { content.invoke() }
 }

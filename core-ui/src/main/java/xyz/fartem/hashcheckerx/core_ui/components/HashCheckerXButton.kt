@@ -15,6 +15,9 @@ fun HashCheckerXButton(
 ) {
     FilledTonalButton(
         onClick = onClick,
-        modifier = Modifier.size(width = 120.dp, height = 52.dp),
+        modifier = Modifier.size(
+            width = 120.dp,
+            height = 52.dp
+        ),
     ) { Text(title, fontSize = 18.sp) }
 }
