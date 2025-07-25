@@ -30,6 +30,8 @@ fun HashCheckerXProgressIndicator() {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                HashCheckerXSpacer16H()
+
                 CircularProgressIndicator()
 
                 HashCheckerXSpacer32H()

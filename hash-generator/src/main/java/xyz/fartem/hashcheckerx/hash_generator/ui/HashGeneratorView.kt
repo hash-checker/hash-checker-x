@@ -1,5 +1,6 @@
 package xyz.fartem.hashcheckerx.hash_generator.ui
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,10 +24,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXBottomSheet
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXButton
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXHint
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXListItem
+import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXProgressIndicator
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer16W
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer32H
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer4H
@@ -45,6 +49,7 @@ import xyz.fartem.hashcheckerx.hash_generator.model.HashAction
 import xyz.fartem.hashcheckerx.hash_generator.model.HashSource
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HashGeneratorView(
@@ -59,8 +64,6 @@ fun HashGeneratorView(
     selectedFile: Uri?,
     selectedFolder: Uri?,
     selectedText: String?,
-//    onGenerationStart: () -> Unit,
-//    onGenerationEnd: () -> Unit,
     onDone: @Composable () -> Unit,
     onError: @Composable () -> Unit,
 ) {
@@ -76,6 +79,19 @@ fun HashGeneratorView(
     var showActionSelector by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
+
+    val generatorScope = rememberCoroutineScope()
+    var showGeneratorProgress by remember { mutableStateOf(false) }
+
+    fun runGenerator(generate: () -> Unit) {
+        generatorScope.launch {
+            showGeneratorProgress = true
+
+            generate.invoke()
+
+            showGeneratorProgress = false
+        }
+    }
 
     HashCheckerXSurface(innerPadding) {
         Column(
@@ -107,6 +123,10 @@ fun HashGeneratorView(
                         HashCheckerXSpacer64H()
                     }
                 }
+            }
+
+            if (showGeneratorProgress) {
+                HashCheckerXProgressIndicator()
             }
 
             HashCheckerXSpacer8H()
@@ -172,15 +192,17 @@ fun HashGeneratorView(
                                             when (hashSource) {
                                                 HashSource.FILE -> {
                                                     if (selectedFile != null) {
-                                                        val hash = hashGenerator.fromFile(context, selectedFile)
+                                                        runGenerator {
+                                                            val hash = hashGenerator.fromFile(context, selectedFile)
 
-                                                        if (hash != null) {
-                                                            generatedHash = hash
-                                                        } else {
-                                                            showHashCheckerXToast(
-                                                                context,
-                                                                context.getString(R.string.hash_generator_error)
-                                                            )
+                                                            if (hash != null) {
+                                                                generatedHash = hash
+                                                            } else {
+                                                                showHashCheckerXToast(
+                                                                    context,
+                                                                    context.getString(R.string.hash_generator_error)
+                                                                )
+                                                            }
                                                         }
                                                     } else {
                                                         showHashCheckerXToast(
@@ -191,17 +213,20 @@ fun HashGeneratorView(
                                                         onError.invoke()
                                                     }
                                                 }
+
                                                 HashSource.FOLDER -> {
                                                     if (selectedFolder != null) {
-                                                        val hash = hashGenerator.fromFolder(context, selectedFolder)
+                                                        runGenerator {
+                                                            val hash = hashGenerator.fromFolder(context, selectedFolder)
 
-                                                        if (hash != null) {
-                                                            generatedHash = hash
-                                                        } else {
-                                                            showHashCheckerXToast(
-                                                                context,
-                                                                context.getString(R.string.hash_generator_error)
-                                                            )
+                                                            if (hash != null) {
+                                                                generatedHash = hash
+                                                            } else {
+                                                                showHashCheckerXToast(
+                                                                    context,
+                                                                    context.getString(R.string.hash_generator_error)
+                                                                )
+                                                            }
                                                         }
                                                     } else {
                                                         showHashCheckerXToast(
@@ -212,20 +237,21 @@ fun HashGeneratorView(
                                                         onError.invoke()
                                                     }
                                                 }
+
                                                 HashSource.TEXT -> {
                                                     if (!selectedText.isNullOrEmpty()) {
-                                                        val hash = hashGenerator.fromText(selectedText)
+                                                        runGenerator {
+                                                            val hash = hashGenerator.fromText(selectedText)
 
-                                                        if (hash != null) {
-                                                            generatedHash = hash
-                                                        } else {
-                                                            showHashCheckerXToast(
-                                                                context,
-                                                                context.getString(R.string.hash_generator_error)
-                                                            )
+                                                            if (hash != null) {
+                                                                generatedHash = hash
+                                                            } else {
+                                                                showHashCheckerXToast(
+                                                                    context,
+                                                                    context.getString(R.string.hash_generator_error)
+                                                                )
+                                                            }
                                                         }
-
-                                                        onDone.invoke()
                                                     } else {
                                                         showHashCheckerXToast(
                                                             context,
@@ -356,8 +382,6 @@ fun PreviewHashGeneratorView() {
                 selectedFile = null,
                 selectedFolder = null,
                 selectedText = null,
-//                onGenerationStart = {},
-//                onGenerationEnd = {},
                 onDone = {},
                 onError = {},
             )
