@@ -5,7 +5,6 @@ import android.net.Uri
 import android.provider.DocumentsContract
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
-import java.io.IOException
 import java.io.InputStream
 
 class JdkHashGenerator : HashGenerator() {

@@ -3,8 +3,6 @@ package xyz.fartem.hashcheckerx.hash_generator.api
 import android.content.Context
 import android.net.Uri
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
-import java.io.InputStream
-
 
 abstract class HashGenerator {
     abstract fun setHashType(hashType: HashType)
