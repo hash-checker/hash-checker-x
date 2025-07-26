@@ -2,19 +2,12 @@ package xyz.fartem.hashcheckerx.hash_generator.impl.jdk
 
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.security.NoSuchProviderException
 
 class JdkHashGeneratorDigest private constructor() {
     private var messageDigest: MessageDigest? = null
 
-    @Throws(NoSuchAlgorithmException::class, NoSuchProviderException::class)
-    private fun setHashType(hashType: HashType, provider: String?) {
-        messageDigest = if (provider == null) {
-            MessageDigest.getInstance(hashType.hashName)
-        } else {
-            MessageDigest.getInstance(hashType.hashName, provider)
-        }
+    private fun setHashType(hashType: HashType) {
+        messageDigest = MessageDigest.getInstance(hashType.hashName)
     }
 
     fun update(input: ByteArray?) {
@@ -36,10 +29,9 @@ class JdkHashGeneratorDigest private constructor() {
     }
 
     companion object {
-        @Throws(NoSuchAlgorithmException::class, NoSuchProviderException::class)
         fun instanceFor(hashType: HashType): JdkHashGeneratorDigest {
             val jdkHashCalculatorDigest = JdkHashGeneratorDigest()
-            jdkHashCalculatorDigest.setHashType(hashType, null)
+            jdkHashCalculatorDigest.setHashType(hashType)
 
             return jdkHashCalculatorDigest
         }

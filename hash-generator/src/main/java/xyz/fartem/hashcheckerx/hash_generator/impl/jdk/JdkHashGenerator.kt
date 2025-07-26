@@ -46,7 +46,6 @@ class JdkHashGenerator : HashGenerator() {
         return null
     }
 
-    @Throws(Exception::class)
     private fun inputStreamFromUri(context: Context, path: Uri): InputStream? {
         return context.contentResolver.openInputStream(path)
     }

@@ -24,9 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXBottomSheet
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXButton
@@ -51,7 +49,6 @@ import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashAction
 import xyz.fartem.hashcheckerx.hash_generator.model.HashSource
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
-import kotlin.coroutines.suspendCoroutine
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
