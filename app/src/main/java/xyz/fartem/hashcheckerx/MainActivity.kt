@@ -27,6 +27,7 @@ import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
+import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsWrapper
 
@@ -59,12 +60,15 @@ class MainActivity : ComponentActivity() {
         val vibrator = Vibrator(this)
 
         val settings = SharedPreferencesSettingsWrapper(
-            SharedPreferencesSettingsRepository(
+            sharedPreferencesSettingsRepository = SharedPreferencesSettingsRepository(
                 getSharedPreferences(
                     BuildConfig.APPLICATION_ID,
                     Context.MODE_PRIVATE
-                )
-            )
+                ),
+            ),
+            stringResourceProvider = {
+                getString(it)
+            },
         )
 
         setContent {
@@ -98,11 +102,13 @@ class MainActivity : ComponentActivity() {
                     val case = if (settings.upperCase()) HashGeneratorViewCase.UPPER else HashGeneratorViewCase.LOWER
 
                     HashGeneratorView(
-                        hashGenerator = hashGenerator,
-                        hashComparator = JdkHashComparator(),
-                        defaultHashType = HashType.MD5,
+                        viewModel = HashGeneratorViewModel(
+                            hashGenerator = hashGenerator,
+                            hashComparator = JdkHashComparator(),
+                            defaultHashType = HashType.MD5,
+                        ),
+                        viewCase = case,
                         innerPadding = innerPadding,
-                        hashGeneratorViewCase = case,
                         onFileRequest = { selectFile.launch("*/*") },
                         onFolderRequest = { selectFolder.launch(null) },
                         onTextRequest = { selectText = true },

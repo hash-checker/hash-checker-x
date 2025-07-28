@@ -18,6 +18,7 @@ import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsWrapper
 import xyz.fartem.hashcheckerx.settings.ui.SettingsView
+import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModel
 
 class SettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,12 +26,15 @@ class SettingsActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val settings = SharedPreferencesSettingsWrapper(
-            SharedPreferencesSettingsRepository(
+            sharedPreferencesSettingsRepository = SharedPreferencesSettingsRepository(
                 getSharedPreferences(
                     BuildConfig.APPLICATION_ID,
                     Context.MODE_PRIVATE
                 )
-            )
+            ),
+            stringResourceProvider = {
+                getString(it)
+            },
         )
 
         setContent {
@@ -53,34 +57,25 @@ class SettingsActivity : ComponentActivity() {
                     },
                 ) { paddingValues ->
                     SettingsView(
-                        settingsRepository = SharedPreferencesSettingsRepository(
-                            getSharedPreferences(
-                                BuildConfig.APPLICATION_ID,
-                                Context.MODE_PRIVATE
-                            )
+                        viewModel = SettingsViewModel(
+                            settingsRepository = SharedPreferencesSettingsRepository(
+                                getSharedPreferences(
+                                    BuildConfig.APPLICATION_ID,
+                                    Context.MODE_PRIVATE
+                                ),
+                            ),
+                            stringResourceProvider = {
+                                getString(it)
+                            },
+                            privacyPolicy = "",
+                            author = "fartem",
+                            sourceCode = BuildConfig.URL_SOURCE_CODE,
+                            version = BuildConfig.VERSION_NAME,
                         ),
                         paddingValues = paddingValues,
-                        openPrivacyPolicy = {},
-                        author = "fartem",
-                        openAuthor = {
-                            launchUrl(BuildConfig.URL_AUTHOR)
-                        },
-                        openSourceCode = {
-                            launchUrl(BuildConfig.URL_SOURCE_CODE)
-                        },
-                        version = BuildConfig.VERSION_NAME,
-                        openVersion = {
-                            launchUrl("${BuildConfig.URL_RELEASES}${BuildConfig.VERSION_NAME}")
-                        },
                     )
                 }
             }
         }
-    }
-
-    private fun launchUrl(url: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, url.toUri())
-
-        startActivity(browserIntent)
     }
 }

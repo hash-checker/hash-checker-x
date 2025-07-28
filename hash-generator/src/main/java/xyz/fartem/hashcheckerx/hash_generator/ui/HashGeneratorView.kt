@@ -12,10 +12,10 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,9 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXBottomSheet
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXButton
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXHint
@@ -42,8 +41,6 @@ import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextField
 import xyz.fartem.hashcheckerx.core_ui.components.showHashCheckerXToast
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.hash_generator.R
-import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
-import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
 import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashAction
@@ -53,35 +50,112 @@ import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HashGeneratorView(
-    hashGenerator: HashGenerator,
-    hashComparator: HashComparator,
-    defaultHashType: HashType,
+    viewModel: HashGeneratorViewModel,
+    viewCase: HashGeneratorViewCase,
     innerPadding: PaddingValues,
-    hashGeneratorViewCase: HashGeneratorViewCase,
     onFileRequest: () -> Unit,
     onFolderRequest: () -> Unit,
     onTextRequest: () -> Unit,
     selectedFile: Uri?,
     selectedFolder: Uri?,
     selectedText: String?,
-    onDone: @Composable () -> Unit,
-    onError: @Composable () -> Unit,
+    onDone: () -> Unit,
+    onError: () -> Unit,
 ) {
-    var hashType by remember { mutableStateOf(defaultHashType) }
-
-    var customHash by remember { mutableStateOf("") }
-    var generatedHash by remember { mutableStateOf("") }
-
-    var hashSource by remember { mutableStateOf(HashSource.FILE) }
+    val context = LocalContext.current
 
     var showTypeSelector by remember { mutableStateOf(false) }
     var showSourceSelector by remember { mutableStateOf(false) }
     var showActionSelector by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
+    LaunchedEffect(viewModel, LocalLifecycleOwner.current.lifecycle) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is HashGeneratorEvent.Comparison -> {
+                    if (event.result) {
+                        showHashCheckerXToast(
+                            context,
+                            context.getString(R.string.hash_generator_equals)
+                        )
 
-    val generatorScope = rememberCoroutineScope()
-    var showGeneratorProgress by remember { mutableStateOf(false) }
+                        onDone.invoke()
+                    } else {
+                        showHashCheckerXToast(
+                            context,
+                            context.getString(R.string.hash_generator_different)
+                        )
+
+                        onError.invoke()
+                    }
+                }
+
+                is HashGeneratorEvent.ComparisonError -> {
+                    showHashCheckerXToast(
+                        context,
+                        context.getString(R.string.hash_comparator_error)
+                    )
+
+                    onError.invoke()
+                }
+
+                is HashGeneratorEvent.CustomHashEmptyError -> {
+                    showHashCheckerXToast(
+                        context,
+                        context.getString(R.string.hash_generator_custom_hash_empty)
+                    )
+
+                    onError.invoke()
+                }
+
+                is HashGeneratorEvent.GeneratedHashEmptyError -> {
+                    showHashCheckerXToast(
+                        context,
+                        context.getString(R.string.hash_generator_generated_hash_empty)
+                    )
+
+                    onError.invoke()
+                }
+
+                is HashGeneratorEvent.GenerationError -> {
+                    showHashCheckerXToast(
+                        context,
+                        context.getString(R.string.hash_generator_error)
+                    )
+
+                    onError.invoke()
+                }
+
+                is HashGeneratorEvent.GenerationFromFileError -> {
+                    showHashCheckerXToast(
+                        context,
+                        context.getString(R.string.hash_generator_error)
+                    )
+
+                    onError.invoke()
+                }
+
+                is HashGeneratorEvent.GenerationFromFolderError -> {
+                    showHashCheckerXToast(
+                        context,
+                        context.getString(R.string.hash_generator_error)
+                    )
+
+                    onError.invoke()
+                }
+
+                is HashGeneratorEvent.GenerationFromTextError -> {
+                    showHashCheckerXToast(
+                        context,
+                        context.getString(R.string.hash_generator_error)
+                    )
+
+                    onError.invoke()
+                }
+            }
+        }
+    }
+
+    val state = viewModel.state.collectAsStateWithLifecycle().value
 
     HashCheckerXSurface(innerPadding) {
         Column(
@@ -91,22 +165,20 @@ fun HashGeneratorView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HashCheckerXTextButton(hashType.translatedName()) {
+            HashCheckerXTextButton(state.hashType.translatedName()) {
                 showTypeSelector = true
             }
 
             if (showTypeSelector) {
                 ModalBottomSheet(
                     sheetState = rememberModalBottomSheetState(),
-                    onDismissRequest = { showTypeSelector = false }
+                    onDismissRequest = { showTypeSelector = false },
                 ) {
                     Column {
                         HashType.entries.map {
                             HashCheckerXListItem(it.translatedName()) {
                                 showTypeSelector = false
-                                hashType = it
-
-                                hashGenerator.setHashType(it)
+                                viewModel.onHashTypeSelected(it)
                             }
                         }
 
@@ -115,29 +187,31 @@ fun HashGeneratorView(
                 }
             }
 
-            if (showGeneratorProgress) {
+            if (state.isGenerating) {
                 HashCheckerXProgressIndicator()
             }
 
             HashCheckerXSpacer8H()
 
             HashCheckerXTextField(
-                value = when (hashGeneratorViewCase) {
-                    HashGeneratorViewCase.UPPER -> customHash.uppercase()
-                    else -> customHash
+                value = when (viewCase) {
+                    HashGeneratorViewCase.UPPER -> state.customHash.uppercase()
+                    else -> state.customHash
                 },
                 label = stringResource(R.string.hash_generator_custom_hash),
-            ) { customHash = it }
+                onValueChange = viewModel::onCustomHashChange,
+            )
 
             HashCheckerXSpacer4H()
 
             HashCheckerXTextField(
-                value = when (hashGeneratorViewCase) {
-                    HashGeneratorViewCase.UPPER -> generatedHash.uppercase()
-                    else -> generatedHash
+                value = when (viewCase) {
+                    HashGeneratorViewCase.UPPER -> state.generatedHash.uppercase()
+                    else -> state.generatedHash
                 },
                 label = stringResource(R.string.hash_generator_generator_hash),
-            ) { generatedHash = it }
+                onValueChange = {},
+            )
 
             HashCheckerXSpacer32H()
 
@@ -151,7 +225,7 @@ fun HashGeneratorView(
                         Column {
                             HashSource.entries.map {
                                 HashCheckerXListItem(it.translatedName()) {
-                                    hashSource = it
+                                    viewModel.onHashSourceSelected(it)
 
                                     when (it) {
                                         HashSource.FILE -> onFileRequest.invoke()
@@ -175,140 +249,60 @@ fun HashGeneratorView(
                 }
 
                 if (showActionSelector) {
-                    fun runGenerator(generate: () -> Unit) {
-                        generatorScope.launch {
-                            showGeneratorProgress = true
-
-                            withContext(Dispatchers.IO) {
-                                generate.invoke()
-                            }
-
-                            showGeneratorProgress = false
-                        }
-                    }
-
                     HashCheckerXBottomSheet({ showActionSelector = false }) {
                         Column {
-                            HashAction.entries.map {
-                                HashCheckerXListItem(it.translatedName()) {
+                            HashAction.entries.map { action ->
+                                HashCheckerXListItem(action.translatedName()) {
                                     showActionSelector = false
 
-                                    when (it) {
+                                    when (action) {
                                         HashAction.GENERATE -> {
-                                            when (hashSource) {
+                                            when (state.hashSource) {
                                                 HashSource.FILE -> {
-                                                    if (selectedFile != null) {
-                                                        runGenerator {
-                                                            val hash = hashGenerator.fromFile(context, selectedFile)
-
-                                                            if (hash != null) {
-                                                                generatedHash = hash
-                                                            } else {
-                                                                showHashCheckerXToast(
-                                                                    context,
-                                                                    context.getString(R.string.hash_generator_error)
-                                                                )
-                                                            }
-                                                        }
-                                                    } else {
+                                                    if (selectedFile == null) {
                                                         showHashCheckerXToast(
                                                             context,
                                                             stringResource(R.string.hash_generator_no_file)
                                                         )
-
-                                                        onError.invoke()
+                                                    } else {
+                                                        viewModel.generateHashFromFile(
+                                                            context,
+                                                            selectedFile,
+                                                        )
                                                     }
                                                 }
 
                                                 HashSource.FOLDER -> {
-                                                    if (selectedFolder != null) {
-                                                        runGenerator {
-                                                            val hash = hashGenerator.fromFolder(context, selectedFolder)
-
-                                                            if (hash != null) {
-                                                                generatedHash = hash
-                                                            } else {
-                                                                showHashCheckerXToast(
-                                                                    context,
-                                                                    context.getString(R.string.hash_generator_error)
-                                                                )
-                                                            }
-                                                        }
-                                                    } else {
+                                                    if (selectedFolder == null) {
                                                         showHashCheckerXToast(
                                                             context,
                                                             stringResource(R.string.hash_generator_no_folder)
                                                         )
-
-                                                        onError.invoke()
+                                                    } else {
+                                                        viewModel.generateHashFromFolder(
+                                                            context,
+                                                            selectedFolder,
+                                                        )
                                                     }
                                                 }
 
                                                 HashSource.TEXT -> {
-                                                    if (!selectedText.isNullOrEmpty()) {
-                                                        runGenerator {
-                                                            val hash = hashGenerator.fromText(selectedText)
-
-                                                            if (hash != null) {
-                                                                generatedHash = hash
-                                                            } else {
-                                                                showHashCheckerXToast(
-                                                                    context,
-                                                                    context.getString(R.string.hash_generator_error)
-                                                                )
-                                                            }
-                                                        }
-                                                    } else {
+                                                    if (selectedText == null) {
                                                         showHashCheckerXToast(
                                                             context,
-                                                            context.getString(R.string.hash_generator_empty_text)
+                                                            stringResource(R.string.hash_generator_no_folder)
                                                         )
-
-                                                        onError.invoke()
+                                                    } else {
+                                                        viewModel.generateHashFromText(
+                                                            context,
+                                                            selectedText,
+                                                        )
                                                     }
                                                 }
                                             }
                                         }
 
-                                        HashAction.COMPARE -> {
-                                            when {
-                                                customHash.isEmpty() -> {
-                                                    showHashCheckerXToast(
-                                                        context,
-                                                        context.getString(R.string.hash_generator_custom_hash_empty),
-                                                    )
-
-                                                    onError.invoke()
-                                                }
-
-                                                generatedHash.isEmpty() -> {
-                                                    showHashCheckerXToast(
-                                                        context,
-                                                        context.getString(R.string.hash_generator_generated_hash_empty),
-                                                    )
-
-                                                    onError.invoke()
-                                                }
-
-                                                hashComparator.compare(customHash, generatedHash) -> {
-                                                    showHashCheckerXToast(
-                                                        context,
-                                                        context.getString(R.string.hash_generator_equals),
-                                                    )
-
-                                                    onDone.invoke()
-                                                }
-
-                                                else -> {
-                                                    showHashCheckerXToast(
-                                                        context,
-                                                        context.getString(R.string.hash_generator_different),
-                                                    )
-
-                                                    onDone.invoke()
-                                                }
-                                            }
-                                        }
+                                        HashAction.COMPARE -> viewModel.compareHashes()
                                     }
                                 }
                             }
@@ -328,9 +322,10 @@ fun HashGeneratorView(
                 else -> stringResource(R.string.hash_generator_default_hint)
             }
 
-            HashCheckerXHint(hint!!)
+            HashCheckerXHint(hint ?: stringResource(R.string.hash_generator_default_hint))
         }
     }
+
 }
 
 @Composable
@@ -377,11 +372,13 @@ fun PreviewHashGeneratorView() {
     HashCheckerXTheme {
         Scaffold { innerPadding ->
             HashGeneratorView(
-                hashGenerator = JdkHashGenerator(),
-                hashComparator = JdkHashComparator(),
-                defaultHashType = HashType.MD5,
+                viewModel = HashGeneratorViewModel(
+                    hashGenerator = JdkHashGenerator(),
+                    hashComparator = JdkHashComparator(),
+                    defaultHashType = HashType.MD5,
+                ),
+                viewCase = HashGeneratorViewCase.LOWER,
                 innerPadding = innerPadding,
-                hashGeneratorViewCase = HashGeneratorViewCase.LOWER,
                 onFileRequest = {},
                 onFolderRequest = {},
                 onTextRequest = {},

@@ -39,8 +39,7 @@ class JdkHashGenerator : HashGenerator() {
                 return jdkHashCalculatorDigest?.result()
             }
         } catch (e: Exception) {
-            // TODO
-//            LogUtils.e(e)
+            e.printStackTrace()
         }
 
         return null
@@ -67,9 +66,8 @@ class JdkHashGenerator : HashGenerator() {
             }
 
             return jdkHashCalculatorDigest?.result()
-        } catch (e: java.lang.Exception) {
-            // TODO
-//            LogUtils.e(e)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
         return null

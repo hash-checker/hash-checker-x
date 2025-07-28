@@ -11,6 +11,7 @@
     <string name="hash_generator_action_generate">Generate</string>
     <string name="hash_generator_action_compare">Compare</string>
     <string name="hash_generator_error">Something went wrong. Please, try again later</string>
+    <string name="hash_comparator_error">Something went wrong. Please, try again later</string>
     <string name="hash_generator_empty_text">You should enter any text before generate hash from it</string>
     <string name="hash_generator_custom_hash_empty">Custom hash field are empty!</string>
     <string name="hash_generator_generated_hash_empty">Generated hash field are empty!</string>

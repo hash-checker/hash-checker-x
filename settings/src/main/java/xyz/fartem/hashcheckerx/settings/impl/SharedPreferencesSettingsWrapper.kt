@@ -1,33 +1,29 @@
 package xyz.fartem.hashcheckerx.settings.impl
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import xyz.fartem.hashcheckerx.settings.R
 import xyz.fartem.hashcheckerx.settings.api.SettingsWrapper
 
 class SharedPreferencesSettingsWrapper(
-    private val sharedPreferencesSettingsRepository: SharedPreferencesSettingsRepository
+    private val sharedPreferencesSettingsRepository: SharedPreferencesSettingsRepository,
+    private val stringResourceProvider: (Int) -> String,
 ) : SettingsWrapper() {
-    @Composable
     override fun upperCase(): Boolean {
         return sharedPreferencesSettingsRepository.getBooleanValue(
-            stringResource(R.string.key_upper_case),
+            stringResourceProvider(R.string.key_upper_case),
             false,
         )
     }
 
-    @Composable
     override fun adaptiveTheme(): Boolean {
         return sharedPreferencesSettingsRepository.getBooleanValue(
-            stringResource(R.string.key_adaptive_theme),
+            stringResourceProvider(R.string.key_adaptive_theme),
             true,
         )
     }
 
-    @Composable
     override fun vibration(): Boolean {
         return sharedPreferencesSettingsRepository.getBooleanValue(
-            stringResource(R.string.key_vibration),
+            stringResourceProvider(R.string.key_vibration),
             true,
         )
     }
