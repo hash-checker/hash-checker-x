@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.android)
 
+    implementation(project(":core"))
     implementation(project(":core-ui"))
 
     testImplementation(libs.junit)

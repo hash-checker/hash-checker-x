@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
 composeBom = "2024.04.01"
 appcompat = "1.6.1"
+logger = "2.2.0"
 material = "1.10.0"
 preference = "2.1.0"
 uiGraphicsAndroid = "1.8.3"
@@ -34,6 +35,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-ui-graphics-android = { group = "androidx.compose.ui", name = "ui-graphics-android", version.ref = "uiGraphicsAndroid" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }

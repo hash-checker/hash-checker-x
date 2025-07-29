@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLoggerImpl
 import xyz.fartem.hashcheckerx.core.vibrator.Vibrator
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextInputDialog
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
@@ -105,6 +106,7 @@ class MainActivity : ComponentActivity() {
                         viewModel = HashGeneratorViewModel(
                             hashGenerator = hashGenerator,
                             hashComparator = JdkHashComparator(),
+                            logger = OrhanObutLoggerImpl(),
                             defaultHashType = HashType.MD5,
                         ),
                         viewCase = case,

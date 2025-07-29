@@ -22,27 +22,23 @@ class JdkHashGenerator : HashGenerator() {
     }
 
     override fun fromFile(context: Context, path: Uri): String? {
-        try {
-            val fileStream: InputStream? = inputStreamFromUri(context, path)
+        val fileStream: InputStream? = inputStreamFromUri(context, path)
 
-            if (fileStream != null) {
-                val buffer = ByteArray(1024)
-                var read: Int
+        if (fileStream != null) {
+            val buffer = ByteArray(1024)
+            var read: Int
 
-                do {
-                    read = fileStream.read(buffer)
-                    if (read > 0) {
-                        jdkHashCalculatorDigest?.update(buffer, read)
-                    }
-                } while (read != -1)
+            do {
+                read = fileStream.read(buffer)
+                if (read > 0) {
+                    jdkHashCalculatorDigest?.update(buffer, read)
+                }
+            } while (read != -1)
 
-                return jdkHashCalculatorDigest?.result()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            return jdkHashCalculatorDigest?.result()
         }
 
-        return null
+        throw Exception("Can't generate hash from file")
     }
 
     private fun inputStreamFromUri(context: Context, path: Uri): InputStream? {
@@ -50,27 +46,21 @@ class JdkHashGenerator : HashGenerator() {
     }
 
     override fun fromFolder(context: Context, path: Uri): String? {
-        try {
-            val folderStream = inputStreamsFormFolder(context, path)
+        val folderStream = inputStreamsFormFolder(context, path)
 
-            for (stream in folderStream) {
-                val buffer = ByteArray(1024)
-                var read: Int
+        for (stream in folderStream) {
+            val buffer = ByteArray(1024)
+            var read: Int
 
-                do {
-                    read = stream.read(buffer)
-                    if (read > 0) {
-                        jdkHashCalculatorDigest?.update(buffer, read)
-                    }
-                } while (read != -1)
-            }
-
-            return jdkHashCalculatorDigest?.result()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            do {
+                read = stream.read(buffer)
+                if (read > 0) {
+                    jdkHashCalculatorDigest?.update(buffer, read)
+                }
+            } while (read != -1)
         }
 
-        return null
+        return jdkHashCalculatorDigest?.result()
     }
 
     private fun inputStreamsFormFolder(context: Context, folderUri: Uri): List<InputStream> {
@@ -92,13 +82,9 @@ class JdkHashGenerator : HashGenerator() {
                 val documentId = cursor.getString(0)
                 val documentUri = DocumentsContract.buildDocumentUriUsingTree(folderUri, documentId)
 
-                try {
-                    val inputStream = inputStreamFromUri(context, documentUri)
-                    if (inputStream != null) {
-                        inputStreams.add(inputStream)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                val inputStream = inputStreamFromUri(context, documentUri)
+                if (inputStream != null) {
+                    inputStreams.add(inputStream)
                 }
             }
 

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xyz.fartem.hashcheckerx.core.logger.api.Logger
 import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashSource
@@ -43,6 +44,7 @@ sealed class HashGeneratorEvent {
 class HashGeneratorViewModel(
     private val hashGenerator: HashGenerator,
     private val hashComparator: HashComparator,
+    private val logger: Logger,
     defaultHashType: HashType,
 ) : ViewModel() {
     private val _state = MutableStateFlow(
@@ -80,7 +82,7 @@ class HashGeneratorViewModel(
             try {
                 handleGenerate(context, selectedFile = selectedFile)
             } catch (e: Exception) {
-                e.printStackTrace()
+                logger.error(e.stackTraceToString())
 
                 _events.emit(HashGeneratorEvent.GenerationError)
             }
@@ -92,7 +94,7 @@ class HashGeneratorViewModel(
             try {
                 handleGenerate(context, selectedFolder = selectedFolder)
             } catch (e: Exception) {
-                e.printStackTrace()
+                logger.error(e.stackTraceToString())
 
                 _events.emit(HashGeneratorEvent.GenerationError)
             }
@@ -104,7 +106,7 @@ class HashGeneratorViewModel(
             try {
                 handleGenerate(context, selectedText = selectedText)
             } catch (e: Exception) {
-                e.printStackTrace()
+                logger.error(e.stackTraceToString())
 
                 _events.emit(HashGeneratorEvent.GenerationError)
             }
