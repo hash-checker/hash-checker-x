@@ -3,7 +3,6 @@ package xyz.fartem.hashcheckerx.settings.ui
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import xyz.fartem.hashcheckerx.settings.R
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.model.SettingsCategory
 import xyz.fartem.hashcheckerx.settings.model.SettingsEntry
@@ -18,7 +17,6 @@ data class SettingsViewModelState(
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
-    private val stringResourcesProvider: (Int) -> String,
     privacyPolicy: String,
     author: String,
     sourceCode: String,
@@ -31,8 +29,7 @@ class SettingsViewModel(
                     Pair(
                         SettingsEntry.UPPER_CASE,
                         settingsRepository.getBooleanValue(
-                            stringResourcesProvider(R.string.key_upper_case),
-                            false,
+                            SettingsEntry.UPPER_CASE,
                         ),
                     ),
                 ),
@@ -40,15 +37,13 @@ class SettingsViewModel(
                     Pair(
                         SettingsEntry.ADAPTIVE_THEME,
                         settingsRepository.getBooleanValue(
-                            stringResourcesProvider(R.string.key_adaptive_theme),
-                            true,
+                            SettingsEntry.ADAPTIVE_THEME,
                         ),
                     ),
                     Pair(
                         SettingsEntry.VIBRATION,
                         settingsRepository.getBooleanValue(
-                            stringResourcesProvider(R.string.key_vibration),
-                            true,
+                            SettingsEntry.VIBRATION,
                         ),
                     ),
                 ),
@@ -73,21 +68,21 @@ class SettingsViewModel(
         when (settingsEntry) {
             SettingsEntry.UPPER_CASE -> {
                 settingsRepository.setBooleanValue(
-                    stringResourcesProvider(R.string.key_upper_case),
+                    settingsEntry,
                     value as Boolean
                 )
             }
 
             SettingsEntry.ADAPTIVE_THEME -> {
                 settingsRepository.setBooleanValue(
-                    stringResourcesProvider(R.string.key_adaptive_theme),
+                    settingsEntry,
                     value as Boolean
                 )
             }
 
             SettingsEntry.VIBRATION -> {
                 settingsRepository.setBooleanValue(
-                    stringResourcesProvider(R.string.key_vibration),
+                    settingsEntry,
                     value as Boolean
                 )
             }

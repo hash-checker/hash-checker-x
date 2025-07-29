@@ -1,7 +1,9 @@
 package xyz.fartem.hashcheckerx.settings.api
 
-abstract class SettingsRepository {
-    abstract fun getBooleanValue(key: String, defaultValue: Boolean): Boolean
+import xyz.fartem.hashcheckerx.settings.model.SettingsEntry
 
-    abstract fun setBooleanValue(key: String, value: Boolean)
+abstract class SettingsRepository {
+    abstract fun getBooleanValue(settingsEntry: SettingsEntry): Boolean
+
+    abstract fun setBooleanValue(settingsEntry: SettingsEntry, value: Boolean)
 }

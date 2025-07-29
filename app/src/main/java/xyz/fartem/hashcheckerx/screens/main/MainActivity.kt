@@ -32,7 +32,8 @@ import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
 import xyz.fartem.hashcheckerx.screens.settings.SettingsActivity
-import xyz.fartem.hashcheckerx.settings.api.SettingsWrapper
+import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
+import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
     lateinit var clipboard: Clipboard
 
     @Inject
-    lateinit var settings: SettingsWrapper
+    lateinit var settingsRepository: SettingsRepository
 
     private var selectedFile by mutableStateOf<Uri?>(null)
     private val selectFile = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -78,77 +79,82 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            var selectText by remember { mutableStateOf(false) }
+            SettingsWrapperView(settingsRepository) { settingsWrapper ->
+                var selectText by remember { mutableStateOf(false) }
 
-            HashCheckerXTheme(dynamicColor = settings.adaptiveTheme()) {
-                Scaffold(
-                    topBar = {
-                        HashCheckerXTopBar(
-                            title = stringResource(R.string.app_name),
-                            actions = {
-                                IconButton(
-                                    onClick = {
-                                        startActivity(
-                                            Intent(
-                                                this@MainActivity,
-                                                SettingsActivity::class.java,
+                HashCheckerXTheme(dynamicColor = settingsWrapper.useAdaptiveTheme()) {
+                    Scaffold(
+                        topBar = {
+                            HashCheckerXTopBar(
+                                title = stringResource(R.string.app_name),
+                                actions = {
+                                    IconButton(
+                                        onClick = {
+                                            startActivity(
+                                                Intent(
+                                                    this@MainActivity,
+                                                    SettingsActivity::class.java,
+                                                )
                                             )
+                                        },
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Settings,
+                                            contentDescription = stringResource(R.string.settings),
                                         )
-                                    },
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Settings,
-                                        contentDescription = stringResource(R.string.settings),
-                                    )
+                                    }
+                                },
+                            )
+                        }
+                    ) { innerPadding ->
+                        val case = when (settingsWrapper.useUpperCase()) {
+                            true -> HashGeneratorViewCase.UPPER
+                            false -> HashGeneratorViewCase.LOWER
+                        }
+
+                        HashGeneratorView(
+                            viewModel = HashGeneratorViewModel(
+                                hashGenerator = hashGenerator,
+                                hashComparator = hashComparator,
+                                logger = logger,
+                                defaultHashType = HashType.MD5,
+                            ),
+                            viewCase = case,
+                            innerPadding = innerPadding,
+                            onFileRequest = { selectFile.launch("*/*") },
+                            onFolderRequest = { selectFolder.launch(null) },
+                            onTextRequest = { selectText = true },
+                            selectedFile = selectedFile,
+                            selectedFolder = selectedFolder,
+                            selectedText = selectedText,
+                            onDone = {
+                                if (settingsWrapper.useVibration()) {
+                                    vibrator.oneShot()
                                 }
                             },
-                        )
-                    }
-                ) { innerPadding ->
-                    val case = if (settings.upperCase()) HashGeneratorViewCase.UPPER else HashGeneratorViewCase.LOWER
-
-                    HashGeneratorView(
-                        viewModel = HashGeneratorViewModel(
-                            hashGenerator = hashGenerator,
-                            hashComparator = hashComparator,
-                            logger = logger,
-                            defaultHashType = HashType.MD5,
-                        ),
-                        viewCase = case,
-                        innerPadding = innerPadding,
-                        onFileRequest = { selectFile.launch("*/*") },
-                        onFolderRequest = { selectFolder.launch(null) },
-                        onTextRequest = { selectText = true },
-                        selectedFile = selectedFile,
-                        selectedFolder = selectedFolder,
-                        selectedText = selectedText,
-                        onDone = {
-                            if (settings.vibration()) {
-                                vibrator.oneShot()
-                            }
-                        },
-                        onError = {
-                            if (settings.vibration()) {
-                                vibrator.oneShot()
-                            }
-                        },
-                        onCopy = {
-                            clipboard.copy(it)
-                        },
-                    )
-
-                    if (selectText) {
-                        HashCheckerXTextInputDialog(
-                            initialText = if (selectedText.isNullOrEmpty()) "" else selectedText!!,
-                            onConfirm = { text ->
-                                selectedText = text
-                                selectText = false
-
-                                selectedFile = null
-                                selectedFolder = null
+                            onError = {
+                                if (settingsWrapper.useVibration()) {
+                                    vibrator.oneShot()
+                                }
                             },
-                            onDismiss = { selectText = false },
+                            onCopy = {
+                                clipboard.copy(it)
+                            },
                         )
+
+                        if (selectText) {
+                            HashCheckerXTextInputDialog(
+                                initialText = if (selectedText.isNullOrEmpty()) "" else selectedText!!,
+                                onConfirm = { text ->
+                                    selectedText = text
+                                    selectText = false
+
+                                    selectedFile = null
+                                    selectedFolder = null
+                                },
+                                onDismiss = { selectText = false },
+                            )
+                        }
                     }
                 }
             }

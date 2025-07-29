@@ -16,9 +16,9 @@ import xyz.fartem.hashcheckerx.R
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
-import xyz.fartem.hashcheckerx.settings.api.SettingsWrapper
 import xyz.fartem.hashcheckerx.settings.ui.SettingsView
 import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModel
+import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,41 +26,39 @@ class SettingsActivity : ComponentActivity() {
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
-    @Inject
-    lateinit var settings: SettingsWrapper
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
-            HashCheckerXTheme(dynamicColor = settings.adaptiveTheme()) {
-                Scaffold(
-                    topBar = {
-                        HashCheckerXTopBar(
-                            title = stringResource(R.string.settings),
-                            navigationIcon = {
-                                IconButton(onClick = { finish() }) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                        contentDescription = "Localized description",
-                                    )
-                                }
-                            },
+            SettingsWrapperView(settingsRepository) { settingsWrapper ->
+                HashCheckerXTheme(dynamicColor = settingsWrapper.useAdaptiveTheme()) {
+                    Scaffold(
+                        topBar = {
+                            HashCheckerXTopBar(
+                                title = stringResource(R.string.settings),
+                                navigationIcon = {
+                                    IconButton(onClick = { finish() }) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                            contentDescription = "Localized description",
+                                        )
+                                    }
+                                },
+                            )
+                        },
+                    ) { paddingValues ->
+                        SettingsView(
+                            viewModel = SettingsViewModel(
+                                settingsRepository = settingsRepository,
+                                privacyPolicy = "",
+                                author = "fartem",
+                                sourceCode = BuildConfig.URL_SOURCE_CODE,
+                                version = BuildConfig.VERSION_NAME,
+                            ),
+                            paddingValues = paddingValues,
                         )
-                    },
-                ) { paddingValues ->
-                    SettingsView(
-                        viewModel = SettingsViewModel(
-                            settingsRepository = settingsRepository,
-                            stringResourcesProvider = { getString(it) },
-                            privacyPolicy = "",
-                            author = "fartem",
-                            sourceCode = BuildConfig.URL_SOURCE_CODE,
-                            version = BuildConfig.VERSION_NAME,
-                        ),
-                        paddingValues = paddingValues,
-                    )
+                    }
                 }
             }
         }
