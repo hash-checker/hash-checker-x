@@ -71,6 +71,12 @@ class HashGeneratorViewModel(
         }
     }
 
+    fun onGeneratedHashChanged(newHash: String) {
+        _state.update {
+            it.copy(generatedHash = newHash)
+        }
+    }
+
     fun onHashSourceSelected(source: HashSource) {
         _state.update {
             it.copy(hashSource = source)

@@ -18,8 +18,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
+import xyz.fartem.hashcheckerx.core.clipboard.impl.SystemClipboard
 import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLoggerImpl
-import xyz.fartem.hashcheckerx.core.vibrator.Vibrator
+import xyz.fartem.hashcheckerx.core.vibrator.api.Vibrator
+import xyz.fartem.hashcheckerx.core.vibrator.impl.SystemVibrator
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextInputDialog
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
@@ -58,7 +61,9 @@ class MainActivity : ComponentActivity() {
         val hashGenerator = JdkHashGenerator()
         hashGenerator.setHashType(HashType.MD5)
 
-        val vibrator = Vibrator(this)
+        val vibrator: Vibrator = SystemVibrator(this)
+
+        val clipboard: Clipboard = SystemClipboard(this, getString(R.string.app_name))
 
         val settings = SharedPreferencesSettingsWrapper(
             sharedPreferencesSettingsRepository = SharedPreferencesSettingsRepository(
@@ -126,6 +131,9 @@ class MainActivity : ComponentActivity() {
                             if (settings.vibration()) {
                                 vibrator.oneShot()
                             }
+                        },
+                        onCopy = {
+                            clipboard.copy(it)
                         },
                     )
 

@@ -1,24 +1,18 @@
-package xyz.fartem.hashcheckerx.core.clipboard
+package xyz.fartem.hashcheckerx.core.clipboard.impl
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
 
-class Clipboard(
+class SystemClipboard(
     context: Context,
-    private val text: String,
     private val appName: String,
-) {
+) : Clipboard() {
 
     private val clipboard: ClipboardManager? = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
 
-    fun copy() {
+    override fun copy(text: String) {
         clipboard?.setPrimaryClip(ClipData.newPlainText(appName, text))
-    }
-
-    private fun clear() {
-        val clipData = ClipData.newPlainText(appName, "")
-
-        clipboard?.setPrimaryClip(clipData)
     }
 }

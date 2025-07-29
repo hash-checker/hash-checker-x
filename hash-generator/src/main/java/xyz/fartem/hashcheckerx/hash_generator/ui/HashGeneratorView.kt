@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLoggerImpl
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXBottomSheet
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXButton
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXHint
@@ -61,6 +62,7 @@ fun HashGeneratorView(
     selectedText: String?,
     onDone: () -> Unit,
     onError: () -> Unit,
+    onCopy: (String) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -194,23 +196,27 @@ fun HashGeneratorView(
             HashCheckerXSpacer8H()
 
             HashCheckerXTextField(
-                value = when (viewCase) {
+                text = when (viewCase) {
                     HashGeneratorViewCase.UPPER -> state.customHash.uppercase()
                     else -> state.customHash
                 },
                 label = stringResource(R.string.hash_generator_custom_hash),
                 onValueChange = viewModel::onCustomHashChange,
+                onCopy = { onCopy.invoke(state.customHash) },
+                onClear = { viewModel.onCustomHashChange("") },
             )
 
             HashCheckerXSpacer4H()
 
             HashCheckerXTextField(
-                value = when (viewCase) {
+                text = when (viewCase) {
                     HashGeneratorViewCase.UPPER -> state.generatedHash.uppercase()
                     else -> state.generatedHash
                 },
                 label = stringResource(R.string.hash_generator_generator_hash),
-                onValueChange = {},
+                onValueChange = viewModel::onGeneratedHashChanged,
+                onCopy = { onCopy.invoke(state.generatedHash) },
+                onClear = { viewModel.onGeneratedHashChanged("")},
             )
 
             HashCheckerXSpacer32H()
@@ -375,6 +381,7 @@ fun PreviewHashGeneratorView() {
                 viewModel = HashGeneratorViewModel(
                     hashGenerator = JdkHashGenerator(),
                     hashComparator = JdkHashComparator(),
+                    logger = OrhanObutLoggerImpl(),
                     defaultHashType = HashType.MD5,
                 ),
                 viewCase = HashGeneratorViewCase.LOWER,
@@ -387,6 +394,7 @@ fun PreviewHashGeneratorView() {
                 selectedText = null,
                 onDone = {},
                 onError = {},
+                onCopy = {},
             )
         }
     }

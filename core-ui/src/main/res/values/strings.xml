@@ -4,4 +4,6 @@
     <string name="ok">OK</string>
     <string name="dialog_title_enter_text">Enter text</string>
     <string name="text_progress_indicator">Operation in progress…</string>
+    <string name="clear">Clear</string>
+    <string name="copy">Copy</string>
 </resources>
