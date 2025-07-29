@@ -12,12 +12,10 @@
     <string name="hash_generator_action_compare">Compare</string>
     <string name="hash_generator_error">Something went wrong. Please, try again later</string>
     <string name="hash_comparator_error">Something went wrong. Please, try again later</string>
-    <string name="hash_generator_empty_text">You should enter any text before generate hash from it</string>
     <string name="hash_generator_custom_hash_empty">Custom hash field are empty!</string>
     <string name="hash_generator_generated_hash_empty">Generated hash field are empty!</string>
     <string name="hash_generator_equals">Equals!</string>
     <string name="hash_generator_different">Different!</string>
-    <string name="hash_generator_file_manager_error">Failed to open system file manager</string>
     <string name="hash_generator_no_file">You should choose a file before generate a hash</string>
     <string name="hash_generator_no_folder">You should choose a folder before generate hash from it</string>
 </resources>

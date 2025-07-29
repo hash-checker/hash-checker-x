@@ -23,7 +23,7 @@ class SharedPreferencesSettingsRepository(
         }
     }
 
-    override fun setBooleanValue(settingsEntry: SettingsEntry, value: Boolean, ) {
+    override fun setBooleanValue(settingsEntry: SettingsEntry, value: Boolean) {
         when (settingsEntry) {
             SettingsEntry.UPPER_CASE,
             SettingsEntry.ADAPTIVE_THEME,
