@@ -1,6 +1,5 @@
-package xyz.fartem.hashcheckerx
+package xyz.fartem.hashcheckerx.screens.main
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,24 +17,44 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import dagger.hilt.android.AndroidEntryPoint
+import xyz.fartem.hashcheckerx.R
 import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
-import xyz.fartem.hashcheckerx.core.clipboard.impl.SystemClipboard
-import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLoggerImpl
+import xyz.fartem.hashcheckerx.core.logger.api.Logger
 import xyz.fartem.hashcheckerx.core.vibrator.api.Vibrator
-import xyz.fartem.hashcheckerx.core.vibrator.impl.SystemVibrator
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextInputDialog
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
-import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
-import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
+import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
+import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
-import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
-import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsWrapper
+import xyz.fartem.hashcheckerx.screens.settings.SettingsActivity
+import xyz.fartem.hashcheckerx.settings.api.SettingsWrapper
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var hashGenerator: HashGenerator
+
+    @Inject
+    lateinit var hashComparator: HashComparator
+
+    @Inject
+    lateinit var logger: Logger
+
+    @Inject
+    lateinit var vibrator: Vibrator
+
+    @Inject
+    lateinit var clipboard: Clipboard
+
+    @Inject
+    lateinit var settings: SettingsWrapper
+
     private var selectedFile by mutableStateOf<Uri?>(null)
     private val selectFile = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         selectedFile = uri
@@ -57,25 +76,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val hashGenerator = JdkHashGenerator()
-        hashGenerator.setHashType(HashType.MD5)
-
-        val vibrator: Vibrator = SystemVibrator(this)
-
-        val clipboard: Clipboard = SystemClipboard(this, getString(R.string.app_name))
-
-        val settings = SharedPreferencesSettingsWrapper(
-            sharedPreferencesSettingsRepository = SharedPreferencesSettingsRepository(
-                getSharedPreferences(
-                    BuildConfig.APPLICATION_ID,
-                    Context.MODE_PRIVATE
-                ),
-            ),
-            stringResourceProvider = {
-                getString(it)
-            },
-        )
 
         setContent {
             var selectText by remember { mutableStateOf(false) }
@@ -110,8 +110,8 @@ class MainActivity : ComponentActivity() {
                     HashGeneratorView(
                         viewModel = HashGeneratorViewModel(
                             hashGenerator = hashGenerator,
-                            hashComparator = JdkHashComparator(),
-                            logger = OrhanObutLoggerImpl(),
+                            hashComparator = hashComparator,
+                            logger = logger,
                             defaultHashType = HashType.MD5,
                         ),
                         viewCase = case,

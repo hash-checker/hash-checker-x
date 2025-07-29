@@ -4,8 +4,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
+import javax.inject.Inject
 
-class SystemClipboard(
+class SystemClipboard @Inject constructor(
     context: Context,
     private val appName: String,
 ) : Clipboard() {

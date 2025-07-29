@@ -6,22 +6,23 @@ import android.provider.DocumentsContract
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import java.io.InputStream
+import javax.inject.Inject
 
-class JdkHashGenerator : HashGenerator() {
-    private var jdkHashCalculatorDigest: JdkHashGeneratorDigest? = null
+class JdkHashGenerator @Inject constructor(defaultHashType: HashType) : HashGenerator() {
+    private var jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(defaultHashType)
 
     override fun setHashType(hashType: HashType) {
         jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(hashType)
     }
 
-    override fun fromText(text: String): String? {
+    override fun fromText(text: String): String {
         val bytes: ByteArray = text.toByteArray()
-        jdkHashCalculatorDigest?.update(bytes)
+        jdkHashCalculatorDigest.update(bytes)
 
-        return jdkHashCalculatorDigest?.result()
+        return jdkHashCalculatorDigest.result()
     }
 
-    override fun fromFile(context: Context, path: Uri): String? {
+    override fun fromFile(context: Context, path: Uri): String {
         val fileStream: InputStream? = inputStreamFromUri(context, path)
 
         if (fileStream != null) {
@@ -31,11 +32,11 @@ class JdkHashGenerator : HashGenerator() {
             do {
                 read = fileStream.read(buffer)
                 if (read > 0) {
-                    jdkHashCalculatorDigest?.update(buffer, read)
+                    jdkHashCalculatorDigest.update(buffer, read)
                 }
             } while (read != -1)
 
-            return jdkHashCalculatorDigest?.result()
+            return jdkHashCalculatorDigest.result()
         }
 
         throw Exception("Can't generate hash from file")
@@ -45,7 +46,7 @@ class JdkHashGenerator : HashGenerator() {
         return context.contentResolver.openInputStream(path)
     }
 
-    override fun fromFolder(context: Context, path: Uri): String? {
+    override fun fromFolder(context: Context, path: Uri): String {
         val folderStream = inputStreamsFormFolder(context, path)
 
         for (stream in folderStream) {
@@ -55,12 +56,12 @@ class JdkHashGenerator : HashGenerator() {
             do {
                 read = stream.read(buffer)
                 if (read > 0) {
-                    jdkHashCalculatorDigest?.update(buffer, read)
+                    jdkHashCalculatorDigest.update(buffer, read)
                 }
             } while (read != -1)
         }
 
-        return jdkHashCalculatorDigest?.result()
+        return jdkHashCalculatorDigest.result()
     }
 
     private fun inputStreamsFormFolder(context: Context, folderUri: Uri): List<InputStream> {

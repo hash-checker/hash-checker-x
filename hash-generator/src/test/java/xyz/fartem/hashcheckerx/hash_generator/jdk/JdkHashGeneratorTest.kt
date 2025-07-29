@@ -17,10 +17,7 @@ class JdkHashGeneratorTest {
     }
 
     private fun getJdkHashCalculatorFor(hashType: HashType): JdkHashGenerator {
-        val jdkHashCalculator = JdkHashGenerator()
-        jdkHashCalculator.setHashType(hashType)
-
-        return jdkHashCalculator
+        return JdkHashGenerator(hashType)
     }
 
     @Test

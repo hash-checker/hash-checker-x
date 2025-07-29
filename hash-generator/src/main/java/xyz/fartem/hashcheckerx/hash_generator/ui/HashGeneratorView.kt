@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLoggerImpl
+import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLogger
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXBottomSheet
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXButton
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXHint
@@ -379,9 +379,11 @@ fun PreviewHashGeneratorView() {
         Scaffold { innerPadding ->
             HashGeneratorView(
                 viewModel = HashGeneratorViewModel(
-                    hashGenerator = JdkHashGenerator(),
+                    hashGenerator = JdkHashGenerator(
+                        defaultHashType = HashType.MD5,
+                    ),
                     hashComparator = JdkHashComparator(),
-                    logger = OrhanObutLoggerImpl(),
+                    logger = OrhanObutLogger(),
                     defaultHashType = HashType.MD5,
                 ),
                 viewCase = HashGeneratorViewCase.LOWER,

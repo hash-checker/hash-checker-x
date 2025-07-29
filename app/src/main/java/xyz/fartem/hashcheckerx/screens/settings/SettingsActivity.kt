@@ -1,7 +1,5 @@
-package xyz.fartem.hashcheckerx
+package xyz.fartem.hashcheckerx.screens.settings
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,35 +10,31 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.res.stringResource
-import androidx.core.net.toUri
+import dagger.hilt.android.AndroidEntryPoint
+import xyz.fartem.hashcheckerx.BuildConfig
+import xyz.fartem.hashcheckerx.R
 import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
-import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
-import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsWrapper
+import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
+import xyz.fartem.hashcheckerx.settings.api.SettingsWrapper
 import xyz.fartem.hashcheckerx.settings.ui.SettingsView
 import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModel
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsActivity : ComponentActivity() {
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
+    @Inject
+    lateinit var settings: SettingsWrapper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val settings = SharedPreferencesSettingsWrapper(
-            sharedPreferencesSettingsRepository = SharedPreferencesSettingsRepository(
-                getSharedPreferences(
-                    BuildConfig.APPLICATION_ID,
-                    Context.MODE_PRIVATE
-                )
-            ),
-            stringResourceProvider = {
-                getString(it)
-            },
-        )
-
         setContent {
-            HashCheckerXTheme(
-                dynamicColor = settings.adaptiveTheme(),
-            ) {
+            HashCheckerXTheme(dynamicColor = settings.adaptiveTheme()) {
                 Scaffold(
                     topBar = {
                         HashCheckerXTopBar(
@@ -58,15 +52,8 @@ class SettingsActivity : ComponentActivity() {
                 ) { paddingValues ->
                     SettingsView(
                         viewModel = SettingsViewModel(
-                            settingsRepository = SharedPreferencesSettingsRepository(
-                                getSharedPreferences(
-                                    BuildConfig.APPLICATION_ID,
-                                    Context.MODE_PRIVATE
-                                ),
-                            ),
-                            stringResourceProvider = {
-                                getString(it)
-                            },
+                            settingsRepository = settingsRepository,
+                            stringResourcesProvider = { getString(it) },
                             privacyPolicy = "",
                             author = "fartem",
                             sourceCode = BuildConfig.URL_SOURCE_CODE,

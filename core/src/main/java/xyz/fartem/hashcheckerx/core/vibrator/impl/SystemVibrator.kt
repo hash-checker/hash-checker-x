@@ -4,8 +4,9 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import xyz.fartem.hashcheckerx.core.vibrator.api.Vibrator
+import javax.inject.Inject
 
-class SystemVibrator(context: Context) : Vibrator() {
+class SystemVibrator @Inject constructor(context: Context) : Vibrator() {
     private val vibrator: android.os.Vibrator? =
         context.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator?
 

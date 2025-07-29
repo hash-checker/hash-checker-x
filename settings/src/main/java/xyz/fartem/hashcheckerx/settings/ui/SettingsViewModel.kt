@@ -18,7 +18,7 @@ data class SettingsViewModelState(
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
-    private val stringResourceProvider: (Int) -> String,
+    private val stringResourcesProvider: (Int) -> String,
     privacyPolicy: String,
     author: String,
     sourceCode: String,
@@ -31,7 +31,7 @@ class SettingsViewModel(
                     Pair(
                         SettingsEntry.UPPER_CASE,
                         settingsRepository.getBooleanValue(
-                            stringResourceProvider(R.string.key_upper_case),
+                            stringResourcesProvider(R.string.key_upper_case),
                             false,
                         ),
                     ),
@@ -40,14 +40,14 @@ class SettingsViewModel(
                     Pair(
                         SettingsEntry.ADAPTIVE_THEME,
                         settingsRepository.getBooleanValue(
-                            stringResourceProvider(R.string.key_adaptive_theme),
+                            stringResourcesProvider(R.string.key_adaptive_theme),
                             true,
                         ),
                     ),
                     Pair(
                         SettingsEntry.VIBRATION,
                         settingsRepository.getBooleanValue(
-                            stringResourceProvider(R.string.key_vibration),
+                            stringResourcesProvider(R.string.key_vibration),
                             true,
                         ),
                     ),
@@ -73,21 +73,21 @@ class SettingsViewModel(
         when (settingsEntry) {
             SettingsEntry.UPPER_CASE -> {
                 settingsRepository.setBooleanValue(
-                    stringResourceProvider(R.string.key_upper_case),
+                    stringResourcesProvider(R.string.key_upper_case),
                     value as Boolean
                 )
             }
 
             SettingsEntry.ADAPTIVE_THEME -> {
                 settingsRepository.setBooleanValue(
-                    stringResourceProvider(R.string.key_adaptive_theme),
+                    stringResourcesProvider(R.string.key_adaptive_theme),
                     value as Boolean
                 )
             }
 
             SettingsEntry.VIBRATION -> {
                 settingsRepository.setBooleanValue(
-                    stringResourceProvider(R.string.key_vibration),
+                    stringResourcesProvider(R.string.key_vibration),
                     value as Boolean
                 )
             }
