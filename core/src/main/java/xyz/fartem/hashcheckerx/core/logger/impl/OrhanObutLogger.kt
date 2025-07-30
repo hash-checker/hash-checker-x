@@ -1,9 +1,8 @@
 package xyz.fartem.hashcheckerx.core.logger.impl
 
 import xyz.fartem.hashcheckerx.core.logger.api.Logger
-import javax.inject.Inject
 
-class OrhanObutLogger @Inject constructor() : Logger() {
+class OrhanObutLogger : Logger() {
     override fun debug(message: String) {
         com.orhanobut.logger.Logger.d(message)
     }

@@ -6,9 +6,8 @@ import android.provider.DocumentsContract
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import java.io.InputStream
-import javax.inject.Inject
 
-class JdkHashGenerator @Inject constructor(defaultHashType: HashType) : HashGenerator() {
+class JdkHashGenerator(defaultHashType: HashType) : HashGenerator() {
     private var jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(defaultHashType)
 
     override fun setHashType(hashType: HashType) {

@@ -2,9 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
-    
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -49,9 +46,6 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":core-ui"))
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
