@@ -3,6 +3,7 @@ package xyz.fartem.hashcheckerx.hash_generator.ui
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -215,5 +216,26 @@ class HashGeneratorViewModel(
                 _events.emit(HashGeneratorEvent.Comparison(false))
             }
         }
+    }
+}
+
+class HashGeneratorViewModelFactory(
+    private val hashGenerator: HashGenerator,
+    private val hashComparator: HashComparator,
+    private val logger: Logger,
+    private val defaultHashType: HashType,
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(HashGeneratorViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return HashGeneratorViewModel(
+                hashGenerator = hashGenerator,
+                hashComparator = hashComparator,
+                logger = logger,
+                defaultHashType = defaultHashType,
+            ) as T
+        }
+
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

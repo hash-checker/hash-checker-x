@@ -1,6 +1,7 @@
 package xyz.fartem.hashcheckerx.settings.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
@@ -92,5 +93,28 @@ class SettingsViewModel(
             SettingsEntry.SOURCE_CODE -> {}
             SettingsEntry.VERSION -> {}
         }
+    }
+}
+
+class SettingsViewModelFactory(
+    private val settingsRepository: SettingsRepository,
+    private val privacyPolicy: String,
+    private val author: String,
+    private val sourceCode: String,
+    private val version: String,
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SettingsViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return SettingsViewModel(
+                settingsRepository = settingsRepository,
+                privacyPolicy = privacyPolicy,
+                author = author,
+                sourceCode = sourceCode,
+                version = version,
+            ) as T
+        }
+
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

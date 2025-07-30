@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +45,8 @@ fun SettingsView(
                     entries.forEach { entry ->
                         when (entry.first) {
                             SettingsEntry.UPPER_CASE -> {
+                                var value by remember { mutableStateOf(entry.second as Boolean) }
+
                                 SwitchPreference(
                                     title = {
                                         Text(stringResource(R.string.title_upper_case))
@@ -48,14 +54,18 @@ fun SettingsView(
                                     summary = {
                                         Text(stringResource(R.string.description_upper_case))
                                     },
-                                    value = entry.second as Boolean,
+                                    value = value,
                                     onValueChange = { upperCase ->
                                         viewModel.updateSettingsEntry(entry.first, upperCase)
+
+                                        value = upperCase
                                     },
                                 )
                             }
 
                             SettingsEntry.ADAPTIVE_THEME -> {
+                                var value by remember { mutableStateOf(entry.second as Boolean) }
+
                                 SwitchPreference(
                                     title = {
                                         Text(stringResource(R.string.title_adaptive_theme))
@@ -63,14 +73,18 @@ fun SettingsView(
                                     summary = {
                                         Text(stringResource(R.string.description_adaptive_theme))
                                     },
-                                    value = entry.second as Boolean,
-                                    onValueChange = { upperCase ->
-                                        viewModel.updateSettingsEntry(entry.first, upperCase)
+                                    value = value,
+                                    onValueChange = { adaptiveTheme ->
+                                        viewModel.updateSettingsEntry(entry.first, adaptiveTheme)
+
+                                        value = adaptiveTheme
                                     },
                                 )
                             }
 
                             SettingsEntry.VIBRATION -> {
+                                var value by remember { mutableStateOf(entry.second as Boolean) }
+
                                 SwitchPreference(
                                     title = {
                                         Text(stringResource(R.string.title_vibration))
@@ -78,9 +92,11 @@ fun SettingsView(
                                     summary = {
                                         Text(stringResource(R.string.description_vibration))
                                     },
-                                    value = entry.second as Boolean,
-                                    onValueChange = { upperCase ->
-                                        viewModel.updateSettingsEntry(entry.first, upperCase)
+                                    value = value,
+                                    onValueChange = { vibration ->
+                                        viewModel.updateSettingsEntry(entry.first, vibration)
+
+                                        value = vibration
                                     },
                                 )
                             }

@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
@@ -31,6 +32,7 @@ import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
+import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModelFactory
 import xyz.fartem.hashcheckerx.screens.settings.SettingsActivity
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
@@ -55,6 +57,15 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
+
+    private val hashGeneratorViewModel: HashGeneratorViewModel by viewModels {
+        HashGeneratorViewModelFactory(
+            hashGenerator = hashGenerator,
+            hashComparator = hashComparator,
+            logger = logger,
+            defaultHashType = HashType.MD5,
+        )
+    }
 
     private var selectedFile by mutableStateOf<Uri?>(null)
     private val selectFile = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -113,12 +124,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         HashGeneratorView(
-                            viewModel = HashGeneratorViewModel(
-                                hashGenerator = hashGenerator,
-                                hashComparator = hashComparator,
-                                logger = logger,
-                                defaultHashType = HashType.MD5,
-                            ),
+                            viewModel = hashGeneratorViewModel,
                             viewCase = case,
                             innerPadding = innerPadding,
                             onFileRequest = { selectFile.launch("*/*") },

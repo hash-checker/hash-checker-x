@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
@@ -18,6 +19,7 @@ import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.ui.SettingsView
 import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModel
+import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModelFactory
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
 import javax.inject.Inject
 
@@ -25,6 +27,16 @@ import javax.inject.Inject
 class SettingsActivity : ComponentActivity() {
     @Inject
     lateinit var settingsRepository: SettingsRepository
+
+    private val settingsViewModel: SettingsViewModel by viewModels {
+        SettingsViewModelFactory(
+            settingsRepository = settingsRepository,
+            privacyPolicy = "",
+            author = "fartem",
+            sourceCode = BuildConfig.URL_SOURCE_CODE,
+            version = BuildConfig.VERSION_NAME,
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +61,7 @@ class SettingsActivity : ComponentActivity() {
                         },
                     ) { paddingValues ->
                         SettingsView(
-                            viewModel = SettingsViewModel(
-                                settingsRepository = settingsRepository,
-                                privacyPolicy = "",
-                                author = "fartem",
-                                sourceCode = BuildConfig.URL_SOURCE_CODE,
-                                version = BuildConfig.VERSION_NAME,
-                            ),
+                            viewModel = settingsViewModel,
                             paddingValues = paddingValues,
                         )
                     }
