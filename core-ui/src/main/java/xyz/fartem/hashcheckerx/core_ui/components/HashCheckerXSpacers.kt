@@ -24,3 +24,6 @@ fun HashCheckerXSpacer64H() = Spacer(modifier = Modifier.height(64.dp))
 
 @Composable
 fun HashCheckerXSpacer16W() = Spacer(modifier = Modifier.width(16.dp))
+
+@Composable
+fun HashCheckerXSpacer40W() = Spacer(modifier = Modifier.width(40.dp))

@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.android)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(project(":core"))
     implementation(project(":core-ui"))

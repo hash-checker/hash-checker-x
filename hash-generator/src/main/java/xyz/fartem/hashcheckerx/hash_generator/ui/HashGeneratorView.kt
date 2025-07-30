@@ -7,6 +7,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.AttachFile
+import androidx.compose.material.icons.rounded.Autorenew
+import androidx.compose.material.icons.rounded.Compare
+import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -178,8 +185,13 @@ fun HashGeneratorView(
                 ) {
                     Column {
                         HashType.entries.map {
-                            HashCheckerXListItem(it.translatedName()) {
+                            HashCheckerXListItem(
+                                it.translatedName(),
+                                icon = if (it == state.hashType) Icons.AutoMirrored.Rounded.ArrowForward else null,
+                                iconDescription = "${stringResource(R.string.description_hash_type)} = ${it.translatedName()}",
+                            ) {
                                 showTypeSelector = false
+
                                 viewModel.onHashTypeSelected(it)
                             }
                         }
@@ -216,7 +228,7 @@ fun HashGeneratorView(
                 label = stringResource(R.string.hash_generator_generator_hash),
                 onValueChange = viewModel::onGeneratedHashChanged,
                 onCopy = { onCopy.invoke(state.generatedHash) },
-                onClear = { viewModel.onGeneratedHashChanged("")},
+                onClear = { viewModel.onGeneratedHashChanged("") },
             )
 
             HashCheckerXSpacer32H()
@@ -230,7 +242,15 @@ fun HashGeneratorView(
                     HashCheckerXBottomSheet({ showSourceSelector = false }) {
                         Column {
                             HashSource.entries.map {
-                                HashCheckerXListItem(it.translatedName()) {
+                                HashCheckerXListItem(
+                                    it.translatedName(),
+                                    icon = when (it) {
+                                        HashSource.FILE -> Icons.Rounded.AttachFile
+                                        HashSource.FOLDER -> Icons.Rounded.Folder
+                                        HashSource.TEXT -> Icons.Rounded.TextFormat
+                                    },
+                                    iconDescription = "${stringResource(R.string.description_hash_source)} = ${it.translatedName()}"
+                                ) {
                                     viewModel.onHashSourceSelected(it)
 
                                     when (it) {
@@ -257,18 +277,25 @@ fun HashGeneratorView(
                 if (showActionSelector) {
                     HashCheckerXBottomSheet({ showActionSelector = false }) {
                         Column {
-                            HashAction.entries.map { action ->
-                                HashCheckerXListItem(action.translatedName()) {
+                            HashAction.entries.map {
+                                HashCheckerXListItem(
+                                    it.translatedName(),
+                                    icon = when (it) {
+                                        HashAction.GENERATE -> Icons.Rounded.Autorenew
+                                        HashAction.COMPARE -> Icons.Rounded.Compare
+                                    },
+                                    iconDescription = "${stringResource(R.string.description_hash_action)} = ${it.translatedName()}"
+                                ) {
                                     showActionSelector = false
 
-                                    when (action) {
+                                    when (it) {
                                         HashAction.GENERATE -> {
                                             when (state.hashSource) {
                                                 HashSource.FILE -> {
                                                     if (selectedFile == null) {
                                                         showHashCheckerXToast(
                                                             context,
-                                                            stringResource(R.string.hash_generator_no_file)
+                                                            context.getString(R.string.hash_generator_no_file)
                                                         )
                                                     } else {
                                                         viewModel.generateHashFromFile(
@@ -282,7 +309,7 @@ fun HashGeneratorView(
                                                     if (selectedFolder == null) {
                                                         showHashCheckerXToast(
                                                             context,
-                                                            stringResource(R.string.hash_generator_no_folder)
+                                                            context.getString(R.string.hash_generator_no_folder)
                                                         )
                                                     } else {
                                                         viewModel.generateHashFromFolder(
@@ -296,7 +323,7 @@ fun HashGeneratorView(
                                                     if (selectedText == null) {
                                                         showHashCheckerXToast(
                                                             context,
-                                                            stringResource(R.string.hash_generator_no_folder)
+                                                            context.getString(R.string.hash_generator_no_folder)
                                                         )
                                                     } else {
                                                         viewModel.generateHashFromText(
