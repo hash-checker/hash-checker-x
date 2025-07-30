@@ -3,10 +3,11 @@ package xyz.fartem.hashcheckerx.core_ui.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ fun HashCheckerXTextField(
                     Icon(
                         imageVector = Icons.Rounded.Clear,
                         contentDescription = stringResource(R.string.clear),
+                        tint = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
@@ -49,8 +51,9 @@ fun HashCheckerXTextField(
                     },
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Add,
+                        imageVector = Icons.Rounded.ContentCopy,
                         contentDescription = stringResource(R.string.copy),
+                        tint = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
