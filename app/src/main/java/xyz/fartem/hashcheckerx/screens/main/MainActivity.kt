@@ -23,8 +23,8 @@ import xyz.fartem.hashcheckerx.R
 import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
 import xyz.fartem.hashcheckerx.core.logger.api.Logger
 import xyz.fartem.hashcheckerx.core.vibrator.api.Vibrator
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextInputDialog
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
+import xyz.fartem.hashcheckerx.core_ui.components.dialogs.HashCheckerXTextInputDialog
+import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator

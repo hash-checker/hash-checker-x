@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.core_ui.components
+package xyz.fartem.hashcheckerx.core_ui.components.screens
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize

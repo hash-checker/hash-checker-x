@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.core_ui.components
+package xyz.fartem.hashcheckerx.core_ui.components.text
 
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable

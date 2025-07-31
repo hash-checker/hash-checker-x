@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.res.stringResource
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
+import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 
 class PrivacyPolicyActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.core_ui.components
+package xyz.fartem.hashcheckerx.core_ui.components.text
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -17,7 +17,7 @@ import me.zhanghai.compose.preference.Preference
 import me.zhanghai.compose.preference.PreferenceCategory
 import me.zhanghai.compose.preference.ProvidePreferenceLocals
 import me.zhanghai.compose.preference.SwitchPreference
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSurface
+import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXSurface
 import xyz.fartem.hashcheckerx.settings.R
 import xyz.fartem.hashcheckerx.settings.model.SettingsCategory
 import xyz.fartem.hashcheckerx.settings.model.SettingsEntry
@@ -39,7 +39,7 @@ fun SettingsView(
                     PreferenceCategory(
                         title = {
                             Text(category.translatedName())
-                        }
+                        },
                     )
 
                     entries.forEach { entry ->

@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.core_ui.components
+package xyz.fartem.hashcheckerx.core_ui.components.dialogs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import xyz.fartem.hashcheckerx.core_ui.R
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer16H
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer32H
 
 @Composable
 fun HashCheckerXProgressIndicator() {

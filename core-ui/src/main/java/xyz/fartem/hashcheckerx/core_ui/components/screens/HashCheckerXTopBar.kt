@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.core_ui.components
+package xyz.fartem.hashcheckerx.core_ui.components.screens
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,7 +19,9 @@ fun HashCheckerXTopBar(
         title = { Text(title) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         navigationIcon = navigationIcon,
         actions = actions,

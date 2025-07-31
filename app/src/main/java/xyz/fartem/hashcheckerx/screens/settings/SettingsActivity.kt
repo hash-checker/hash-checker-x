@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.fartem.hashcheckerx.BuildConfig
 import xyz.fartem.hashcheckerx.R
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTopBar
+import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.ui.SettingsView

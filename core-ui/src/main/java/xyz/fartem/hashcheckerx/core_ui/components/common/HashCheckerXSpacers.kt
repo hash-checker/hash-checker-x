@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.core_ui.components
+package xyz.fartem.hashcheckerx.core_ui.components.common
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

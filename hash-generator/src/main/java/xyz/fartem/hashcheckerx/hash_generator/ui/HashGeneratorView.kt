@@ -33,20 +33,20 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLogger
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXBottomSheet
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXButton
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXHint
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXListItem
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXProgressIndicator
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer16W
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer32H
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer4H
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer64H
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSpacer8H
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXSurface
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextButton
-import xyz.fartem.hashcheckerx.core_ui.components.HashCheckerXTextField
-import xyz.fartem.hashcheckerx.core_ui.components.showHashCheckerXToast
+import xyz.fartem.hashcheckerx.core_ui.components.bottomsheet.HashCheckerXBottomSheet
+import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXButton
+import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXHint
+import xyz.fartem.hashcheckerx.core_ui.components.bottomsheet.HashCheckerXListItem
+import xyz.fartem.hashcheckerx.core_ui.components.dialogs.HashCheckerXProgressIndicator
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer16W
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer32H
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer4H
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer64H
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer8H
+import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXSurface
+import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXTextButton
+import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXTextField
+import xyz.fartem.hashcheckerx.core_ui.components.toasts.showHashCheckerXToast
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.hash_generator.R
 import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
@@ -179,8 +179,7 @@ fun HashGeneratorView(
             }
 
             if (showTypeSelector) {
-                ModalBottomSheet(
-                    sheetState = rememberModalBottomSheetState(),
+                HashCheckerXBottomSheet(
                     onDismissRequest = { showTypeSelector = false },
                 ) {
                     Column {
