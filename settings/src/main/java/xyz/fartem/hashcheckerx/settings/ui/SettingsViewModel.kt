@@ -42,6 +42,9 @@ class SettingsViewModel(
                         ),
                     ),
                 ),
+                SettingsCategory.SUPPORT to listOf(
+                    Pair(SettingsEntry.FEEDBACK, null),
+                ),
                 SettingsCategory.PRIVACY to listOf(
                     Pair(SettingsEntry.PRIVACY_POLICY, null),
                 ),
@@ -73,6 +76,10 @@ class SettingsViewModel(
                     settingsEntry,
                     value as Boolean
                 )
+            }
+
+            SettingsEntry.FEEDBACK -> {
+
             }
 
             SettingsEntry.PRIVACY_POLICY -> {}

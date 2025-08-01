@@ -23,27 +23,27 @@ import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 @InstallIn(ActivityComponent::class)
 object MainActivityModule {
     @Provides
-    fun bindHashGenerator(): HashGenerator {
+    fun provideHashGenerator(): HashGenerator {
         return JdkHashGenerator(HashType.MD5)
     }
 
     @Provides
-    fun bindHashComparator(): HashComparator {
+    fun provideHashComparator(): HashComparator {
         return JdkHashComparator()
     }
 
     @Provides
-    fun bindLogger(): Logger {
+    fun provideLogger(): Logger {
         return OrhanObutLogger()
     }
 
     @Provides
-    fun bindVibrator(@ApplicationContext context: Context): Vibrator {
+    fun provideVibrator(@ApplicationContext context: Context): Vibrator {
         return SystemVibrator(context)
     }
 
     @Provides
-    fun bindClipboard(@ApplicationContext context: Context): Clipboard {
+    fun provideClipboard(@ApplicationContext context: Context): Clipboard {
         return SystemClipboard(context, context.getString(R.string.app_name))
     }
 }

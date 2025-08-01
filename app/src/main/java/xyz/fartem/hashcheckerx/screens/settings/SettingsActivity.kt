@@ -1,5 +1,6 @@
 package xyz.fartem.hashcheckerx.screens.settings
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,7 @@ import xyz.fartem.hashcheckerx.BuildConfig
 import xyz.fartem.hashcheckerx.R
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
+import xyz.fartem.hashcheckerx.screens.feedback.FeedbackActivity
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.ui.SettingsView
 import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModel
@@ -63,6 +65,14 @@ class SettingsActivity : ComponentActivity() {
                         SettingsView(
                             viewModel = settingsViewModel,
                             paddingValues = paddingValues,
+                            onFeedbackRequest = {
+                                startActivity(
+                                    Intent(
+                                        this@SettingsActivity,
+                                        FeedbackActivity::class.java,
+                                    )
+                                )
+                            },
                         )
                     }
                 }

@@ -40,5 +40,11 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.material3.android)
+
+    implementation(project(":core-ui"))
 
 }

@@ -14,4 +14,7 @@
     <string name="title_source_code">Source code</string>
     <string name="description_source_code">GitHub</string>
     <string name="title_version">Version</string>
+    <string name="title_feedback">Feedback</string>
+    <string name="description_feedback">Send feature request or report a bug</string>
+    <string name="category_support">Support</string>
 </resources>

@@ -1,5 +1,7 @@
 package xyz.fartem.hashcheckerx.core_ui.components.buttons
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.FilledTonalButton
@@ -13,11 +15,16 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun HashCheckerXButton(
     title: String,
+    expand: Boolean = false,
     onClick: () -> Unit,
 ) {
     FilledTonalButton(
         onClick = onClick,
-        modifier = Modifier.size(
+        modifier = if (expand)
+            Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+        else Modifier.size(
             width = 120.dp,
             height = 52.dp
         ),

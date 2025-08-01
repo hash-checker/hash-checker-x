@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,11 +28,14 @@ import xyz.fartem.hashcheckerx.settings.model.SettingsEntry
 fun SettingsView(
     viewModel: SettingsViewModel,
     paddingValues: PaddingValues,
+    onFeedbackRequest: () -> Unit,
 ) {
     ProvidePreferenceLocals {
         HashCheckerXSurface(paddingValues) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.Top,
             ) {
                 val state = viewModel.state.collectAsStateWithLifecycle().value
@@ -79,6 +84,18 @@ fun SettingsView(
 
                                         value = vibration
                                     },
+                                )
+                            }
+
+                            SettingsEntry.FEEDBACK -> {
+                                Preference(
+                                    title = {
+                                        Text(stringResource(R.string.title_feedback))
+                                    },
+                                    summary = {
+                                        Text(stringResource(R.string.description_feedback))
+                                    },
+                                    onClick = { onFeedbackRequest.invoke() },
                                 )
                             }
 
@@ -142,6 +159,7 @@ private fun SettingsCategory.translatedName(): String {
     return when (this) {
         SettingsCategory.GENERATOR -> stringResource(R.string.category_generator)
         SettingsCategory.APPLICATION -> stringResource(R.string.category_application)
+        SettingsCategory.SUPPORT -> stringResource(R.string.category_support)
         SettingsCategory.PRIVACY -> stringResource(R.string.category_privacy)
         SettingsCategory.ABOUT -> stringResource(R.string.category_about)
     }

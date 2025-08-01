@@ -98,6 +98,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core-ui"))
     implementation(project(":hash-generator"))
+    implementation(project(":feedback"))
     implementation(project(":settings"))
 
     implementation(libs.hilt.android)
