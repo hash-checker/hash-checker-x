@@ -9,15 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.AttachFile
 import androidx.compose.material.icons.rounded.Autorenew
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,17 +34,17 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLogger
 import xyz.fartem.hashcheckerx.core_ui.components.bottomsheet.HashCheckerXBottomSheet
-import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXButton
-import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXHint
 import xyz.fartem.hashcheckerx.core_ui.components.bottomsheet.HashCheckerXListItem
-import xyz.fartem.hashcheckerx.core_ui.components.dialogs.HashCheckerXProgressIndicator
+import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXButton
+import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXTextButton
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer16W
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer32H
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer4H
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer64H
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer8H
+import xyz.fartem.hashcheckerx.core_ui.components.dialogs.HashCheckerXProgressIndicator
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXSurface
-import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXTextButton
+import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXHint
 import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXTextField
 import xyz.fartem.hashcheckerx.core_ui.components.toasts.showHashCheckerXToast
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
@@ -244,7 +244,7 @@ fun HashGeneratorView(
                                 HashCheckerXListItem(
                                     it.translatedName(),
                                     icon = when (it) {
-                                        HashSource.FILE -> Icons.Rounded.AttachFile
+                                        HashSource.FILE -> Icons.AutoMirrored.Rounded.InsertDriveFile
                                         HashSource.FOLDER -> Icons.Rounded.Folder
                                         HashSource.TEXT -> Icons.Rounded.TextFormat
                                     },

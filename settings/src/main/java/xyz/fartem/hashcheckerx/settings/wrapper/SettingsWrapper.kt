@@ -8,10 +8,6 @@ class SettingsWrapper(private val settingsRepository: SettingsRepository) {
         return settingsRepository.getBooleanValue(SettingsEntry.UPPER_CASE)
     }
 
-    fun useAdaptiveTheme(): Boolean {
-        return settingsRepository.getBooleanValue(SettingsEntry.ADAPTIVE_THEME)
-    }
-
     fun useVibration(): Boolean {
         return settingsRepository.getBooleanValue(SettingsEntry.VIBRATION)
     }

@@ -5,8 +5,6 @@
     <string name="description_upper_case">Use upper case for all fields in Generator</string>
     <string name="category_application">Application</string>
     <string name="title_vibration">Vibration</string>
-    <string name="title_adaptive_theme">Adaptive Theme</string>
-    <string name="description_adaptive_theme">Use system colors in app</string>
     <string name="description_vibration">Vibrate when hash was generated or will receive an error</string>
     <string name="category_privacy">Privacy</string>
     <string name="title_privacy_policy">Privacy Policy</string>

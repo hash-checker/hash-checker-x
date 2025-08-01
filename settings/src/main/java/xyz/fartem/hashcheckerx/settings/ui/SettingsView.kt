@@ -63,25 +63,6 @@ fun SettingsView(
                                 )
                             }
 
-                            SettingsEntry.ADAPTIVE_THEME -> {
-                                var value by remember { mutableStateOf(entry.second as Boolean) }
-
-                                SwitchPreference(
-                                    title = {
-                                        Text(stringResource(R.string.title_adaptive_theme))
-                                    },
-                                    summary = {
-                                        Text(stringResource(R.string.description_adaptive_theme))
-                                    },
-                                    value = value,
-                                    onValueChange = { adaptiveTheme ->
-                                        viewModel.updateSettingsEntry(entry.first, adaptiveTheme)
-
-                                        value = adaptiveTheme
-                                    },
-                                )
-                            }
-
                             SettingsEntry.VIBRATION -> {
                                 var value by remember { mutableStateOf(entry.second as Boolean) }
 

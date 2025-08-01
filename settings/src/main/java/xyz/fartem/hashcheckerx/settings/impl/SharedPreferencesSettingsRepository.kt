@@ -11,7 +11,6 @@ class SharedPreferencesSettingsRepository(
     override fun getBooleanValue(settingsEntry: SettingsEntry): Boolean {
         return when (settingsEntry) {
             SettingsEntry.UPPER_CASE,
-            SettingsEntry.ADAPTIVE_THEME,
             SettingsEntry.VIBRATION -> {
                 sharedPreferences.getBoolean(
                     settingsEntry.key,
@@ -26,7 +25,6 @@ class SharedPreferencesSettingsRepository(
     override fun setBooleanValue(settingsEntry: SettingsEntry, value: Boolean) {
         when (settingsEntry) {
             SettingsEntry.UPPER_CASE,
-            SettingsEntry.ADAPTIVE_THEME,
             SettingsEntry.VIBRATION -> {
                 sharedPreferences.edit { putBoolean(settingsEntry.key, value) }
             }

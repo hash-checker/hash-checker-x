@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
             SettingsWrapperView(settingsRepository) { settingsWrapper ->
                 var selectText by remember { mutableStateOf(false) }
 
-                HashCheckerXTheme(dynamicColor = settingsWrapper.useAdaptiveTheme()) {
+                HashCheckerXTheme {
                     Scaffold(
                         topBar = {
                             HashCheckerXTopBar(

@@ -44,7 +44,7 @@ class SettingsActivity : ComponentActivity() {
 
         setContent {
             SettingsWrapperView(settingsRepository) { settingsWrapper ->
-                HashCheckerXTheme(dynamicColor = settingsWrapper.useAdaptiveTheme()) {
+                HashCheckerXTheme {
                     Scaffold(
                         topBar = {
                             HashCheckerXTopBar(

@@ -36,12 +36,6 @@ class SettingsViewModel(
                 ),
                 SettingsCategory.APPLICATION to listOf(
                     Pair(
-                        SettingsEntry.ADAPTIVE_THEME,
-                        settingsRepository.getBooleanValue(
-                            SettingsEntry.ADAPTIVE_THEME,
-                        ),
-                    ),
-                    Pair(
                         SettingsEntry.VIBRATION,
                         settingsRepository.getBooleanValue(
                             SettingsEntry.VIBRATION,
@@ -68,13 +62,6 @@ class SettingsViewModel(
     fun updateSettingsEntry(settingsEntry: SettingsEntry, value: Any) {
         when (settingsEntry) {
             SettingsEntry.UPPER_CASE -> {
-                settingsRepository.setBooleanValue(
-                    settingsEntry,
-                    value as Boolean
-                )
-            }
-
-            SettingsEntry.ADAPTIVE_THEME -> {
                 settingsRepository.setBooleanValue(
                     settingsEntry,
                     value as Boolean
