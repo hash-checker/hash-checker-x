@@ -29,6 +29,10 @@ fun SettingsView(
     viewModel: SettingsViewModel,
     paddingValues: PaddingValues,
     onFeedbackRequest: () -> Unit,
+    onPrivacyPolicyRequest: () -> Unit,
+    onAuthorRequest: () -> Unit,
+    onSourceCodeRequest: () -> Unit,
+    onVersionRequest: () -> Unit,
 ) {
     ProvidePreferenceLocals {
         HashCheckerXSurface(paddingValues) {
@@ -107,7 +111,7 @@ fun SettingsView(
                                     summary = {
                                         Text(stringResource(R.string.description_privacy))
                                     },
-                                    onClick = {},
+                                    onClick = { onPrivacyPolicyRequest.invoke() },
                                 )
                             }
 
@@ -119,7 +123,7 @@ fun SettingsView(
                                     summary = {
                                         Text(state.author)
                                     },
-                                    onClick = {},
+                                    onClick = { onAuthorRequest.invoke() },
                                 )
                             }
 
@@ -131,7 +135,7 @@ fun SettingsView(
                                     summary = {
                                         Text(stringResource(R.string.description_source_code))
                                     },
-                                    onClick = {},
+                                    onClick = { onSourceCodeRequest.invoke() },
                                 )
                             }
 
@@ -143,7 +147,7 @@ fun SettingsView(
                                     summary = {
                                         Text(state.version)
                                     },
-                                    onClick = {},
+                                    onClick = { onVersionRequest.invoke() },
                                 )
                             }
                         }

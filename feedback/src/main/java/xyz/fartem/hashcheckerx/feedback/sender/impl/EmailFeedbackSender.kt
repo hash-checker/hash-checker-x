@@ -23,14 +23,13 @@ class EmailFeedbackSender(
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
         emailIntent.putExtra(Intent.EXTRA_TEXT, feedback.message)
 
-        val emailChooserIntent = Intent.createChooser(
-            emailIntent,
-            "Send mail..."
-        )
-        emailChooserIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
         try {
-            context.startActivity(emailChooserIntent)
+            context.startActivity(
+                Intent.createChooser(
+                    emailIntent,
+                    "Send mail..."
+                ).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+            )
         } catch (e: ActivityNotFoundException) {
             onError.invoke(e)
         }

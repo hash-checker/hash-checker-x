@@ -1,5 +1,6 @@
 package xyz.fartem.hashcheckerx.screens.settings
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,10 +13,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.res.stringResource
+import androidx.core.net.toUri
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.fartem.hashcheckerx.BuildConfig
 import xyz.fartem.hashcheckerx.R
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
+import xyz.fartem.hashcheckerx.core_ui.components.toasts.showHashCheckerXToast
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.screens.feedback.FeedbackActivity
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
@@ -73,10 +76,39 @@ class SettingsActivity : ComponentActivity() {
                                     )
                                 )
                             },
+                            onPrivacyPolicyRequest = {
+                                tryOpenUrl(this, BuildConfig.URL_PRIVACY_POLICY)
+                            },
+                            onAuthorRequest = {
+                                tryOpenUrl(this, BuildConfig.URL_AUTHOR)
+                            },
+                            onSourceCodeRequest = {
+                                tryOpenUrl(this, BuildConfig.URL_SOURCE_CODE)
+                            },
+                            onVersionRequest = {
+                                tryOpenUrl(this, BuildConfig.URL_RELEASES)
+                            },
                         )
                     }
                 }
             }
+        }
+    }
+
+    private fun tryOpenUrl(context: Context, url: String) {
+        try {
+            val privacyPolicyIntent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+
+            context.startActivity(
+                Intent.createChooser(
+                    privacyPolicyIntent,
+                    "Send mail..."
+                ).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+            )
+        } catch (_: Exception) {
+            showHashCheckerXToast(context, getString(R.string.error_privacy_policy))
         }
     }
 }

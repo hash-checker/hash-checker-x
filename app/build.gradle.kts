@@ -42,6 +42,11 @@ android {
             "URL_RELEASES",
             "\"https://github.com/hash-checker/hash-checker-x/releases/tag/\""
         )
+        buildConfigField(
+            "String",
+            "URL_PRIVACY_POLICY",
+            "\"https://hash-checker.github.io/hash-checker-x-privacy-policy.io/\""
+        )
 
         vectorDrawables {
             useSupportLibrary = true
