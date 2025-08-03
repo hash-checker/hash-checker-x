@@ -5,4 +5,7 @@
     <string name="title_manufacturer">Manufacturer</string>
     <string name="title_model">Model</string>
     <string name="action_send">Send</string>
+    <string name="placeholder_feedback">Request a feature or report a bug</string>
+    <string name="label_feedback">Feedback</string>
+    <string name="description_email_icon">Email icon</string>
 </resources>

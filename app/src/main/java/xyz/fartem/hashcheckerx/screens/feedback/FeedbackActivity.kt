@@ -12,7 +12,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.res.stringResource
 import dagger.hilt.android.AndroidEntryPoint
-import xyz.fartem.hashcheckerx.BuildConfig
 import xyz.fartem.hashcheckerx.R
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
@@ -22,7 +21,6 @@ import xyz.fartem.hashcheckerx.feedback.ui.FeedbackView
 import xyz.fartem.hashcheckerx.feedback.ui.FeedbackViewModel
 import xyz.fartem.hashcheckerx.feedback.ui.FeedbackViewModelFactory
 import javax.inject.Inject
-import kotlin.getValue
 
 @AndroidEntryPoint
 class FeedbackActivity : ComponentActivity() {

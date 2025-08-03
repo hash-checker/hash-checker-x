@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
-import androidx.compose.material.icons.rounded.AttachFile
 import androidx.compose.material.icons.rounded.Autorenew
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Folder
-import androidx.compose.material.icons.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -184,6 +182,7 @@ fun HashGeneratorView(
                 ) {
                     Column {
                         HashType.entries.map {
+                            @Suppress("MaxLineLength")
                             HashCheckerXListItem(
                                 it.translatedName(),
                                 icon = if (it == state.hashType) Icons.AutoMirrored.Rounded.ArrowForward else null,
@@ -241,6 +240,7 @@ fun HashGeneratorView(
                     HashCheckerXBottomSheet({ showSourceSelector = false }) {
                         Column {
                             HashSource.entries.map {
+                                @Suppress("MaxLineLength")
                                 HashCheckerXListItem(
                                     it.translatedName(),
                                     icon = when (it) {
@@ -277,6 +277,7 @@ fun HashGeneratorView(
                     HashCheckerXBottomSheet({ showActionSelector = false }) {
                         Column {
                             HashAction.entries.map {
+                                @Suppress("MaxLineLength")
                                 HashCheckerXListItem(
                                     it.translatedName(),
                                     icon = when (it) {

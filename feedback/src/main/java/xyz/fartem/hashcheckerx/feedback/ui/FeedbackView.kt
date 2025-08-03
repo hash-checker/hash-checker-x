@@ -4,15 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXButton
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer16H
+import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer8H
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXSurface
+import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXInfoText
+import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXTextField
 import xyz.fartem.hashcheckerx.feedback.R
 
 @Composable
@@ -39,78 +42,57 @@ fun FeedbackView(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            Column {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 val state = viewModel.state.collectAsStateWithLifecycle().value
                 val feedback = state.feedback
 
-//        Icon(
-//            painter = painterResource(id = R.drawable.ic_email),
-//            contentDescription = null,
-//            modifier = Modifier.size(48.dp)
-//        )
+                Icon(
+                    imageVector = Icons.Rounded.Email,
+                    contentDescription = stringResource(R.string.description_email_icon),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(256.dp),
+                )
 
-                HashCheckerXSpacer16H()
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Feedback") },
-                    placeholder = { Text("Feedback") },
-                    modifier = Modifier.fillMaxWidth(),
+                HashCheckerXTextField(
+                    text = state.feedback.message,
+                    label = stringResource(R.string.label_feedback),
+                    onValueChange = { viewModel.updateFeedbackMessage(it) },
+                    minLines = 3,
                     maxLines = 10,
-                    singleLine = false
                 )
 
                 HashCheckerXSpacer16H()
 
-                FeedbackInfoItem(
+                HashCheckerXInfoText(
                     title = stringResource(R.string.title_app_version),
                     value = "${feedback.appVersionName} (${feedback.appVersionCode})"
                 )
-                FeedbackInfoItem(
+                HashCheckerXInfoText(
                     title = stringResource(R.string.title_android),
                     value = feedback.osVersion,
                 )
-                FeedbackInfoItem(
+                HashCheckerXInfoText(
                     title = stringResource(R.string.title_manufacturer),
                     value = feedback.manufacturer,
                 )
-                FeedbackInfoItem(
+                HashCheckerXInfoText(
                     title = stringResource(R.string.title_model),
                     value = feedback.model,
                 )
             }
 
-            HashCheckerXButton(
-                stringResource(R.string.action_send),
-                expand = true,
-            ) {
-                viewModel.sendFeedback()
+            Column {
+                HashCheckerXButton(
+                    stringResource(R.string.action_send),
+                    expand = true,
+                ) {
+                    viewModel.sendFeedback()
+                }
+
+                HashCheckerXSpacer8H()
             }
         }
-    }
-}
-
-@Composable
-private fun FeedbackInfoItem(title: String, value: String) {
-    val colorCommonText = MaterialTheme.colorScheme.onSurface
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleSmall,
-            color = colorCommonText
-        )
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            color = colorCommonText
-        )
     }
 }

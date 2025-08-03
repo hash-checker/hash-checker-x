@@ -1,9 +1,9 @@
 package xyz.fartem.hashcheckerx.settings.impl
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.model.SettingsEntry
-import androidx.core.content.edit
 
 class SharedPreferencesSettingsRepository(
     private val sharedPreferences: SharedPreferences,

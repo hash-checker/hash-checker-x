@@ -14,21 +14,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import xyz.fartem.hashcheckerx.core_ui.R
+import kotlin.math.max
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun HashCheckerXTextField(
     text: String,
     label: String,
+    minLines: Int = 1,
+    maxLines: Int = 1,
     onValueChange: (value: String) -> Unit,
-    onClear: () -> Unit,
-    onCopy: () -> Unit,
+    onClear: (() -> Unit)? = null,
+    onCopy: (() -> Unit)? = null,
 ) {
     return OutlinedTextField(
         value = text,
         onValueChange = onValueChange,
         label = { Text(label) },
-        leadingIcon = if (text.isNotEmpty()) {
+        leadingIcon = if (text.isNotEmpty() && onClear != null) {
             {
                 IconButton(
                     onClick = {
@@ -43,7 +46,7 @@ fun HashCheckerXTextField(
                 }
             }
         } else null,
-        trailingIcon = if (text.isNotEmpty()) {
+        trailingIcon = if (text.isNotEmpty() && onCopy != null) {
             {
                 IconButton(
                     onClick = {
@@ -58,7 +61,9 @@ fun HashCheckerXTextField(
                 }
             }
         } else null,
+        minLines = minLines,
+        maxLines = maxLines,
         modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
+        singleLine = max(minLines, maxLines) > 1,
     )
 }
