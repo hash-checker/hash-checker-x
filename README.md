@@ -8,6 +8,9 @@ For more information see [Roadmap](#Roadmap).
 
 # Hash Checker X
 
+[![GitHubActions](https://github.com/hash-checker/hash-checker-x/workflows/Build/badge.svg)](https://github.com/hash-checker/hash-checker-x/actions?query=workflow%3ABuild)
+[![GitHub Downloads](https://img.shields.io/github/downloads/hash-checker/hash-checker-x/total?label=GitHub%20downloads)](https://github.com/hash-checker/hash-checker-x/releases)
+
 Fast and simple application that allows you to generate and compare hashes from files and text.
 
 It is a modern version of [Hash Checker](https://github.com/hash-checker/hash-checker). We are using actual tech stack
