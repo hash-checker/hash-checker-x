@@ -12,8 +12,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -46,6 +44,8 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.keccakj)
 
     implementation(project(":core"))
     implementation(project(":core-ui"))

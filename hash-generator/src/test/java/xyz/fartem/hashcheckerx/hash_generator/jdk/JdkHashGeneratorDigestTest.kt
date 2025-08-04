@@ -1,12 +1,20 @@
 package xyz.fartem.hashcheckerx.hash_generator.jdk
 
+import com.github.aelstad.keccakj.provider.KeccakjProvider
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGeneratorDigest
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
+import java.security.Security
+import kotlin.test.BeforeTest
 
 class JdkHashGeneratorDigestTest {
     private val input = "Test".toByteArray()
+
+    @BeforeTest
+    fun setupSecurity() {
+        Security.addProvider(KeccakjProvider())
+    }
 
     @Test
     fun checkMD5HashDigest() {
