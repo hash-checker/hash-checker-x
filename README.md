@@ -24,7 +24,6 @@ releases.
 - History
 - User data export
 - Multilanguage support
-- 
 
 ## Download
 
