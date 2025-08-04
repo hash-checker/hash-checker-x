@@ -1,5 +1,4 @@
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
@@ -12,20 +11,14 @@ plugins {
 
 android {
     namespace = "xyz.fartem.hashcheckerx"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "xyz.fartem.hashcheckerx"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
-//        versionName = "0.1.0"
-
-        val currentDateTime = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")
-        val formattedDateTime = currentDateTime.format(formatter)
-
-        versionName = formattedDateTime
+        versionName = "1.0.0"
 
         buildConfigField(
             "String",
@@ -63,21 +56,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         buildConfig = true
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+        }
+    }
+
     androidComponents {
         onVariants { variant ->
             variant.outputs.forEach { output ->
