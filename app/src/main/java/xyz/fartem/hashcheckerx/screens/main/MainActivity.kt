@@ -29,6 +29,7 @@ import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
+import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorFieldFormat
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
@@ -85,6 +86,11 @@ class MainActivity : ComponentActivity() {
 
     private var selectedText by mutableStateOf<String?>(null)
 
+    private var viewCase by mutableStateOf(HashGeneratorViewCase.LOWER)
+    private var openSettings = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        recreate()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -101,7 +107,7 @@ class MainActivity : ComponentActivity() {
                                 actions = {
                                     IconButton(
                                         onClick = {
-                                            startActivity(
+                                            openSettings.launch(
                                                 Intent(
                                                     this@MainActivity,
                                                     SettingsActivity::class.java,
@@ -118,14 +124,16 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) { innerPadding ->
-                        val case = when (settingsWrapper.useUpperCase()) {
-                            true -> HashGeneratorViewCase.UPPER
-                            false -> HashGeneratorViewCase.LOWER
-                        }
-
                         HashGeneratorView(
                             viewModel = hashGeneratorViewModel,
-                            viewCase = case,
+                            viewCase = when (settingsWrapper.useUpperCase()) {
+                                true -> HashGeneratorViewCase.UPPER
+                                false -> HashGeneratorViewCase.LOWER
+                            },
+                            fieldFormat = when (settingsWrapper.useExpandedHashFields()) {
+                                true -> HashGeneratorFieldFormat.EXPANDED
+                                false -> HashGeneratorFieldFormat.SHORT
+                            },
                             innerPadding = innerPadding,
                             onFileRequest = { selectFile.launch("*/*") },
                             onFolderRequest = { selectFolder.launch(null) },

@@ -17,4 +17,6 @@
     <string name="title_feedback">Feedback</string>
     <string name="description_feedback">Send feature request or report a bug</string>
     <string name="category_support">Support</string>
+    <string name="title_expand_hash_fields">Expand hash fields</string>
+    <string name="description_expand_hash_fields">Expand every field from 1 to 2 lines</string>
 </resources>

@@ -8,6 +8,10 @@ class SettingsWrapper(private val settingsRepository: SettingsRepository) {
         return settingsRepository.getBooleanValue(SettingsEntry.UPPER_CASE)
     }
 
+    fun useExpandedHashFields(): Boolean {
+        return settingsRepository.getBooleanValue(SettingsEntry.EXPAND_HASH_FIELDS)
+    }
+
     fun useVibration(): Boolean {
         return settingsRepository.getBooleanValue(SettingsEntry.VIBRATION)
     }

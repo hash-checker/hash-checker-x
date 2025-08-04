@@ -58,6 +58,7 @@ import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 fun HashGeneratorView(
     viewModel: HashGeneratorViewModel,
     viewCase: HashGeneratorViewCase,
+    fieldFormat: HashGeneratorFieldFormat,
     innerPadding: PaddingValues,
     onFileRequest: () -> Unit,
     onFolderRequest: () -> Unit,
@@ -203,7 +204,10 @@ fun HashGeneratorView(
                 HashCheckerXProgressIndicator()
             }
 
-            HashCheckerXSpacer8H()
+            val lines = when (fieldFormat) {
+                HashGeneratorFieldFormat.EXPANDED -> 2
+                else -> 1
+            }
 
             HashCheckerXTextField(
                 text = when (viewCase) {
@@ -211,6 +215,8 @@ fun HashGeneratorView(
                     else -> state.customHash
                 },
                 label = stringResource(R.string.hash_generator_custom_hash),
+                minLines = lines,
+                maxLines = lines,
                 onValueChange = viewModel::onCustomHashChange,
                 onCopy = { onCopy.invoke(state.customHash) },
                 onClear = { viewModel.onCustomHashChange("") },
@@ -224,6 +230,8 @@ fun HashGeneratorView(
                     else -> state.generatedHash
                 },
                 label = stringResource(R.string.hash_generator_generator_hash),
+                minLines = lines,
+                maxLines = lines,
                 onValueChange = viewModel::onGeneratedHashChanged,
                 onCopy = { onCopy.invoke(state.generatedHash) },
                 onClear = { viewModel.onGeneratedHashChanged("") },
@@ -399,6 +407,11 @@ enum class HashGeneratorViewCase {
     UPPER,
 }
 
+enum class HashGeneratorFieldFormat {
+    SHORT,
+    EXPANDED,
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewHashGeneratorView() {
@@ -414,6 +427,7 @@ fun PreviewHashGeneratorView() {
                     defaultHashType = HashType.MD5,
                 ),
                 viewCase = HashGeneratorViewCase.LOWER,
+                fieldFormat = HashGeneratorFieldFormat.SHORT,
                 innerPadding = innerPadding,
                 onFileRequest = {},
                 onFolderRequest = {},

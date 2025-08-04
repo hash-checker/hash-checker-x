@@ -33,6 +33,12 @@ class SettingsViewModel(
                             SettingsEntry.UPPER_CASE,
                         ),
                     ),
+                    Pair(
+                        SettingsEntry.EXPAND_HASH_FIELDS,
+                        settingsRepository.getBooleanValue(
+                            SettingsEntry.EXPAND_HASH_FIELDS,
+                        ),
+                    ),
                 ),
                 SettingsCategory.APPLICATION to listOf(
                     Pair(
@@ -64,24 +70,16 @@ class SettingsViewModel(
 
     fun updateSettingsEntry(settingsEntry: SettingsEntry, value: Any) {
         when (settingsEntry) {
-            SettingsEntry.UPPER_CASE -> {
+            SettingsEntry.UPPER_CASE,
+            SettingsEntry.VIBRATION,
+            SettingsEntry.EXPAND_HASH_FIELDS -> {
                 settingsRepository.setBooleanValue(
                     settingsEntry,
                     value as Boolean
                 )
             }
 
-            SettingsEntry.VIBRATION -> {
-                settingsRepository.setBooleanValue(
-                    settingsEntry,
-                    value as Boolean
-                )
-            }
-
-            SettingsEntry.FEEDBACK -> {
-
-            }
-
+            SettingsEntry.FEEDBACK -> {}
             SettingsEntry.PRIVACY_POLICY -> {}
             SettingsEntry.AUTHOR -> {}
             SettingsEntry.SOURCE_CODE -> {}

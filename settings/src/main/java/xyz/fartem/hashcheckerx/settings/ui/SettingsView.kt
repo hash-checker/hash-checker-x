@@ -72,6 +72,25 @@ fun SettingsView(
                                 )
                             }
 
+                            SettingsEntry.EXPAND_HASH_FIELDS -> {
+                                var value by remember { mutableStateOf(entry.second as Boolean) }
+
+                                SwitchPreference(
+                                    title = {
+                                        Text(stringResource(R.string.title_expand_hash_fields))
+                                    },
+                                    summary = {
+                                        Text(stringResource(R.string.description_expand_hash_fields))
+                                    },
+                                    value = value,
+                                    onValueChange = { expandHashFields ->
+                                        viewModel.updateSettingsEntry(entry.first, expandHashFields)
+
+                                        value = expandHashFields
+                                    },
+                                )
+                            }
+
                             SettingsEntry.VIBRATION -> {
                                 var value by remember { mutableStateOf(entry.second as Boolean) }
 

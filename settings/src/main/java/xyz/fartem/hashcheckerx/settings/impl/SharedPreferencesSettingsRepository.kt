@@ -11,25 +11,36 @@ class SharedPreferencesSettingsRepository(
     override fun getBooleanValue(settingsEntry: SettingsEntry): Boolean {
         return when (settingsEntry) {
             SettingsEntry.UPPER_CASE,
-            SettingsEntry.VIBRATION -> {
+            SettingsEntry.VIBRATION,
+            SettingsEntry.EXPAND_HASH_FIELDS -> {
                 sharedPreferences.getBoolean(
                     settingsEntry.key,
                     settingsEntry.defaultValue as Boolean,
                 )
             }
 
-            else -> false
+            SettingsEntry.FEEDBACK,
+            SettingsEntry.PRIVACY_POLICY,
+            SettingsEntry.AUTHOR,
+            SettingsEntry.SOURCE_CODE,
+            SettingsEntry.VERSION -> false
         }
     }
 
     override fun setBooleanValue(settingsEntry: SettingsEntry, value: Boolean) {
         when (settingsEntry) {
             SettingsEntry.UPPER_CASE,
-            SettingsEntry.VIBRATION -> {
+            SettingsEntry.VIBRATION,
+            SettingsEntry.EXPAND_HASH_FIELDS -> {
                 sharedPreferences.edit { putBoolean(settingsEntry.key, value) }
             }
 
-            else -> {}
+            SettingsEntry.FEEDBACK,
+            SettingsEntry.PRIVACY_POLICY,
+            SettingsEntry.AUTHOR,
+            SettingsEntry.SOURCE_CODE,
+            SettingsEntry.VERSION -> {
+            }
         }
     }
 }
