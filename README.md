@@ -1,3 +1,9 @@
+# NOTICE
+
+At the moment, the application provides a minimum set of basic functions that were in the original project. But, given that I am experimenting with a modern stack of Android applications, some components may not work quite optimally.
+
+For more information see [Roadmap](#Roadmap).
+
 <img src="media/icon/ic_app.png" height="100px" />
 
 # Hash Checker X
@@ -9,6 +15,16 @@ and new Material Design system.
 
 App development still in progress and you have not find some features from original version. Stay tuned for new
 releases.
+
+## Roadmap
+
+- CRC-32 support
+- BLAKE2b support
+- FNV support
+- History
+- User data export
+- Multilanguage support
+- 
 
 ## Download
 
