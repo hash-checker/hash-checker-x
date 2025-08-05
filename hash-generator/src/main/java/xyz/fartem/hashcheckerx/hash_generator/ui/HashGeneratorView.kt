@@ -39,7 +39,6 @@ import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer16W
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer32H
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer4H
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer64H
-import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer8H
 import xyz.fartem.hashcheckerx.core_ui.components.dialogs.HashCheckerXProgressIndicator
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXSurface
 import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXHint
@@ -47,8 +46,8 @@ import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXTextField
 import xyz.fartem.hashcheckerx.core_ui.components.toasts.showHashCheckerXToast
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.hash_generator.R
-import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
-import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
+import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashComparator
+import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashAction
 import xyz.fartem.hashcheckerx.hash_generator.model.HashSource
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
@@ -60,6 +59,7 @@ fun HashGeneratorView(
     viewCase: HashGeneratorViewCase,
     fieldFormat: HashGeneratorFieldFormat,
     innerPadding: PaddingValues,
+    onHashTypeChanged: (HashType) -> Unit,
     onFileRequest: () -> Unit,
     onFolderRequest: () -> Unit,
     onTextRequest: () -> Unit,
@@ -192,6 +192,7 @@ fun HashGeneratorView(
                                 showTypeSelector = false
 
                                 viewModel.onHashTypeSelected(it)
+                                onHashTypeChanged.invoke(it)
                             }
                         }
 
@@ -419,16 +420,19 @@ fun PreviewHashGeneratorView() {
         Scaffold { innerPadding ->
             HashGeneratorView(
                 viewModel = HashGeneratorViewModel(
-                    hashGenerator = JdkHashGenerator(
+                    hashGenerator = DefaultHashGenerator(
+                        hashProviders = emptyList(),
                         defaultHashType = HashType.MD5,
+
                     ),
-                    hashComparator = JdkHashComparator(),
+                    hashComparator = DefaultHashComparator(),
                     logger = OrhanObutLogger(),
                     defaultHashType = HashType.MD5,
                 ),
                 viewCase = HashGeneratorViewCase.LOWER,
                 fieldFormat = HashGeneratorFieldFormat.SHORT,
                 innerPadding = innerPadding,
+                onHashTypeChanged = {},
                 onFileRequest = {},
                 onFolderRequest = {},
                 onTextRequest = {},

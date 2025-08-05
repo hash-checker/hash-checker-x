@@ -169,6 +169,8 @@ fun SettingsView(
                                     onClick = { onVersionRequest.invoke() },
                                 )
                             }
+
+                            SettingsEntry.HASH_TYPE -> {}
                         }
                     }
                 }

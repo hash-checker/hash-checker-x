@@ -11,11 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import xyz.fartem.hashcheckerx.core_ui.R
-import kotlin.math.max
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable

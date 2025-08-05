@@ -47,6 +47,7 @@ dependencies {
 
     implementation(libs.preference)
 
+    implementation(project(":hash-generator"))
     implementation(project(":core-ui"))
 
     implementation(libs.androidx.runtime.android)

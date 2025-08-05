@@ -10,7 +10,6 @@ import xyz.fartem.hashcheckerx.settings.model.SettingsEntry
 
 data class SettingsViewModelState(
     val settings: Map<SettingsCategory, List<Pair<SettingsEntry, Any?>>>,
-    val privacyPolicy: String,
     val author: String,
     val sourceCode: String,
     val version: String,
@@ -18,7 +17,6 @@ data class SettingsViewModelState(
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
-    privacyPolicy: String,
     author: String,
     sourceCode: String,
     version: String,
@@ -60,7 +58,6 @@ class SettingsViewModel(
                     Pair(SettingsEntry.VERSION, null),
                 ),
             ),
-            privacyPolicy = privacyPolicy,
             author = author,
             sourceCode = sourceCode,
             version = version,
@@ -84,13 +81,13 @@ class SettingsViewModel(
             SettingsEntry.AUTHOR -> {}
             SettingsEntry.SOURCE_CODE -> {}
             SettingsEntry.VERSION -> {}
+            SettingsEntry.HASH_TYPE -> {}
         }
     }
 }
 
 class SettingsViewModelFactory(
     private val settingsRepository: SettingsRepository,
-    private val privacyPolicy: String,
     private val author: String,
     private val sourceCode: String,
     private val version: String,
@@ -100,7 +97,6 @@ class SettingsViewModelFactory(
             @Suppress("UNCHECKED_CAST")
             return SettingsViewModel(
                 settingsRepository = settingsRepository,
-                privacyPolicy = privacyPolicy,
                 author = author,
                 sourceCode = sourceCode,
                 version = version,

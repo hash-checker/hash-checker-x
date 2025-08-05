@@ -15,8 +15,10 @@ import xyz.fartem.hashcheckerx.core.vibrator.api.Vibrator
 import xyz.fartem.hashcheckerx.core.vibrator.impl.SystemVibrator
 import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
-import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashComparator
-import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashGenerator
+import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashComparator
+import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashGenerator
+import xyz.fartem.hashcheckerx.hash_generator.impl.providers.jdk.JdkHashProvider
+import xyz.fartem.hashcheckerx.hash_generator.impl.providers.keccakj.KeccakjHashProvider
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 
 @Module
@@ -24,12 +26,18 @@ import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 object MainActivityModule {
     @Provides
     fun provideHashGenerator(): HashGenerator {
-        return JdkHashGenerator(HashType.MD5)
+        return DefaultHashGenerator(
+            listOf(
+                JdkHashProvider(),
+                KeccakjHashProvider(),
+            ),
+            HashType.MD5
+        )
     }
 
     @Provides
     fun provideHashComparator(): HashComparator {
-        return JdkHashComparator()
+        return DefaultHashComparator()
     }
 
     @Provides

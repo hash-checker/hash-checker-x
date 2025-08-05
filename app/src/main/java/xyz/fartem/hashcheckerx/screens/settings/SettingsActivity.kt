@@ -25,6 +25,7 @@ import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.ui.SettingsView
 import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModel
 import xyz.fartem.hashcheckerx.settings.ui.SettingsViewModelFactory
+import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapper
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
 import javax.inject.Inject
 
@@ -33,10 +34,12 @@ class SettingsActivity : ComponentActivity() {
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
+    @Inject
+    lateinit var settingsWrapper: SettingsWrapper
+
     private val settingsViewModel: SettingsViewModel by viewModels {
         SettingsViewModelFactory(
             settingsRepository = settingsRepository,
-            privacyPolicy = "",
             author = "fartem",
             sourceCode = BuildConfig.URL_SOURCE_CODE,
             version = BuildConfig.VERSION_NAME,
@@ -48,7 +51,7 @@ class SettingsActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            SettingsWrapperView(settingsRepository) { settingsWrapper ->
+            SettingsWrapperView(settingsWrapper) { settingsWrapper ->
                 HashCheckerXTheme {
                     Scaffold(
                         topBar = {

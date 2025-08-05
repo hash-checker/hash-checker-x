@@ -35,7 +35,7 @@ import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModelFactory
 import xyz.fartem.hashcheckerx.screens.settings.SettingsActivity
-import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
+import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapper
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
 import javax.inject.Inject
 
@@ -57,14 +57,14 @@ class MainActivity : ComponentActivity() {
     lateinit var clipboard: Clipboard
 
     @Inject
-    lateinit var settingsRepository: SettingsRepository
+    lateinit var settingsWrapper: SettingsWrapper
 
     private val hashGeneratorViewModel: HashGeneratorViewModel by viewModels {
         HashGeneratorViewModelFactory(
             hashGenerator = hashGenerator,
             hashComparator = hashComparator,
             logger = logger,
-            defaultHashType = HashType.MD5,
+            defaultHashType = settingsWrapper.getHashType(HashType.MD5),
         )
     }
 
@@ -86,7 +86,6 @@ class MainActivity : ComponentActivity() {
 
     private var selectedText by mutableStateOf<String?>(null)
 
-    private var viewCase by mutableStateOf(HashGeneratorViewCase.LOWER)
     private var openSettings = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         recreate()
     }
@@ -96,7 +95,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            SettingsWrapperView(settingsRepository) { settingsWrapper ->
+            SettingsWrapperView(settingsWrapper) { settingsWrapper ->
                 var selectText by remember { mutableStateOf(false) }
 
                 HashCheckerXTheme {
@@ -135,6 +134,7 @@ class MainActivity : ComponentActivity() {
                                 false -> HashGeneratorFieldFormat.SHORT
                             },
                             innerPadding = innerPadding,
+                            onHashTypeChanged = { settingsWrapper.setHashType(it) },
                             onFileRequest = { selectFile.launch("*/*") },
                             onFolderRequest = { selectFolder.launch(null) },
                             onTextRequest = { selectText = true },

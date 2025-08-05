@@ -23,7 +23,8 @@ class SharedPreferencesSettingsRepository(
             SettingsEntry.PRIVACY_POLICY,
             SettingsEntry.AUTHOR,
             SettingsEntry.SOURCE_CODE,
-            SettingsEntry.VERSION -> false
+            SettingsEntry.VERSION,
+            SettingsEntry.HASH_TYPE -> false
         }
     }
 
@@ -35,6 +36,45 @@ class SharedPreferencesSettingsRepository(
                 sharedPreferences.edit { putBoolean(settingsEntry.key, value) }
             }
 
+            SettingsEntry.FEEDBACK,
+            SettingsEntry.PRIVACY_POLICY,
+            SettingsEntry.AUTHOR,
+            SettingsEntry.SOURCE_CODE,
+            SettingsEntry.VERSION,
+            SettingsEntry.HASH_TYPE -> {
+            }
+        }
+    }
+
+    override fun getStringValue(settingsEntry: SettingsEntry): String? {
+        return when (settingsEntry) {
+            SettingsEntry.HASH_TYPE -> {
+                sharedPreferences.getString(
+                    settingsEntry.key,
+                    settingsEntry.defaultValue as String?,
+                )
+            }
+
+            SettingsEntry.UPPER_CASE,
+            SettingsEntry.VIBRATION,
+            SettingsEntry.EXPAND_HASH_FIELDS,
+            SettingsEntry.FEEDBACK,
+            SettingsEntry.PRIVACY_POLICY,
+            SettingsEntry.AUTHOR,
+            SettingsEntry.SOURCE_CODE,
+            SettingsEntry.VERSION -> null
+        }
+    }
+
+    override fun setStringValue(settingsEntry: SettingsEntry, value: String) {
+        when (settingsEntry) {
+            SettingsEntry.HASH_TYPE -> {
+                sharedPreferences.edit { putString(settingsEntry.key, value) }
+            }
+
+            SettingsEntry.UPPER_CASE,
+            SettingsEntry.VIBRATION,
+            SettingsEntry.EXPAND_HASH_FIELDS,
             SettingsEntry.FEEDBACK,
             SettingsEntry.PRIVACY_POLICY,
             SettingsEntry.AUTHOR,
