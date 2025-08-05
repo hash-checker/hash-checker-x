@@ -38,16 +38,16 @@ releases.
 
 | Name                                            | Since version | Provider |
 |-------------------------------------------------|---------------|----------|
-| [MD5](https://en.wikipedia.org/wiki/MD5)        | 0.1.0         | `JDK`    |
-| [SHA-1](https://en.wikipedia.org/wiki/SHA-1)    | 0.1.0         | `JDK`    |
-| [SHA-224](https://en.wikipedia.org/wiki/SHA-2)  | 0.1.0         | `JDK`    |
-| [SHA-256](https://en.wikipedia.org/wiki/SHA-2)  | 0.1.0         | `JDK`    |
-| [SHA-384](https://en.wikipedia.org/wiki/SHA-2)  | 0.1.0         | `JDK`    |
-| [SHA-512](https://en.wikipedia.org/wiki/SHA-2)  | 0.1.0         | `JDK`    |
-| [SHA3-224](https://en.wikipedia.org/wiki/SHA-3) | 0.1.5         | `JDK`    |
-| [SHA3-256](https://en.wikipedia.org/wiki/SHA-3) | 0.1.5         | `JDK`    |
-| [SHA3-384](https://en.wikipedia.org/wiki/SHA-3) | 0.1.5         | `JDK`    |
-| [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) | 0.1.5         | `JDK`    |
+| [MD5](https://en.wikipedia.org/wiki/MD5)        | 1.0.0         | `JDK`    |
+| [SHA-1](https://en.wikipedia.org/wiki/SHA-1)    | 1.0.0         | `JDK`    |
+| [SHA-224](https://en.wikipedia.org/wiki/SHA-2)  | 1.0.0         | `JDK`    |
+| [SHA-256](https://en.wikipedia.org/wiki/SHA-2)  | 1.0.0         | `JDK`    |
+| [SHA-384](https://en.wikipedia.org/wiki/SHA-2)  | 1.0.0         | `JDK`    |
+| [SHA-512](https://en.wikipedia.org/wiki/SHA-2)  | 1.0.0         | `JDK`    |
+| [SHA3-224](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0         | `JDK`    |
+| [SHA3-256](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0        | `JDK`    |
+| [SHA3-384](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0         | `JDK`    |
+| [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0         | `JDK`    |
 
 ## Screenshots
 
