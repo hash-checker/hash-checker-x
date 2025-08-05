@@ -1,6 +1,6 @@
-package xyz.fartem.hashcheckerx.hash_generator.impl.jdk
+package xyz.fartem.hashcheckerx.hash_generator.impl
 
-class JdkHashUtils private constructor() {
+class DefaultHashUtils private constructor() {
 
     companion object {
         private val HEX_DIGITS = "0123456789ABCDEF".toCharArray()

@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import xyz.fartem.hashcheckerx.BuildConfig
 import xyz.fartem.hashcheckerx.settings.api.SettingsRepository
 import xyz.fartem.hashcheckerx.settings.impl.SharedPreferencesSettingsRepository
+import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapper
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +17,13 @@ import javax.inject.Singleton
 object SettingsModule {
     @Provides
     @Singleton
-    fun bingSettingsRepository(@ApplicationContext context: Context): SettingsRepository {
+    fun provideSettingsWrapper(settingsRepository: SettingsRepository): SettingsWrapper {
+        return SettingsWrapper(settingsRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(@ApplicationContext context: Context): SettingsRepository {
         return SharedPreferencesSettingsRepository(
             context.getSharedPreferences(
                 BuildConfig.APPLICATION_ID,

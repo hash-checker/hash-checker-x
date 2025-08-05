@@ -2,7 +2,7 @@ package xyz.fartem.hashcheckerx.hash_generator.jdk
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import xyz.fartem.hashcheckerx.hash_generator.impl.jdk.JdkHashUtils
+import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashUtils
 
 class JdkHashUtilsTest {
     @Test
@@ -16,7 +16,7 @@ class JdkHashUtilsTest {
 
         assertEquals(
             "0cbc6611f5540bd0809a388dc95a615b",
-            JdkHashUtils.getStringFromByteArray(input)
+            DefaultHashUtils.getStringFromByteArray(input)
         )
     }
 
@@ -24,7 +24,7 @@ class JdkHashUtilsTest {
     fun checkStringFromLong() {
         assertEquals(
             "784dd132",
-            JdkHashUtils.getStringFromLong(2018365746)
+            DefaultHashUtils.getStringFromLong(2018365746)
         )
     }
 }

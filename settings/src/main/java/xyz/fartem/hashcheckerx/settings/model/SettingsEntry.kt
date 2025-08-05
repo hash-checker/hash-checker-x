@@ -9,4 +9,6 @@ enum class SettingsEntry(val key: String, val defaultValue: Any?) {
     AUTHOR("prev_author", null),
     SOURCE_CODE("pref_source_code", null),
     VERSION("pref_version", null),
+
+    HASH_TYPE("pref_hash_type", null),
 }
