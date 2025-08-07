@@ -1,6 +1,7 @@
 # NOTICE
 
-At the moment, the application provides a minimum set of basic functions that were in the original project. But, given that I am experimenting with a modern stack of Android applications, some components may not work quite optimally.
+At the moment, the application provides a minimum set of basic functions that were in the original project. But, given
+that I am experimenting with a modern stack of Android applications, some components may not work quite optimally.
 
 For more information see [Roadmap](#Roadmap).
 
@@ -46,7 +47,7 @@ releases.
 | [SHA-384](https://en.wikipedia.org/wiki/SHA-2)  | 1.0.0         | `JDK`    |
 | [SHA-512](https://en.wikipedia.org/wiki/SHA-2)  | 1.0.0         | `JDK`    |
 | [SHA3-224](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0         | `JDK`    |
-| [SHA3-256](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0        | `JDK`    |
+| [SHA3-256](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0         | `JDK`    |
 | [SHA3-384](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0         | `JDK`    |
 | [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) | 1.0.0         | `JDK`    |
 
