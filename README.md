@@ -9,6 +9,7 @@ For more information see [Roadmap](#Roadmap).
 # Hash Checker X
 
 [![GitHubActions](https://github.com/hash-checker/hash-checker-x/workflows/Build/badge.svg)](https://github.com/hash-checker/hash-checker-x/actions?query=workflow%3ABuild)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9da075d8c25c4babac39a2e3920a19af)](https://app.codacy.com/gh/hash-checker/hash-checker-x)
 [![GitHub Downloads](https://img.shields.io/github/downloads/hash-checker/hash-checker-x/total?label=GitHub%20downloads)](https://github.com/hash-checker/hash-checker-x/releases)
 
 Fast and simple application that allows you to generate and compare hashes from files and text.
