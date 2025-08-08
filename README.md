@@ -23,7 +23,7 @@ releases.
 
 ## Roadmap
 
-- ~~[CRC-32 support](https://github.com/hash-checker/hash-checker-x/issues/2)~~ - complete in [v1.1.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.1.0)
+- ~~[CRC-32 support](https://github.com/hash-checker/hash-checker-x/issues/2)~~ - completed in [v1.1.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.1.0)
 - [BLAKE2b support](https://github.com/hash-checker/hash-checker-x/issues/3)
 - [FNV support](https://github.com/hash-checker/hash-checker-x/issues/4)
 - [History](https://github.com/hash-checker/hash-checker-x/issues/5)
