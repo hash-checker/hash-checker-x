@@ -383,6 +383,7 @@ private fun HashType.translatedName(): String {
         HashType.SHA3_256 -> stringResource(R.string.sha3256)
         HashType.SHA3_384 -> stringResource(R.string.sha3384)
         HashType.SHA3_512 -> stringResource(R.string.sha3512)
+        HashType.CRC_32 -> stringResource(R.string.crc32)
     }
 }
 
@@ -422,8 +423,6 @@ fun PreviewHashGeneratorView() {
                 viewModel = HashGeneratorViewModel(
                     hashGenerator = DefaultHashGenerator(
                         hashProviders = emptyList(),
-                        defaultHashType = HashType.MD5,
-
                     ),
                     hashComparator = DefaultHashComparator(),
                     logger = OrhanObutLogger(),

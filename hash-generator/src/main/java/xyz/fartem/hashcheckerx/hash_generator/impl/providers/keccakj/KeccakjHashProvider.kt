@@ -21,14 +21,14 @@ class KeccakjHashProvider : HashProvider() {
     }
 
     override fun fromText(hashType: HashType, text: String): String {
-        val jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(hashType)
-        jdkHashCalculatorDigest.update(text.toByteArray())
+        val keccakjHashCalculatorDigest = KeccakjHashDigest.instanceFor(hashType)
+        keccakjHashCalculatorDigest.update(text.toByteArray())
 
-        return jdkHashCalculatorDigest.result()
+        return keccakjHashCalculatorDigest.result()
     }
 
     override fun fromFile(hashType: HashType, context: Context, path: Uri): String {
-        val jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(hashType)
+        val keccakjHashCalculatorDigest = KeccakjHashDigest.instanceFor(hashType)
         val fileStream: InputStream? = inputStreamFromUri(context, path)
 
         if (fileStream != null) {
@@ -38,11 +38,11 @@ class KeccakjHashProvider : HashProvider() {
             do {
                 read = fileStream.read(buffer)
                 if (read > 0) {
-                    jdkHashCalculatorDigest.update(buffer, read)
+                    keccakjHashCalculatorDigest.update(buffer, read)
                 }
             } while (read != -1)
 
-            return jdkHashCalculatorDigest.result()
+            return keccakjHashCalculatorDigest.result()
         }
 
         throw Exception("Can't generate hash from file")
@@ -53,7 +53,7 @@ class KeccakjHashProvider : HashProvider() {
     }
 
     override fun fromFolder(hashType: HashType, context: Context, path: Uri): String {
-        val jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(hashType)
+        val keccakjHashCalculatorDigest = KeccakjHashDigest.instanceFor(hashType)
         val folderStream = inputStreamsFormFolder(context, path)
 
         for (stream in folderStream) {
@@ -63,12 +63,12 @@ class KeccakjHashProvider : HashProvider() {
             do {
                 read = stream.read(buffer)
                 if (read > 0) {
-                    jdkHashCalculatorDigest.update(buffer, read)
+                    keccakjHashCalculatorDigest.update(buffer, read)
                 }
             } while (read != -1)
         }
 
-        return jdkHashCalculatorDigest.result()
+        return keccakjHashCalculatorDigest.result()
     }
 
     private fun inputStreamsFormFolder(context: Context, folderUri: Uri): List<InputStream> {
@@ -103,7 +103,7 @@ class KeccakjHashProvider : HashProvider() {
     }
 }
 
-private class JdkHashGeneratorDigest private constructor() {
+private class KeccakjHashDigest private constructor() {
     private var messageDigest: MessageDigest? = null
 
     private fun setHashType(hashType: HashType) {
@@ -141,8 +141,8 @@ private class JdkHashGeneratorDigest private constructor() {
     }
 
     companion object {
-        fun instanceFor(hashType: HashType): JdkHashGeneratorDigest {
-            val jdkHashCalculatorDigest = JdkHashGeneratorDigest()
+        fun instanceFor(hashType: HashType): KeccakjHashDigest {
+            val jdkHashCalculatorDigest = KeccakjHashDigest()
             jdkHashCalculatorDigest.setHashType(hashType)
 
             return jdkHashCalculatorDigest

@@ -62,8 +62,6 @@ class HashGeneratorViewModel(
         _state.update {
             it.copy(hashType = type)
         }
-
-        hashGenerator.setHashType(type)
     }
 
     fun onCustomHashChange(newHash: String) {
@@ -126,6 +124,7 @@ class HashGeneratorViewModel(
         selectedFolder: Uri? = null,
         selectedText: String? = null,
     ) {
+        val hashType = _state.value.hashType
         val hashSource = _state.value.hashSource
 
         val hash: String? = withContext(Dispatchers.IO) {
@@ -133,7 +132,7 @@ class HashGeneratorViewModel(
                 HashSource.FILE -> {
                     if (selectedFile != null) {
                         runGeneration {
-                            hashGenerator.fromFile(context, selectedFile)
+                            hashGenerator.fromFile(hashType, context, selectedFile)
                         }
                     } else {
                         null
@@ -143,7 +142,7 @@ class HashGeneratorViewModel(
                 HashSource.FOLDER -> {
                     if (selectedFolder != null) {
                         runGeneration {
-                            hashGenerator.fromFolder(context, selectedFolder)
+                            hashGenerator.fromFolder(hashType, context, selectedFolder)
                         }
                     } else {
                         null
@@ -153,7 +152,7 @@ class HashGeneratorViewModel(
                 HashSource.TEXT -> {
                     if (!selectedText.isNullOrEmpty()) {
                         runGeneration {
-                            hashGenerator.fromText(selectedText)
+                            hashGenerator.fromText(hashType, selectedText)
                         }
                     } else {
                         null
@@ -176,17 +175,27 @@ class HashGeneratorViewModel(
     }
 
     private fun runGeneration(job: () -> String?): String? {
-        _state.update {
-            it.copy(isGenerating = true)
+        try {
+            _state.update {
+                it.copy(isGenerating = true)
+            }
+
+            val result = job.invoke()
+
+            _state.update {
+                it.copy(isGenerating = false)
+            }
+
+            return result
+        } catch (e: Exception) {
+            e.message?.let { logger.error(it) }
+
+            _state.update {
+                it.copy(isGenerating = false)
+            }
+
+            return null
         }
-
-        val result = job.invoke()
-
-        _state.update {
-            it.copy(isGenerating = false)
-        }
-
-        return result
     }
 
     fun compareHashes() {

@@ -17,9 +17,9 @@ import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashComparator
 import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashGenerator
+import xyz.fartem.hashcheckerx.hash_generator.impl.providers.crc32.Crc32HashProvider
 import xyz.fartem.hashcheckerx.hash_generator.impl.providers.jdk.JdkHashProvider
 import xyz.fartem.hashcheckerx.hash_generator.impl.providers.keccakj.KeccakjHashProvider
-import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 
 @Module
 @InstallIn(ActivityComponent::class)
@@ -30,8 +30,8 @@ object MainActivityModule {
             listOf(
                 JdkHashProvider(),
                 KeccakjHashProvider(),
+                Crc32HashProvider(),
             ),
-            HashType.MD5
         )
     }
 
