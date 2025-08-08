@@ -10,4 +10,5 @@
     <string name="sha3256">SHA3–256</string>
     <string name="sha3384">SHA3–384</string>
     <string name="sha3512">SHA3–512</string>
+    <string name="crc32">CRC-32</string>
 </resources>

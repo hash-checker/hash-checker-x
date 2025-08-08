@@ -7,23 +7,15 @@ import xyz.fartem.hashcheckerx.hash_generator.api.HashProvider
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import java.security.NoSuchAlgorithmException
 
-class DefaultHashGenerator(
-    private val hashProviders: List<HashProvider>,
-    defaultHashType: HashType,
-) : HashGenerator() {
-    private var hashType = defaultHashType
+class DefaultHashGenerator(private val hashProviders: List<HashProvider>) : HashGenerator() {
 
-    override fun setHashType(hashType: HashType) {
-        this.hashType = hashType
-    }
-
-    override fun fromText(text: String): String {
-        val hashProvider = findHashProviderOrThrowException()
+    override fun fromText(hashType: HashType, text: String): String {
+        val hashProvider = findHashProviderOrThrowException(hashType)
 
         return hashProvider.fromText(hashType, text)
     }
 
-    private fun findHashProviderOrThrowException(): HashProvider {
+    private fun findHashProviderOrThrowException(hashType: HashType): HashProvider {
         val hashProvider = hashProviders.firstOrNull { it.availableHashTypes().contains(hashType) }
 
         if (hashProvider == null) {
@@ -33,14 +25,14 @@ class DefaultHashGenerator(
         return hashProvider
     }
 
-    override fun fromFile(context: Context, path: Uri): String {
-        val hashProvider = findHashProviderOrThrowException()
+    override fun fromFile(hashType: HashType, context: Context, path: Uri): String {
+        val hashProvider = findHashProviderOrThrowException(hashType)
 
         return hashProvider.fromFile(hashType, context, path)
     }
 
-    override fun fromFolder(context: Context, path: Uri): String {
-        val hashProvider = findHashProviderOrThrowException()
+    override fun fromFolder(hashType: HashType, context: Context, path: Uri): String {
+        val hashProvider = findHashProviderOrThrowException(hashType)
 
         return hashProvider.fromFolder(hashType, context, path)
     }

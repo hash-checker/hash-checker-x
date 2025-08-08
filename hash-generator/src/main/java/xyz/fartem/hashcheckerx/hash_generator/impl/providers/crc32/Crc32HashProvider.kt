@@ -1,36 +1,28 @@
-package xyz.fartem.hashcheckerx.hash_generator.impl.providers.jdk
+package xyz.fartem.hashcheckerx.hash_generator.impl.providers.crc32
 
 import android.content.Context
 import android.net.Uri
 import android.provider.DocumentsContract
 import xyz.fartem.hashcheckerx.hash_generator.api.HashProvider
-import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashUtils
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import java.io.InputStream
-import java.security.MessageDigest
+import java.util.zip.CRC32
 
-class JdkHashProvider : HashProvider() {
+
+class Crc32HashProvider : HashProvider() {
     override fun availableHashTypes(): Set<HashType> {
-        return setOf(
-            HashType.MD5,
-            HashType.SHA_1,
-            HashType.SHA_224,
-            HashType.SHA_256,
-            HashType.SHA_384,
-            HashType.SHA_512,
-            HashType.CRC_32,
-        )
+        return setOf(HashType.CRC_32)
     }
 
     override fun fromText(hashType: HashType, text: String): String {
-        val jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(hashType)
-        jdkHashCalculatorDigest.update(text.toByteArray())
+        val crc32HashCalculatorDigest = Crc32HashCalculatorDigest()
+        crc32HashCalculatorDigest.update(text.toByteArray())
 
-        return jdkHashCalculatorDigest.result()
+        return crc32HashCalculatorDigest.result()
     }
 
     override fun fromFile(hashType: HashType, context: Context, path: Uri): String {
-        val jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(hashType)
+        val crc32HashCalculatorDigest = Crc32HashCalculatorDigest()
         val fileStream: InputStream? = inputStreamFromUri(context, path)
 
         if (fileStream != null) {
@@ -40,11 +32,11 @@ class JdkHashProvider : HashProvider() {
             do {
                 read = fileStream.read(buffer)
                 if (read > 0) {
-                    jdkHashCalculatorDigest.update(buffer, read)
+                    crc32HashCalculatorDigest.update(buffer, read)
                 }
             } while (read != -1)
 
-            return jdkHashCalculatorDigest.result()
+            return crc32HashCalculatorDigest.result()
         }
 
         throw Exception("Can't generate hash from file")
@@ -55,7 +47,7 @@ class JdkHashProvider : HashProvider() {
     }
 
     override fun fromFolder(hashType: HashType, context: Context, path: Uri): String {
-        val jdkHashCalculatorDigest = JdkHashGeneratorDigest.instanceFor(hashType)
+        val crc32HashCalculatorDigest = Crc32HashCalculatorDigest()
         val folderStream = inputStreamsFormFolder(context, path)
 
         for (stream in folderStream) {
@@ -65,12 +57,12 @@ class JdkHashProvider : HashProvider() {
             do {
                 read = stream.read(buffer)
                 if (read > 0) {
-                    jdkHashCalculatorDigest.update(buffer, read)
+                    crc32HashCalculatorDigest.update(buffer, read)
                 }
             } while (read != -1)
         }
 
-        return jdkHashCalculatorDigest.result()
+        return crc32HashCalculatorDigest.result()
     }
 
     private fun inputStreamsFormFolder(context: Context, folderUri: Uri): List<InputStream> {
@@ -105,51 +97,19 @@ class JdkHashProvider : HashProvider() {
     }
 }
 
-private class JdkHashGeneratorDigest private constructor() {
-    private var messageDigest: MessageDigest? = null
+private class Crc32HashCalculatorDigest {
+    private var crc32 = CRC32()
 
-    private fun setHashType(hashType: HashType) {
-        val algorithm = getHashNameByHashType(hashType)
-
-        messageDigest = MessageDigest.getInstance(algorithm)
+    fun update(input: ByteArray) {
+        crc32.reset()
+        crc32.update(input)
     }
 
-    private fun getHashNameByHashType(hashType: HashType): String {
-        return when (hashType) {
-            HashType.MD5 -> "MD5"
-            HashType.SHA_1 -> "SHA1"
-            HashType.SHA_224 -> "SHA224"
-            HashType.SHA_256 -> "SHA256"
-            HashType.SHA_384 -> "SHA384"
-            HashType.SHA_512 -> "SHA512"
-            else -> ""
-        }
-    }
-
-    fun update(input: ByteArray?) {
-        messageDigest!!.reset()
-
-        if (input != null) {
-            messageDigest!!.update(input)
-        }
-    }
-
-    fun update(input: ByteArray?, length: Int) {
-        if (input != null) {
-            messageDigest!!.update(input, 0, length)
-        }
+    fun update(input: ByteArray, length: Int) {
+        crc32.update(input, 0, length)
     }
 
     fun result(): String {
-        return DefaultHashUtils.Companion.getStringFromByteArray(messageDigest!!.digest())
-    }
-
-    companion object {
-        fun instanceFor(hashType: HashType): JdkHashGeneratorDigest {
-            val jdkHashCalculatorDigest = JdkHashGeneratorDigest()
-            jdkHashCalculatorDigest.setHashType(hashType)
-
-            return jdkHashCalculatorDigest
-        }
+        return String.format("%08x", crc32.value)
     }
 }

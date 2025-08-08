@@ -24,7 +24,7 @@ class SettingsWrapper(private val settingsRepository: SettingsRepository) {
             return defaultHashType
         }
 
-        return HashType.valueOf(savedHashType)
+        return HashType.entries.first { it.name == savedHashType }
     }
 
     fun setHashType(hashType: HashType) {

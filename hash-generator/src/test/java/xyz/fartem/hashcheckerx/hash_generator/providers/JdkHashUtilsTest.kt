@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.hash_generator.jdk
+package xyz.fartem.hashcheckerx.hash_generator.providers
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
