@@ -23,12 +23,12 @@ releases.
 
 ## Roadmap
 
-- CRC-32 support
-- BLAKE2b support
-- FNV support
-- History
-- User data export
-- Multilanguage support
+- [CRC-32 support](https://github.com/hash-checker/hash-checker-x/issues/2)
+- [BLAKE2b support](https://github.com/hash-checker/hash-checker-x/issues/3)
+- [FNV support](https://github.com/hash-checker/hash-checker-x/issues/4)
+- [History](https://github.com/hash-checker/hash-checker-x/issues/5)
+- [User data export](https://github.com/hash-checker/hash-checker-x/issues/6)
+- [Multilanguage support](https://github.com/hash-checker/hash-checker-x/issues/7)
 
 ## Download
 
