@@ -30,7 +30,7 @@ jobs:
         with:
           java-version: 17
 
-      - name: Run tests
+      - name: Run detekt
         run: ./gradlew detekt --continue
 
   build_debug_apk:
@@ -43,7 +43,7 @@ jobs:
         with:
           java-version: 17
 
-      - name: Run tests
+      - name: Assemble debug build
         run: ./gradlew assembleDebug
 
   build_release_apk:
@@ -56,5 +56,5 @@ jobs:
         with:
           java-version: 17
 
-      - name: Run tests
+      - name: Assemble release build
         run: ./gradlew assembleRelease
