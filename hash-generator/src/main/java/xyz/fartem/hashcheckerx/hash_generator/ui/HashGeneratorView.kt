@@ -384,6 +384,7 @@ private fun HashType.translatedName(): String {
         HashType.SHA3_384 -> stringResource(R.string.sha3384)
         HashType.SHA3_512 -> stringResource(R.string.sha3512)
         HashType.CRC_32 -> stringResource(R.string.crc32)
+        HashType.BLAKE2b -> stringResource(R.string.blake2b)
     }
 }
 
