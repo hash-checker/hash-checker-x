@@ -11,5 +11,6 @@ enum class HashType(val hashName: String) {
     SHA3_256("SHA3-256"),
     SHA3_384("SHA3-384"),
     SHA3_512("SHA3-512"),
-    CRC_32("CRC-32");
+    CRC_32("CRC-32"),
+    BLAKE2b("BLAKE2b");
 }
