@@ -25,7 +25,8 @@ releases.
 
 - ~~[CRC-32 support](https://github.com/hash-checker/hash-checker-x/issues/2)~~ - completed
   in [v1.1.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.1.0)
-- [BLAKE2b support](https://github.com/hash-checker/hash-checker-x/issues/3)
+- ~~[BLAKE2b support](https://github.com/hash-checker/hash-checker-x/issues/3)~~ - completed
+  in [v1.2.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.2.0)
 - [FNV support](https://github.com/hash-checker/hash-checker-x/issues/4)
 - [History](https://github.com/hash-checker/hash-checker-x/issues/5)
 - [User data export](https://github.com/hash-checker/hash-checker-x/issues/6)
@@ -39,19 +40,20 @@ releases.
 
 ## Supporting algorithms
 
-| Name                                                            | Since version                                                               | Provider                                                                          |
-|-----------------------------------------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [MD5](https://en.wikipedia.org/wiki/MD5)                        | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html) |
-| [SHA-1](https://en.wikipedia.org/wiki/SHA-1)                    | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html) |
-| [SHA-224](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html) |
-| [SHA-256](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html) |
-| [SHA-384](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html) |
-| [SHA-512](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html) |
-| [SHA3-224](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                     |
-| [SHA3-256](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                     |
-| [SHA3-384](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                     |
-| [SHA3-512](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                     |
-| [CRC-32](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) | [1.1.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.1.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/util/zip/CRC32.html)         |
+| Name                                                            | Since version                                                               | Provider                                                                                                                   |
+|-----------------------------------------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| [MD5](https://en.wikipedia.org/wiki/MD5)                        | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html)                                          |
+| [SHA-1](https://en.wikipedia.org/wiki/SHA-1)                    | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html)                                          |
+| [SHA-224](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html)                                          |
+| [SHA-256](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html)                                          |
+| [SHA-384](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html)                                          |
+| [SHA-512](https://en.wikipedia.org/wiki/SHA-2)                  | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html)                                          |
+| [SHA3-224](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                                                              |
+| [SHA3-256](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                                                              |
+| [SHA3-384](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                                                              |
+| [SHA3-512](https://en.wikipedia.org/wiki/SHA-3)                 | [1.0.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.0.0) | [keccakj](https://github.com/aelstad/keccakj)                                                                              |
+| [CRC-32](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) | [1.1.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.1.0) | [JDK](https://docs.oracle.com/javase/8/docs/api/java/util/zip/CRC32.html)                                                  |
+| [BLAKE2b](https://en.wikipedia.org/wiki/BLAKE_(hash_function))  | [1.2.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.2.0) | [Custom](./hash-generator/src/main/java/xyz/fartem/hashcheckerx/hash_generator/impl/providers/custom/blake2b/Blake2B.java) |
 
 ## Screenshots
 
