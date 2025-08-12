@@ -21,5 +21,4 @@
     <string name="description_hash_type">Hash type</string>
     <string name="description_hash_source">Hash source</string>
     <string name="description_hash_action">Hash action</string>
-    <string name="blake2b">BLAKE2b</string>
 </resources>
