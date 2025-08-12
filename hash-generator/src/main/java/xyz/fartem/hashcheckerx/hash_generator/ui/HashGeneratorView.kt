@@ -385,6 +385,12 @@ private fun HashType.translatedName(): String {
         HashType.SHA3_512 -> stringResource(R.string.sha3512)
         HashType.CRC_32 -> stringResource(R.string.crc32)
         HashType.BLAKE2b -> stringResource(R.string.blake2b)
+        HashType.FNV_1A_32 -> stringResource(R.string.fnv1a32)
+        HashType.FNV_1A_64 -> stringResource(R.string.fnv1a64)
+        HashType.FNV_1A_128 -> stringResource(R.string.fnv1a128)
+        HashType.FNV_1A_256 -> stringResource(R.string.fnv1a256)
+        HashType.FNV_1A_512 -> stringResource(R.string.fnv1a512)
+        HashType.FNV_1A_1024 -> stringResource(R.string.fnv1a1024)
     }
 }
 

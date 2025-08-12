@@ -11,4 +11,11 @@
     <string name="sha3384">SHA3–384</string>
     <string name="sha3512">SHA3–512</string>
     <string name="crc32">CRC-32</string>
+    <string name="blake2b">BLAKE2b</string>
+    <string name="fnv1a32">FNV1a32</string>
+    <string name="fnv1a64">FNV1a64</string>
+    <string name="fnv1a128">FNV1a128</string>
+    <string name="fnv1a256">FNV1a256</string>
+    <string name="fnv1a512">FNV1a512</string>
+    <string name="fnv1a1024">FNV1a1024</string>
 </resources>
