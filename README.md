@@ -27,7 +27,8 @@ releases.
   in [v1.1.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.1.0)
 - ~~[BLAKE2b support](https://github.com/hash-checker/hash-checker-x/issues/3)~~ - completed
   in [v1.2.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.2.0)
-- [FNV support](https://github.com/hash-checker/hash-checker-x/issues/4)
+- ~~[FNV support](https://github.com/hash-checker/hash-checker-x/issues/4)~~ - completed
+  in [v1.2.0](https://github.com/hash-checker/hash-checker-x/releases/tag/v1.2.0)
 - [History](https://github.com/hash-checker/hash-checker-x/issues/5)
 - [User data export](https://github.com/hash-checker/hash-checker-x/issues/6)
 - [Multilanguage support](https://github.com/hash-checker/hash-checker-x/issues/7)
