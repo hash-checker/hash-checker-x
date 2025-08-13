@@ -16,10 +16,10 @@ For more information see [Roadmap](#Roadmap).
 Fast and simple application that allows you to generate and compare hashes from files and text.
 
 It is a modern version of [Hash Checker](https://github.com/hash-checker/hash-checker). We are using actual tech stack
-and new Material Design system.
+and new [Material Design system](https://m3.material.io/).
 
 App development still in progress and you have not find some features from original version. Stay tuned for new
-releases.
+releases. For more information see [Roadmap](#Roadmap).
 
 ## Roadmap
 
@@ -93,6 +93,35 @@ previous manuals to learn how to use the app:
 If you have any question or feature idea for this application, you can open an issue
 on [this page](https://github.com/hash-checker/hash-x-checker/issues) or contact me by email
 jaman.smlnsk@gmail.com.
+
+## How to contribute
+
+Before commit,
+read [Commit Convention](https://github.com/fartem/repository-rules/blob/master/commit-convention/COMMIT_CONVENTION.md)
+.
+
+Make sure your build is green before you contribute your pull request. After that, follow next commands below:
+
+**1. Build app**
+
+```shell
+$ ./gradlew clean
+$ ./gradlew build
+```
+
+**2. Run tests**
+
+```shell
+$ ./gradlew test --stacktrace
+```
+
+**3. Run detekt**
+
+```shell
+$ ./gradlew detekt --continue
+```
+
+If you don't see any error messages, submit your pull request.
 
 ## Contributors
 
