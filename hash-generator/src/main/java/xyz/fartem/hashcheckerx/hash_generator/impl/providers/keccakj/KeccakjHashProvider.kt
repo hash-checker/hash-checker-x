@@ -2,7 +2,6 @@ package xyz.fartem.hashcheckerx.hash_generator.impl.providers.keccakj
 
 import android.content.Context
 import android.net.Uri
-import android.provider.DocumentsContract
 import com.github.aelstad.keccakj.provider.Constants
 import xyz.fartem.hashcheckerx.hash_generator.api.HashProvider
 import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashUtils
@@ -48,10 +47,6 @@ class KeccakjHashProvider : HashProvider() {
         throw Exception("Can't generate hash from file")
     }
 
-    private fun inputStreamFromUri(context: Context, path: Uri): InputStream? {
-        return context.contentResolver.openInputStream(path)
-    }
-
     override fun fromFolder(hashType: HashType, context: Context, path: Uri): String {
         val keccakjHashCalculatorDigest = KeccakjHashDigest.instanceFor(hashType)
         val folderStream = inputStreamsFormFolder(context, path)
@@ -69,37 +64,6 @@ class KeccakjHashProvider : HashProvider() {
         }
 
         return keccakjHashCalculatorDigest.result()
-    }
-
-    private fun inputStreamsFormFolder(context: Context, folderUri: Uri): List<InputStream> {
-        val inputStreams: MutableList<InputStream> = ArrayList()
-
-        val contentResolver = context.contentResolver
-        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
-            folderUri,
-            DocumentsContract.getTreeDocumentId(folderUri)
-        )
-
-        val cursor = contentResolver.query(
-            childrenUri,
-            arrayOf(DocumentsContract.Document.COLUMN_DOCUMENT_ID), null, null, null
-        )
-
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                val documentId = cursor.getString(0)
-                val documentUri = DocumentsContract.buildDocumentUriUsingTree(folderUri, documentId)
-
-                val inputStream = inputStreamFromUri(context, documentUri)
-                if (inputStream != null) {
-                    inputStreams.add(inputStream)
-                }
-            }
-
-            cursor.close()
-        }
-
-        return inputStreams
     }
 }
 

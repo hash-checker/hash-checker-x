@@ -1,26 +1,25 @@
-package xyz.fartem.hashcheckerx.hash_generator.impl.providers.crc32
+package xyz.fartem.hashcheckerx.hash_generator.impl.providers.custom.blake2b
 
 import android.content.Context
 import android.net.Uri
 import xyz.fartem.hashcheckerx.hash_generator.api.HashProvider
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 import java.io.InputStream
-import java.util.zip.CRC32
 
-class Crc32HashProvider : HashProvider() {
+class CustomBlake2BHashProvider : HashProvider() {
     override fun availableHashTypes(): Set<HashType> {
-        return setOf(HashType.CRC_32)
+        return setOf(HashType.BLAKE2b)
     }
 
     override fun fromText(hashType: HashType, text: String): String {
-        val crc32HashCalculatorDigest = Crc32HashCalculatorDigest()
-        crc32HashCalculatorDigest.update(text.toByteArray())
+        val customBlake2BHashDigest = CustomBlake2BHashDigest()
+        customBlake2BHashDigest.update(text.toByteArray())
 
-        return crc32HashCalculatorDigest.result()
+        return customBlake2BHashDigest.result()
     }
 
     override fun fromFile(hashType: HashType, context: Context, path: Uri): String {
-        val crc32HashCalculatorDigest = Crc32HashCalculatorDigest()
+        val blake2BHashDigest = CustomBlake2BHashDigest()
         val fileStream: InputStream? = inputStreamFromUri(context, path)
 
         if (fileStream != null) {
@@ -30,18 +29,18 @@ class Crc32HashProvider : HashProvider() {
             do {
                 read = fileStream.read(buffer)
                 if (read > 0) {
-                    crc32HashCalculatorDigest.update(buffer, read)
+                    blake2BHashDigest.update(buffer, read)
                 }
             } while (read != -1)
 
-            return crc32HashCalculatorDigest.result()
+            return blake2BHashDigest.result()
         }
 
         throw Exception("Can't generate hash from file")
     }
 
     override fun fromFolder(hashType: HashType, context: Context, path: Uri): String {
-        val crc32HashCalculatorDigest = Crc32HashCalculatorDigest()
+        val blake2BHashDigest = CustomBlake2BHashDigest()
         val folderStream = inputStreamsFormFolder(context, path)
 
         for (stream in folderStream) {
@@ -51,28 +50,33 @@ class Crc32HashProvider : HashProvider() {
             do {
                 read = stream.read(buffer)
                 if (read > 0) {
-                    crc32HashCalculatorDigest.update(buffer, read)
+                    blake2BHashDigest.update(buffer, read)
                 }
             } while (read != -1)
         }
 
-        return crc32HashCalculatorDigest.result()
+        return blake2BHashDigest.result()
     }
 }
 
-private class Crc32HashCalculatorDigest {
-    private var crc32 = CRC32()
+private class CustomBlake2BHashDigest {
+    private val blake2B = Blake2B()
 
-    fun update(input: ByteArray) {
-        crc32.reset()
-        crc32.update(input)
+    fun update(input: ByteArray?) {
+        blake2B.reset()
+
+        if (input != null) {
+            blake2B.update(input)
+        }
     }
 
-    fun update(input: ByteArray, length: Int) {
-        crc32.update(input, 0, length)
+    fun update(input: ByteArray?, length: Int) {
+        if (input != null) {
+            blake2B.update(input, 0, length)
+        }
     }
 
     fun result(): String {
-        return String.format("%08x", crc32.value)
+        return blake2B.value
     }
 }
