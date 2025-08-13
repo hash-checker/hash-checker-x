@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -104,6 +105,24 @@ class MainActivity : ComponentActivity() {
                             HashCheckerXTopBar(
                                 title = stringResource(R.string.app_name),
                                 actions = {
+                                    if (settingsWrapper.useHistory()) {
+                                        IconButton(
+                                            onClick = {
+                                                val intent = Intent(
+                                                    this@MainActivity,
+                                                    SettingsActivity::class.java,
+                                                )
+
+                                                startActivity(intent)
+                                            },
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.History,
+                                                contentDescription = stringResource(R.string.settings),
+                                            )
+                                        }
+                                    }
+
                                     IconButton(
                                         onClick = {
                                             openSettings.launch(
