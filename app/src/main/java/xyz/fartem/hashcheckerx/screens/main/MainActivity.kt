@@ -35,6 +35,7 @@ import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModelFactory
+import xyz.fartem.hashcheckerx.history.wrapper.HistoryWrapper
 import xyz.fartem.hashcheckerx.screens.settings.SettingsActivity
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapper
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
@@ -59,6 +60,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var settingsWrapper: SettingsWrapper
+
+    @Inject
+    lateinit var historyWrapper: HistoryWrapper
 
     private val hashGeneratorViewModel: HashGeneratorViewModel by viewModels {
         HashGeneratorViewModelFactory(
@@ -160,6 +164,11 @@ class MainActivity : ComponentActivity() {
                             selectedFile = selectedFile,
                             selectedFolder = selectedFolder,
                             selectedText = selectedText,
+                            onHashGenerated = {
+                                if (settingsWrapper.useHistory()) {
+                                    historyWrapper.saveHashOutput(it)
+                                }
+                            },
                             onDone = {
                                 if (settingsWrapper.useVibration()) {
                                     vibrator.oneShot()

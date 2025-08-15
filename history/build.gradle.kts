@@ -43,4 +43,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+    implementation(project(":core-ui"))
+    implementation(project(":hash-generator"))
+    implementation(libs.runtime.android)
+    implementation(libs.foundation.layout.android)
+
 }
