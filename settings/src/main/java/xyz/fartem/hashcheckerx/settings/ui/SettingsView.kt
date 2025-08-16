@@ -91,6 +91,25 @@ fun SettingsView(
                                 )
                             }
 
+                            SettingsEntry.HISTORY -> {
+                                var value by remember { mutableStateOf(entry.second as Boolean) }
+
+                                SwitchPreference(
+                                    title = {
+                                        Text(stringResource(R.string.title_history))
+                                    },
+                                    summary = {
+                                        Text(stringResource(R.string.description_history))
+                                    },
+                                    value = value,
+                                    onValueChange = { history ->
+                                        viewModel.updateSettingsEntry(entry.first, history)
+
+                                        value = history
+                                    },
+                                )
+                            }
+
                             SettingsEntry.VIBRATION -> {
                                 var value by remember { mutableStateOf(entry.second as Boolean) }
 

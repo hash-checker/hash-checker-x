@@ -25,11 +25,15 @@
         </activity>
 
         <activity
-            android:name=".screens.settings.SettingsActivity"
+            android:name=".screens.feedback.FeedbackActivity"
             android:theme="@style/Theme.HashCheckerX" />
 
         <activity
-            android:name=".screens.feedback.FeedbackActivity"
+            android:name=".screens.history.HistoryActivity"
+            android:theme="@style/Theme.HashCheckerX" />
+
+        <activity
+            android:name=".screens.settings.SettingsActivity"
             android:theme="@style/Theme.HashCheckerX" />
     </application>
 

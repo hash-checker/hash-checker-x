@@ -2,5 +2,6 @@
     <string name="app_name">Hash Checker X</string>
     <string name="settings">Settings</string>
     <string name="feedback">Feedback</string>
+    <string name="back">Back</string>
     <string name="error_privacy_policy">Failed to open Privacy Policy</string>
 </resources>

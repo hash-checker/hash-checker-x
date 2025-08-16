@@ -3,6 +3,8 @@
     <string name="category_generator">Generator</string>
     <string name="title_upper_case">Upper case</string>
     <string name="description_upper_case">Use upper case for all fields in Generator</string>
+    <string name="title_history">History</string>
+    <string name="description_history">Save result to History</string>
     <string name="category_application">Application</string>
     <string name="title_vibration">Vibration</string>
     <string name="description_vibration">Vibrate when hash was generated or will receive an error</string>

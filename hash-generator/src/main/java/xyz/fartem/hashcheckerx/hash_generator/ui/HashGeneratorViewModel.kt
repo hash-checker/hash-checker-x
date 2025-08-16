@@ -17,8 +17,10 @@ import kotlinx.coroutines.withContext
 import xyz.fartem.hashcheckerx.core.logger.api.Logger
 import xyz.fartem.hashcheckerx.hash_generator.api.HashComparator
 import xyz.fartem.hashcheckerx.hash_generator.api.HashGenerator
+import xyz.fartem.hashcheckerx.hash_generator.model.HashOutput
 import xyz.fartem.hashcheckerx.hash_generator.model.HashSource
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
+import java.util.Date
 
 data class HashGeneratorViewModelState(
     val hashType: HashType = HashType.MD5,
@@ -29,6 +31,9 @@ data class HashGeneratorViewModelState(
 )
 
 sealed class HashGeneratorEvent {
+    data class Generated(val hashOutput: HashOutput) : HashGeneratorEvent()
+    data class Compared(val result: Boolean) : HashGeneratorEvent()
+
     data object GenerationError : HashGeneratorEvent()
     data object ComparisonError : HashGeneratorEvent()
 
@@ -38,8 +43,6 @@ sealed class HashGeneratorEvent {
 
     data object CustomHashEmptyError : HashGeneratorEvent()
     data object GeneratedHashEmptyError : HashGeneratorEvent()
-
-    data class Comparison(val result: Boolean) : HashGeneratorEvent()
 }
 
 class HashGeneratorViewModel(
@@ -85,7 +88,7 @@ class HashGeneratorViewModel(
     fun generateHashFromFile(context: Context, selectedFile: Uri) {
         viewModelScope.launch {
             try {
-                handleGenerate(context, selectedFile = selectedFile)
+                handleGeneration(context, selectedFile = selectedFile)
             } catch (e: Exception) {
                 logger.error(e.stackTraceToString())
 
@@ -97,7 +100,7 @@ class HashGeneratorViewModel(
     fun generateHashFromFolder(context: Context, selectedFolder: Uri) {
         viewModelScope.launch {
             try {
-                handleGenerate(context, selectedFolder = selectedFolder)
+                handleGeneration(context, selectedFolder = selectedFolder)
             } catch (e: Exception) {
                 logger.error(e.stackTraceToString())
 
@@ -109,7 +112,7 @@ class HashGeneratorViewModel(
     fun generateHashFromText(context: Context, selectedText: String) {
         viewModelScope.launch {
             try {
-                handleGenerate(context, selectedText = selectedText)
+                handleGeneration(context, selectedText = selectedText)
             } catch (e: Exception) {
                 logger.error(e.stackTraceToString())
 
@@ -118,7 +121,7 @@ class HashGeneratorViewModel(
         }
     }
 
-    private suspend fun handleGenerate(
+    private suspend fun handleGeneration(
         context: Context,
         selectedFile: Uri? = null,
         selectedFolder: Uri? = null,
@@ -165,6 +168,17 @@ class HashGeneratorViewModel(
             _state.update {
                 it.copy(generatedHash = hash)
             }
+
+            _events.emit(
+                HashGeneratorEvent.Generated(
+                    HashOutput(
+                        hashSource = hashSource,
+                        hashType = hashType,
+                        hashValue = hash,
+                        date = Date(),
+                    )
+                )
+            )
         } else {
             when (hashSource) {
                 HashSource.FILE -> _events.emit(HashGeneratorEvent.GenerationFromFileError)
@@ -218,11 +232,11 @@ class HashGeneratorViewModel(
             }
 
             hashComparator.compare(customHash, generatedHash) -> {
-                _events.emit(HashGeneratorEvent.Comparison(true))
+                _events.emit(HashGeneratorEvent.Compared(true))
             }
 
             else -> {
-                _events.emit(HashGeneratorEvent.Comparison(false))
+                _events.emit(HashGeneratorEvent.Compared(false))
             }
         }
     }

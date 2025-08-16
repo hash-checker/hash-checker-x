@@ -1,4 +1,4 @@
-package xyz.fartem.hashcheckerx.screens.di
+package xyz.fartem.hashcheckerx.di
 
 import android.content.Context
 import dagger.Module

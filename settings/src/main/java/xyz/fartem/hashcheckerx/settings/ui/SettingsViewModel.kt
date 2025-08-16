@@ -37,6 +37,12 @@ class SettingsViewModel(
                             SettingsEntry.EXPAND_HASH_FIELDS,
                         ),
                     ),
+                    Pair(
+                        SettingsEntry.HISTORY,
+                        settingsRepository.getBooleanValue(
+                            SettingsEntry.HISTORY,
+                        ),
+                    ),
                 ),
                 SettingsCategory.APPLICATION to listOf(
                     Pair(
@@ -68,8 +74,9 @@ class SettingsViewModel(
     fun updateSettingsEntry(settingsEntry: SettingsEntry, value: Any) {
         when (settingsEntry) {
             SettingsEntry.UPPER_CASE,
-            SettingsEntry.VIBRATION,
-            SettingsEntry.EXPAND_HASH_FIELDS -> {
+            SettingsEntry.EXPAND_HASH_FIELDS,
+            SettingsEntry.HISTORY,
+            SettingsEntry.VIBRATION -> {
                 settingsRepository.setBooleanValue(
                     settingsEntry,
                     value as Boolean

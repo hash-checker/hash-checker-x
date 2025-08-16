@@ -61,7 +61,7 @@ class SettingsActivity : ComponentActivity() {
                                     IconButton(onClick = { finish() }) {
                                         Icon(
                                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                            contentDescription = "Localized description",
+                                            contentDescription = stringResource(R.string.back),
                                         )
                                     }
                                 },
