@@ -1,10 +1,9 @@
-package xyz.fartem.hashcheckerx.screens.feedback
+package xyz.fartem.hashcheckerx.screens.history
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
@@ -13,29 +12,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.res.stringResource
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.fartem.hashcheckerx.R
+import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
-import xyz.fartem.hashcheckerx.feedback.model.Feedback
-import xyz.fartem.hashcheckerx.feedback.sender.api.FeedbackSender
-import xyz.fartem.hashcheckerx.feedback.ui.FeedbackView
-import xyz.fartem.hashcheckerx.feedback.ui.FeedbackViewModel
-import xyz.fartem.hashcheckerx.feedback.ui.FeedbackViewModelFactory
+import xyz.fartem.hashcheckerx.history.ui.HistoryView
+import xyz.fartem.hashcheckerx.history.wrapper.HistoryWrapper
+import xyz.fartem.hashcheckerx.history.wrapper.HistoryWrapperView
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FeedbackActivity : ComponentActivity() {
+class HistoryActivity : ComponentActivity() {
     @Inject
-    lateinit var feedbackSender: FeedbackSender
+    lateinit var historyWrapper: HistoryWrapper
 
     @Inject
-    lateinit var feedback: Feedback
-
-    private val feedbackViewModel: FeedbackViewModel by viewModels {
-        FeedbackViewModelFactory(
-            feedbackSender = feedbackSender,
-            feedback = feedback,
-        )
-    }
+    lateinit var clipboard: Clipboard
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,22 +37,25 @@ class FeedbackActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         HashCheckerXTopBar(
-                            title = stringResource(R.string.feedback),
+                            title = stringResource(R.string.settings),
                             navigationIcon = {
                                 IconButton(onClick = { finish() }) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                        contentDescription = stringResource(R.string.back),
+                                        contentDescription = stringResource(R.string.back)
                                     )
                                 }
                             },
                         )
                     },
                 ) { paddingValues ->
-                    FeedbackView(
-                        viewModel = feedbackViewModel,
-                        paddingValues = paddingValues,
-                    )
+                    HistoryWrapperView(historyWrapper) {
+                        HistoryView(
+                            innerPadding = paddingValues,
+                            hashOutputs = historyWrapper.getHashOutputs(),
+                            onCopy = { clipboard },
+                        )
+                    }
                 }
             }
         }

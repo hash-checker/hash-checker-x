@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,6 +35,8 @@ import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorView
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModelFactory
+import xyz.fartem.hashcheckerx.history.wrapper.HistoryWrapper
+import xyz.fartem.hashcheckerx.screens.history.HistoryActivity
 import xyz.fartem.hashcheckerx.screens.settings.SettingsActivity
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapper
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
@@ -58,6 +61,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var settingsWrapper: SettingsWrapper
+
+    @Inject
+    lateinit var historyWrapper: HistoryWrapper
 
     private val hashGeneratorViewModel: HashGeneratorViewModel by viewModels {
         HashGeneratorViewModelFactory(
@@ -104,6 +110,24 @@ class MainActivity : ComponentActivity() {
                             HashCheckerXTopBar(
                                 title = stringResource(R.string.app_name),
                                 actions = {
+                                    if (settingsWrapper.useHistory()) {
+                                        IconButton(
+                                            onClick = {
+                                                val intent = Intent(
+                                                    this@MainActivity,
+                                                    HistoryActivity::class.java,
+                                                )
+
+                                                startActivity(intent)
+                                            },
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.History,
+                                                contentDescription = stringResource(R.string.settings),
+                                            )
+                                        }
+                                    }
+
                                     IconButton(
                                         onClick = {
                                             openSettings.launch(
@@ -141,6 +165,11 @@ class MainActivity : ComponentActivity() {
                             selectedFile = selectedFile,
                             selectedFolder = selectedFolder,
                             selectedText = selectedText,
+                            onHashGenerated = {
+                                if (settingsWrapper.useHistory()) {
+                                    historyWrapper.saveHashOutput(it)
+                                }
+                            },
                             onDone = {
                                 if (settingsWrapper.useVibration()) {
                                     vibrator.oneShot()

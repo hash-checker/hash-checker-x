@@ -38,7 +38,6 @@ import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXTextButton
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer16W
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer32H
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer4H
-import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer64H
 import xyz.fartem.hashcheckerx.core_ui.components.dialogs.HashCheckerXProgressIndicator
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXSurface
 import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXHint
@@ -49,6 +48,7 @@ import xyz.fartem.hashcheckerx.hash_generator.R
 import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashComparator
 import xyz.fartem.hashcheckerx.hash_generator.impl.DefaultHashGenerator
 import xyz.fartem.hashcheckerx.hash_generator.model.HashAction
+import xyz.fartem.hashcheckerx.hash_generator.model.HashOutput
 import xyz.fartem.hashcheckerx.hash_generator.model.HashSource
 import xyz.fartem.hashcheckerx.hash_generator.model.HashType
 
@@ -66,6 +66,7 @@ fun HashGeneratorView(
     selectedFile: Uri?,
     selectedFolder: Uri?,
     selectedText: String?,
+    onHashGenerated: (HashOutput) -> Unit,
     onDone: () -> Unit,
     onError: () -> Unit,
     onCopy: (String) -> Unit,
@@ -79,7 +80,11 @@ fun HashGeneratorView(
     LaunchedEffect(viewModel, LocalLifecycleOwner.current.lifecycle) {
         viewModel.events.collect { event ->
             when (event) {
-                is HashGeneratorEvent.Comparison -> {
+                is HashGeneratorEvent.Generated -> {
+                    onHashGenerated(event.hashOutput)
+                }
+
+                is HashGeneratorEvent.Compared -> {
                     if (event.result) {
                         showHashCheckerXToast(
                             context,
@@ -196,7 +201,7 @@ fun HashGeneratorView(
                             }
                         }
 
-                        HashCheckerXSpacer64H()
+                        HashCheckerXSpacer32H()
                     }
                 }
             }
@@ -271,7 +276,7 @@ fun HashGeneratorView(
                                 }
                             }
 
-                            HashCheckerXSpacer64H()
+                            HashCheckerXSpacer32H()
                         }
                     }
                 }
@@ -349,7 +354,7 @@ fun HashGeneratorView(
                                 }
                             }
 
-                            HashCheckerXSpacer64H()
+                            HashCheckerXSpacer32H()
                         }
                     }
                 }
@@ -367,7 +372,6 @@ fun HashGeneratorView(
             HashCheckerXHint(hint ?: stringResource(R.string.hash_generator_default_hint))
         }
     }
-
 }
 
 @Composable
@@ -445,6 +449,7 @@ fun PreviewHashGeneratorView() {
                 selectedFile = null,
                 selectedFolder = null,
                 selectedText = null,
+                onHashGenerated = {},
                 onDone = {},
                 onError = {},
                 onCopy = {},

@@ -13,6 +13,10 @@ class SettingsWrapper(private val settingsRepository: SettingsRepository) {
         return settingsRepository.getBooleanValue(SettingsEntry.EXPAND_HASH_FIELDS)
     }
 
+    fun useHistory(): Boolean {
+        return settingsRepository.getBooleanValue(SettingsEntry.HISTORY)
+    }
+
     fun useVibration(): Boolean {
         return settingsRepository.getBooleanValue(SettingsEntry.VIBRATION)
     }

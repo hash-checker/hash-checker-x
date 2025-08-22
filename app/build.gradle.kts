@@ -93,14 +93,16 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
     implementation(project(":core"))
     implementation(project(":core-ui"))
-    implementation(project(":hash-generator"))
     implementation(project(":feedback"))
+    implementation(project(":hash-generator"))
+    implementation(project(":history"))
     implementation(project(":settings"))
 
     debugImplementation(libs.androidx.ui.tooling)
