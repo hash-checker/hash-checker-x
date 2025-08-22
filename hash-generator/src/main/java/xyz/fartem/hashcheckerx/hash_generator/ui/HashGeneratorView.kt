@@ -38,7 +38,6 @@ import xyz.fartem.hashcheckerx.core_ui.components.buttons.HashCheckerXTextButton
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer16W
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer32H
 import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer4H
-import xyz.fartem.hashcheckerx.core_ui.components.common.HashCheckerXSpacer64H
 import xyz.fartem.hashcheckerx.core_ui.components.dialogs.HashCheckerXProgressIndicator
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXSurface
 import xyz.fartem.hashcheckerx.core_ui.components.text.HashCheckerXHint
@@ -202,7 +201,7 @@ fun HashGeneratorView(
                             }
                         }
 
-                        HashCheckerXSpacer64H()
+                        HashCheckerXSpacer32H()
                     }
                 }
             }
@@ -277,7 +276,7 @@ fun HashGeneratorView(
                                 }
                             }
 
-                            HashCheckerXSpacer64H()
+                            HashCheckerXSpacer32H()
                         }
                     }
                 }
@@ -355,7 +354,7 @@ fun HashGeneratorView(
                                 }
                             }
 
-                            HashCheckerXSpacer64H()
+                            HashCheckerXSpacer32H()
                         }
                     }
                 }

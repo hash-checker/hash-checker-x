@@ -36,6 +36,7 @@ import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewCase
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModel
 import xyz.fartem.hashcheckerx.hash_generator.ui.HashGeneratorViewModelFactory
 import xyz.fartem.hashcheckerx.history.wrapper.HistoryWrapper
+import xyz.fartem.hashcheckerx.screens.history.HistoryActivity
 import xyz.fartem.hashcheckerx.screens.settings.SettingsActivity
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapper
 import xyz.fartem.hashcheckerx.settings.wrapper.SettingsWrapperView
@@ -114,7 +115,7 @@ class MainActivity : ComponentActivity() {
                                             onClick = {
                                                 val intent = Intent(
                                                     this@MainActivity,
-                                                    SettingsActivity::class.java,
+                                                    HistoryActivity::class.java,
                                                 )
 
                                                 startActivity(intent)

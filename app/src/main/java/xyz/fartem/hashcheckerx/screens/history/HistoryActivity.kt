@@ -10,7 +10,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.res.stringResource
+import dagger.hilt.android.AndroidEntryPoint
 import xyz.fartem.hashcheckerx.R
+import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
 import xyz.fartem.hashcheckerx.core_ui.components.screens.HashCheckerXTopBar
 import xyz.fartem.hashcheckerx.core_ui.theme.HashCheckerXTheme
 import xyz.fartem.hashcheckerx.history.ui.HistoryView
@@ -18,9 +20,13 @@ import xyz.fartem.hashcheckerx.history.wrapper.HistoryWrapper
 import xyz.fartem.hashcheckerx.history.wrapper.HistoryWrapperView
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class HistoryActivity : ComponentActivity() {
     @Inject
     lateinit var historyWrapper: HistoryWrapper
+
+    @Inject
+    lateinit var clipboard: Clipboard
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +52,8 @@ class HistoryActivity : ComponentActivity() {
                     HistoryWrapperView(historyWrapper) {
                         HistoryView(
                             innerPadding = paddingValues,
-                            hashOutputs = emptyList(),
+                            hashOutputs = historyWrapper.getHashOutputs(),
+                            onCopy = { clipboard },
                         )
                     }
                 }

@@ -6,9 +6,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import xyz.fartem.hashcheckerx.R
-import xyz.fartem.hashcheckerx.core.clipboard.api.Clipboard
-import xyz.fartem.hashcheckerx.core.clipboard.impl.SystemClipboard
 import xyz.fartem.hashcheckerx.core.logger.api.Logger
 import xyz.fartem.hashcheckerx.core.logger.impl.OrhanObutLogger
 import xyz.fartem.hashcheckerx.core.vibrator.api.Vibrator
@@ -52,10 +49,5 @@ object MainActivityModule {
     @Provides
     fun provideVibrator(@ApplicationContext context: Context): Vibrator {
         return SystemVibrator(context)
-    }
-
-    @Provides
-    fun provideClipboard(@ApplicationContext context: Context): Clipboard {
-        return SystemClipboard(context, context.getString(R.string.app_name))
     }
 }
